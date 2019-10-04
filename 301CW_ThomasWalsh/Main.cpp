@@ -1,8 +1,15 @@
 #include <iostream>
+#include <SDL.h>
+#include <SDL_main.h>
+
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[])
+{
 	/*
+	classes and then make all subsystem classes
+	then put it all into each of the relevalt subsystems 
+
 	Game Should be:
 	tank management system 
 	- Physics 
