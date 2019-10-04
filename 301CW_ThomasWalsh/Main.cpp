@@ -8,7 +8,8 @@ int main(int argc, char* argv[])
 {
 	/*
 	classes and then make all subsystem classes
-	then put it all into each of the relevalt subsystems 
+	then put it all into each of the relevalt subsystems
+	gameplay subsystem
 
 	Game Should be:
 	tank management system 

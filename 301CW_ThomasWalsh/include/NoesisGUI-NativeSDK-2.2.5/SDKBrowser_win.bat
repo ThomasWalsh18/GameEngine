@@ -1,0 +1,1 @@
+start "SDKBrowser" /D ".\Bin\windows_x86_64\" "Bin\windows_x86_64\Gui.SDKBrowser.exe"
