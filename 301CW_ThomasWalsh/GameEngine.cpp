@@ -1,23 +1,26 @@
-#include <iostream>
-#include <SDL.h>
-#include <SDL_main.h>
+#include "GameEngine.h"
+GameEngine::GameEngine() {
 
-using namespace std;
-
-int main(int argc, char* argv[])
+}
+GameEngine::~GameEngine()
 {
-	/*
-	classes and then make all subsystem classes
-	then put it all into each of the relevalt subsystems
+}
+void GameEngine::init() {
+	for (int i = 0; i < SubSystems.size(); i++) {
+		SubSystems[i]->init();
+	}
+}
 
-	create an array of subsystems given index subsystem zero is the same as enum 0 
-	
-	gameplay subsystem
+void GameEngine::update()
+{
+	for (int i = 0; i < SubSystems.size(); i++) {
+		SubSystems[i]->update();
+	}
+}
 
-	Game Should be:
-	tank management system 
-
-	*/
-	cout << "Hello World!" << endl;
-	return 0;
+void GameEngine::quit()
+{
+	for (int i = 0; i < SubSystems.size(); i++) {
+		SubSystems[i]->~subSystem();
+	}
 }

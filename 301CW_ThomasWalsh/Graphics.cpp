@@ -6,3 +6,15 @@
 		terrain
 		sky
 */
+
+Graphics::Graphics()
+{
+}
+
+Graphics::~Graphics()
+{
+}
+
+void Graphics::init()
+{
+}
