@@ -90,7 +90,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./include/SDL2-2.0.10/include; ./include/NoesisGUI-NativeSDK-2.2.5</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/SDL2-2.0.10/include; ./include/NoesisGUI-NativeSDK-2.2.5; ./include/glm</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
