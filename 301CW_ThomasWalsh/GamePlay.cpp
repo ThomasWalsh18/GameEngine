@@ -17,3 +17,7 @@ GamePlay::~GamePlay()
 void GamePlay::init()
 {
 }
+
+void GamePlay::update()
+{
+}

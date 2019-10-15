@@ -1,6 +1,7 @@
 #include <iostream>
 #include "subSystem.h"
 #include "GameEngine.h"
+#include "Graphics.h"
 /*
 classes and then make all subsystem classes
 then put it all into each of the relevalt subsystems
@@ -12,6 +13,10 @@ gameplay subsystem
 Game Should be:
 tank management system
 
+make stuff private and use getters and setters
+
+active subsystem* which means each time we refresh the different varaibles we are allowed to access 
+
 */
 using namespace std;
 
@@ -19,10 +24,15 @@ int main(int argc, char* argv[])
 {
 	bool quit = false;
 	GameEngine* Engine = new GameEngine();
+	subSystem* graphics = new Graphics();
+	Engine->SubSystems.push_back(graphics);
+
+
 	Engine->init();
 	while (!quit) {
 		Engine->update();
-		cout << "Hello World!" << endl;
+		cout << "Main Update" << endl;
+		quit = true;
 	}
 
 	Engine->quit();

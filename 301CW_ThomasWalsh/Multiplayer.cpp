@@ -12,3 +12,7 @@ Multiplayer::~Multiplayer()
 void Multiplayer::init()
 {
 }
+
+void Multiplayer::update()
+{
+}

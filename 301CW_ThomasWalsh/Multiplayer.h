@@ -1,5 +1,6 @@
 #pragma once
-class Multiplayer
+#include "subSystem.h"
+class Multiplayer: public subSystem
 {
 public:
 	Multiplayer();

@@ -21,6 +21,7 @@ void GameEngine::update()
 void GameEngine::quit()
 {
 	for (int i = 0; i < SubSystems.size(); i++) {
+		
 		SubSystems[i]->~subSystem();
 	}
 }

@@ -12,3 +12,7 @@ void subSystem::init()
 {
 
 }
+
+void subSystem::update()
+{
+}

@@ -1,6 +1,6 @@
 #pragma once
 #include "subSystem.h"
-class Audio
+class Audio : public subSystem
 {
 public:
 	Audio();

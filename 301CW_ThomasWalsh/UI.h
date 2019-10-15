@@ -1,5 +1,6 @@
 #pragma once
-class UI
+#include "subSystem.h"
+class UI: public subSystem
 {
 public:
 	UI();

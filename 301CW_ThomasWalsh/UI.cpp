@@ -19,3 +19,7 @@ UI::~UI()
 void UI::init()
 {
 }
+
+void UI::update()
+{
+}

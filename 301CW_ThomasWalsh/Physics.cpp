@@ -16,3 +16,7 @@ Physics::~Physics()
 void Physics::init()
 {
 }
+
+void Physics::update()
+{
+}
