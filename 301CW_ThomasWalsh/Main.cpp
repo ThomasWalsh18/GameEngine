@@ -1,7 +1,6 @@
 #include <iostream>
-#include "subSystem.h"
 #include "GameEngine.h"
-#include "Graphics.h"
+
 /*
 classes and then make all subsystem classes
 then put it all into each of the relevalt subsystems
@@ -31,8 +30,8 @@ int main(int argc, char* argv[])
 	Engine->init();
 	while (!quit) {
 		Engine->update();
-		cout << "Main Update" << endl;
-		quit = true;
+
+		//cout << "Main Update" << endl;
 	}
 
 	Engine->quit();

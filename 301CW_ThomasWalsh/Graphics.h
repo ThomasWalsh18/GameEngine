@@ -13,6 +13,9 @@ private:
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
 	SDL_Surface* surface = nullptr; 
+	SDL_Event e;
+	SDL_Rect rect;
+	SDL_Rect outLine;
 public:
 	Graphics();
 	~Graphics();
