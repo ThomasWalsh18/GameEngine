@@ -148,9 +148,11 @@
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="EventTypeEnum.h" />
     <ClInclude Include="Multiplayer.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="subSystem.h" />
+    <ClInclude Include="SubSystemEnum.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

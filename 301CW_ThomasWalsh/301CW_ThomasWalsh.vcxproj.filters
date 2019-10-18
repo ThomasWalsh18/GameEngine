@@ -80,5 +80,11 @@
     <ClInclude Include="EventQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EventTypeEnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubSystemEnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

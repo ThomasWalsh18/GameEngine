@@ -30,7 +30,6 @@ int main(int argc, char* argv[])
 	Engine->init();
 	while (!quit) {
 		Engine->update();
-
 		//cout << "Main Update" << endl;
 	}
 
