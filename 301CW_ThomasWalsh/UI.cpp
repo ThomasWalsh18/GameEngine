@@ -1,7 +1,7 @@
 #include "UI.h"
 
 /*-
-UI
+UI user interaction
 Fule
 Ammo
 Health
@@ -22,4 +22,5 @@ void UI::init()
 
 void UI::update()
 {
+
 }

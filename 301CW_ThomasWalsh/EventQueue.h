@@ -4,17 +4,9 @@
 class EventQueue
 {
 public:
-	//singleton
-	static EventQueue& getInstance() {
-		static EventQueue instance;
-		return instance;
-	}
 	static std::vector<Event> eventQueue;
+	EventQueue();
+	~EventQueue();
 	void addEvent();
-
-private:
-	EventQueue() {}
-	EventQueue(EventQueue const&) = delete;
-	void operator=(EventQueue const&) = delete;
 };
 

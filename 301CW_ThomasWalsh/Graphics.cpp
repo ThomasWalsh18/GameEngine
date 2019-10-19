@@ -24,6 +24,11 @@ Graphics::~Graphics()
 	std::cout << "Graphics has deleted" << std::endl;
 }
 
+void Graphics::addEvent(Event e)
+{
+	events.push_back(e);
+}
+
 void Graphics::init()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -46,14 +51,11 @@ void Graphics::init()
 	}
 
 	rect.x = 0;
-	rect.w = 198.0f;
-	rect.h = 198.0f;
-	rect.x = 600.0f;
-	rect.y = 2.0f;
-	outLine.w = 201.0f;
-	outLine.h = 201.0f;
-	outLine.x = 598.0f;
-	outLine.y = 1.0f;
+	rect.w = 190;
+	rect.h = 198;
+	rect.x = 600;
+	rect.y = 2;
+
 
 }
 
@@ -71,28 +73,24 @@ void Graphics::update()
 			{
 			case SDLK_UP:
 				rect.y += -5;
-				outLine.y += -5;
 				break;
 			case SDLK_DOWN:
 				rect.y += 5;
-				outLine.y += 5;
 				break;
 			case SDLK_LEFT:
 				rect.x += -5;
-				outLine.x += -5;
 				break;
 			case SDLK_RIGHT:
 				rect.x += 5;
-				outLine.x += 5;
 				break;
 			case SDLK_ESCAPE:
 				break;
 			}
 		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+		SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
 		SDL_RenderClear(renderer);
 		SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
-		SDL_RenderFillRect(renderer, &outLine);
+		SDL_RenderFillRect(renderer, &rect);
 		SDL_RenderPresent(renderer);
 		//std::cout << "Graphics Updated" << std::endl;
 	}

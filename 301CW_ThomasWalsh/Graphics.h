@@ -15,10 +15,11 @@ private:
 	SDL_Surface* surface = nullptr; 
 	SDL_Event e;
 	SDL_Rect rect;
-	SDL_Rect outLine;
 public:
 	Graphics();
 	~Graphics();
+	void addEvent(Event e);
+	std::vector <Event> events;
 	void init();
 	void update();
 };

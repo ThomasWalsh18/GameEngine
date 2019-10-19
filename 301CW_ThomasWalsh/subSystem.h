@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "Event.h"
 class subSystem
 {
 public:
@@ -7,5 +8,6 @@ public:
 	virtual ~subSystem();
 	virtual void init();
 	virtual void update();
+	virtual void addEvent(Event e);
 
 };
