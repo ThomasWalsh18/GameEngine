@@ -1,16 +1,21 @@
 #pragma once
 #include "subSystem.h"
+#include "EventQueue.h"
 #include "Graphics.h"
+#include "UI.h"
 #include <vector>
 
 class GameEngine
 {
+private:
+	
 public:
 	GameEngine();
 	~GameEngine();
-	std::vector<subSystem*> SubSystems;
-	void init();
-	void update();
-	void quit();
+	static EventQueue* Queue;
+	static std::vector<subSystem*> SubSystems;
+	static void init();
+	static void update();
+	static void quit();
 };
 

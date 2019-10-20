@@ -8,6 +8,8 @@ EventQueue::~EventQueue()
 {
 }
 
-void EventQueue::addEvent()
+void EventQueue::addEvent(Event* action)
 {
+	this->eventQueue.push_back(action);
 }
+

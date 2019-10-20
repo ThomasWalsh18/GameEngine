@@ -4,9 +4,10 @@
 class EventQueue
 {
 public:
-	static std::vector<Event> eventQueue;
+	static std::vector<Event*> eventQueue;
 	EventQueue();
 	~EventQueue();
-	void addEvent();
+	void addEvent(Event* action);
+	bool exitLoop = false;
 };
 

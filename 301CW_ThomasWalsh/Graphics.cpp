@@ -61,7 +61,7 @@ void Graphics::init()
 
 void Graphics::update()
 {
-
+	/*
 	while (SDL_PollEvent(&e) != 0) {
 		if (e.type == SDL_QUIT)
 		{
@@ -94,4 +94,10 @@ void Graphics::update()
 		SDL_RenderPresent(renderer);
 		//std::cout << "Graphics Updated" << std::endl;
 	}
+	*/
+	SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
+	SDL_RenderFillRect(renderer, &rect);
+	SDL_RenderPresent(renderer);
 }

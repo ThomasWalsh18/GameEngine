@@ -1,5 +1,9 @@
 #pragma once
 #include "subSystem.h"
+#include <SDL.h>
+#include <SDL_main.h>
+#include "GameEngine.h"
+
 class UI: public subSystem
 {
 public:
@@ -7,5 +11,6 @@ public:
 	~UI();
 	void init();
 	void update();
+	SDL_Event e;
 };
 

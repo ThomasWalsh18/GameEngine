@@ -7,7 +7,7 @@
 class Event 
 {
 public:
-	Event(EventTypeEnum event);
+	Event(EventTypeEnum typeOEvent);
 	~Event();
 	void addSubSystem(SubSystemEnum sub);
 	std::vector<SubSystemEnum> mySubs;
