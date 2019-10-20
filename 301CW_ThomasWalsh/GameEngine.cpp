@@ -5,21 +5,33 @@ GameEngine::GameEngine() {
 GameEngine::~GameEngine()
 {
 }
+bool GameEngine::exitLoopSet()
+{
+	if (exitLoop == false) {
+		exitLoop = true;
+	}
+	else {
+		exitLoop = false;
+	}
+	return exitLoop;
+}
+std::vector<subSystem*> GameEngine::SubSystems;
+std::vector<Event*> GameEngine::eventQueue;
+bool GameEngine::exitLoop = false;
 
 void GameEngine::init() {
+
 	subSystem* graphics = new Graphics();
-	SubSystems.push_back(graphics);
+	GameEngine::SubSystems.push_back(graphics);
 	subSystem* ui = new UI();
 	SubSystems.push_back(ui);
 	for (int i = 0; i < SubSystems.size(); i++) {
 		SubSystems[i]->init();
 	}
-	update();
 }
 
 void GameEngine::update()
 {
-	while (!Queue->exitLoop) {
 		for (int i = 0; i < SubSystems.size(); i++) {
 			SubSystems[i]->update();
 		}
@@ -33,13 +45,11 @@ void GameEngine::update()
 		}
 		*/
 		//cout << "Main Update" << endl;
-	}
-
-
 }
 
 void GameEngine::quit()
 {
+	GameEngine::exitLoopSet();
 	for (int i = 0; i < SubSystems.size(); i++) {
 		
 		SubSystems[i]->~subSystem();

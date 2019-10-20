@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_main.h>
 #include <iostream>
+#include "GameEngine.h"
 
 class Graphics : public subSystem
 {

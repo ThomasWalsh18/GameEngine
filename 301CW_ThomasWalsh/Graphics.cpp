@@ -61,43 +61,26 @@ void Graphics::init()
 
 void Graphics::update()
 {
-	/*
-	while (SDL_PollEvent(&e) != 0) {
-		if (e.type == SDL_QUIT)
-		{
-			this->~Graphics();
-		}
-		else if (e.type == SDL_KEYDOWN)
-		{
-			switch (e.key.keysym.sym)
-			{
-			case SDLK_UP:
-				rect.y += -5;
-				break;
-			case SDLK_DOWN:
-				rect.y += 5;
-				break;
-			case SDLK_LEFT:
-				rect.x += -5;
-				break;
-			case SDLK_RIGHT:
-				rect.x += 5;
-				break;
-			case SDLK_ESCAPE:
-				break;
-			}
-		}
-		SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
-		SDL_RenderClear(renderer);
-		SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
-		SDL_RenderFillRect(renderer, &rect);
-		SDL_RenderPresent(renderer);
-		//std::cout << "Graphics Updated" << std::endl;
-	}
-	*/
 	SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
 	SDL_RenderClear(renderer);
 	SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
 	SDL_RenderFillRect(renderer, &rect);
 	SDL_RenderPresent(renderer);
+	if (GameEngine::eventQueue.size() != 0) { // if event Q is populated
+		for (int i = 0; i < GameEngine::eventQueue.size(); i++) {	// for each event, then for each sub system in each event
+			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
+				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(2)) { // check to see if it need the current subsystem
+					std::cout << "Seen event" << std::endl;
+					//do the actual stuff now like checking to see what it is for example is it a move event
+					//if event enum type == 0 move. Dont know how to do the different speeds and or directions without load of different events
+
+					if ((j + 1) == GameEngine::eventQueue[i]->mySubs.size()) { // if the size of the vector is equal to J then it is the last one
+						GameEngine::eventQueue.erase(GameEngine::eventQueue.begin() + i);
+						break; //dont need to continue checking through the subsystems
+						//graphics->addEventGameEngine::eventQueue[i]);
+					}	
+				}
+			}
+		}
+	}
 }

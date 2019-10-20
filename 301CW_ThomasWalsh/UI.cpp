@@ -27,7 +27,7 @@ void UI::update()
 	while (SDL_PollEvent(&e) != 0) {
 		if (e.type == SDL_QUIT)
 		{
-			this->~UI();
+			GameEngine::quit();
 		}
 		else if (e.type == SDL_KEYDOWN)
 		{
@@ -35,9 +35,9 @@ void UI::update()
 			{
 			case SDLK_UP:
 			{
-			//Event* forward = new Event(EventTypeEnum(0));
-			//GameEngine::Queue->eventQueue.push_back(forward);
-			std::cout << "Event add forward" << std::endl; 
+				Event* forward = new Event(EventTypeEnum(0));
+				GameEngine::eventQueue.push_back(forward);
+				std::cout << "Event add forward" << std::endl; 
 			}
 				break;
 			case SDLK_DOWN:
