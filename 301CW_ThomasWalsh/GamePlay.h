@@ -1,5 +1,6 @@
 #pragma once
 #include "subSystem.h"
+#include "GameEngine.h"
 
 class GamePlay  : public subSystem 
 {

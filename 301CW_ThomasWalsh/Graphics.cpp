@@ -70,15 +70,10 @@ void Graphics::update()
 		for (int i = 0; i < GameEngine::eventQueue.size(); i++) {	// for each event, then for each sub system in each event
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
 				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(2)) { // check to see if it need the current subsystem
-					std::cout << "Seen event" << std::endl;
+					std::cout << "Seen event graphics" << std::endl; 
+					GameEngine::eventQueue[i]->mySubs.erase(GameEngine::eventQueue[i]->mySubs.begin() + j);
 					//do the actual stuff now like checking to see what it is for example is it a move event
 					//if event enum type == 0 move. Dont know how to do the different speeds and or directions without load of different events
-
-					if ((j + 1) == GameEngine::eventQueue[i]->mySubs.size()) { // if the size of the vector is equal to J then it is the last one
-						GameEngine::eventQueue.erase(GameEngine::eventQueue.begin() + i);
-						break; //dont need to continue checking through the subsystems
-						//graphics->addEventGameEngine::eventQueue[i]);
-					}	
 				}
 			}
 		}

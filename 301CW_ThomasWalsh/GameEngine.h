@@ -2,6 +2,8 @@
 #include "subSystem.h"
 #include "Graphics.h"
 #include "UI.h"
+#include "Physics.h"
+#include "GamePlay.h"
 #include <vector>
 
 class GameEngine

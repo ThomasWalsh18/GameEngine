@@ -20,11 +20,15 @@ std::vector<Event*> GameEngine::eventQueue;
 bool GameEngine::exitLoop = false;
 
 void GameEngine::init() {
-
-	subSystem* graphics = new Graphics();
-	GameEngine::SubSystems.push_back(graphics);
 	subSystem* ui = new UI();
 	SubSystems.push_back(ui);
+	subSystem* graphics = new Graphics();
+	GameEngine::SubSystems.push_back(graphics);
+	subSystem* physics = new Physics();
+	SubSystems.push_back(physics);
+	subSystem* logic = new GamePlay();
+	SubSystems.push_back(logic);
+
 	for (int i = 0; i < SubSystems.size(); i++) {
 		SubSystems[i]->init();
 	}
@@ -35,16 +39,11 @@ void GameEngine::update()
 		for (int i = 0; i < SubSystems.size(); i++) {
 			SubSystems[i]->update();
 		}
-		/*
-		if (eventQueue->eventQueue.size() != 0) {
-			for (int i = 0; i < eventQueue->eventQueue.size(); i++) {
-				if (eventQueue->eventQueue[i].mySubs[i] == SubSystemEnum(0)) {
-					graphics->addEvent(eventQueue->eventQueue[i]);
-				}
+		for (int i = 0; i < eventQueue.size(); i++) {
+			if (GameEngine::eventQueue[i]->mySubs.size() == 0) {
+				GameEngine::eventQueue.erase(GameEngine::eventQueue.begin() + i);
 			}
 		}
-		*/
-		//cout << "Main Update" << endl;
 }
 
 void GameEngine::quit()
