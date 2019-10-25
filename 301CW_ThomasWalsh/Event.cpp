@@ -7,6 +7,7 @@ Event::Event(EventTypeEnum typeOEvent)
 		addSubSystem(SubSystemEnum(2));
 		addSubSystem(SubSystemEnum(3));
 	}
+	functPoint = typeOEvent;
 	
 }
 

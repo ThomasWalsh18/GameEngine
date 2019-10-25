@@ -31,11 +31,14 @@
     <Filter Include="Source Files\Subsystem">
       <UniqueIdentifier>{7afcfcca-d2d6-4b06-a10a-ba05b31bf233}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entity">
+      <UniqueIdentifier>{ca2691ad-866b-44bd-a2aa-abac271f4569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity">
+      <UniqueIdentifier>{86df8020-88d2-4273-be61-b145a5b4cb32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Event.cpp">
-      <Filter>Source Files\Event</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngine.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
@@ -62,6 +65,15 @@
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>Source Files\Subsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Source Files\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="RectEntity.cpp">
+      <Filter>Source Files\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="GameEngine.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="RectEntity.h">
+      <Filter>Header Files\Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

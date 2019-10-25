@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -137,11 +138,13 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Multiplayer.cpp" />
     <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="RectEntity.cpp" />
     <ClCompile Include="subSystem.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GamePlay.h" />
@@ -149,6 +152,7 @@
     <ClInclude Include="EventTypeEnum.h" />
     <ClInclude Include="Multiplayer.h" />
     <ClInclude Include="Physics.h" />
+    <ClInclude Include="RectEntity.h" />
     <ClInclude Include="subSystem.h" />
     <ClInclude Include="SubSystemEnum.h" />
     <ClInclude Include="UI.h" />

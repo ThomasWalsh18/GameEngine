@@ -5,6 +5,8 @@
 #include <SDL_main.h>
 #include <iostream>
 #include "GameEngine.h"
+#include "RectEntity.h"
+
 
 class Graphics : public subSystem
 {
@@ -20,8 +22,12 @@ public:
 	Graphics();
 	~Graphics();
 	void addEvent(Event e);
+	void(*functions[1])(Entity*);
 	std::vector <Event> events;
+	std::vector <Entity*> entites;
+	void Draw(Entity* entity);
 	void init();
 	void update();
+
 };
 

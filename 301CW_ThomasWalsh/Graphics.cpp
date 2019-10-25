@@ -15,7 +15,6 @@ Graphics::Graphics()
 Graphics::~Graphics()
 {
 	//Quit SDL subsystems
-
 	SDL_DestroyRenderer(renderer);
 	renderer = nullptr;
 	SDL_DestroyWindow(window);
@@ -28,6 +27,17 @@ void Graphics::addEvent(Event e)
 {
 	events.push_back(e);
 }
+
+void updatePos(Entity* entity) {
+	entity->position.x += 10;
+	entity->position.y += 2;
+}
+
+void Graphics::Draw(Entity* entity) {
+	rect.x = entity->position.x;
+	rect.y = entity->position.y;
+}
+
 
 void Graphics::init()
 {
@@ -49,18 +59,21 @@ void Graphics::init()
 		}
 		
 	}
+	//void(*updateEnity)(Entity*) = updatePos;
+	functions[0] = updatePos;
 
-	rect.x = 0;
+
 	rect.w = 190;
 	rect.h = 198;
 	rect.x = 600;
 	rect.y = 2;
-
-
+	Entity* Rect = new RectEntity(glm::vec3(rect.x, rect.y, 0.0f), rect.h, rect.w);
+	entites.push_back(Rect);
 }
 
 void Graphics::update()
 {
+	Draw(entites[0]);
 	SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
 	SDL_RenderClear(renderer);
 	SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
@@ -71,6 +84,9 @@ void Graphics::update()
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
 				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(2)) { // check to see if it need the current subsystem
 					std::cout << "Seen event graphics" << std::endl; 
+
+					functions[int(GameEngine::eventQueue[i]->functPoint)](entites[0]);
+
 					GameEngine::eventQueue[i]->mySubs.erase(GameEngine::eventQueue[i]->mySubs.begin() + j);
 					//do the actual stuff now like checking to see what it is for example is it a move event
 					//if event enum type == 0 move. Dont know how to do the different speeds and or directions without load of different events
