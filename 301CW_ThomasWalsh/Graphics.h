@@ -13,6 +13,7 @@ class Graphics : public subSystem
 private:
 	const int WIDTH = 1600;
 	const int HEIGHT = 900;
+
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
 	SDL_Surface* surface = nullptr; 
@@ -22,9 +23,10 @@ public:
 	Graphics();
 	~Graphics();
 	void addEvent(Event e);
-	void(*functions[1])(Entity*);
+	//For each function pointer I need to pass in the same things
+	//This is okay as I am only dealing with the graphics here
+	void(*functions[1])(Entity*, int , float );
 	std::vector <Event> events;
-	std::vector <Entity*> entites;
 	void Draw(Entity* entity);
 	void init();
 	void update();

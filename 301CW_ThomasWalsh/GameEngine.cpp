@@ -17,6 +17,7 @@ bool GameEngine::exitLoopSet()
 }
 std::vector<subSystem*> GameEngine::SubSystems;
 std::vector<Event*> GameEngine::eventQueue;
+std::vector<Entity*> GameEngine::entities;
 bool GameEngine::exitLoop = false;
 
 void GameEngine::init() {

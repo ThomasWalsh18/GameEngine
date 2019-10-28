@@ -20,6 +20,7 @@ Graphics::~Graphics()
 	SDL_DestroyWindow(window);
 	window = nullptr;
 	SDL_Quit();
+
 	std::cout << "Graphics has deleted" << std::endl;
 }
 
@@ -28,9 +29,22 @@ void Graphics::addEvent(Event e)
 	events.push_back(e);
 }
 
-void updatePos(Entity* entity) {
-	entity->position.x += 10;
-	entity->position.y += 2;
+void updatePos(Entity* entity, int direction, float speed) {
+	// eventrually I will have a  graphics system that uses vec3's so that 
+	//Physics can jnust simply update the vec3 to the new one and graphics can draw it 
+	if (direction == -1) {
+		entity->position.y = entity->position.y + speed;
+	}
+	else if (direction == 1) {
+		entity->position.y = entity->position.y - speed;
+	}
+	else if (direction == 2) {
+		entity->position.x = entity->position.x - speed;
+	}
+	else if (direction == -2) {
+		entity->position.x = entity->position.x + speed;
+	}
+
 }
 
 void Graphics::Draw(Entity* entity) {
@@ -41,6 +55,7 @@ void Graphics::Draw(Entity* entity) {
 
 void Graphics::init()
 {
+
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		printf("Error initilsing. SDL Error: %s \n", SDL_GetError());
 	}
@@ -62,31 +77,36 @@ void Graphics::init()
 	//void(*updateEnity)(Entity*) = updatePos;
 	functions[0] = updatePos;
 
-
+	//Find a way to speerate the hardcoding from entities
 	rect.w = 190;
 	rect.h = 198;
 	rect.x = 600;
 	rect.y = 2;
 	Entity* Rect = new RectEntity(glm::vec3(rect.x, rect.y, 0.0f), rect.h, rect.w);
-	entites.push_back(Rect);
+	GameEngine::entities.push_back(Rect);
+	
 }
 
 void Graphics::update()
 {
-	Draw(entites[0]);
+	//grho 3d?? https://urho3d.github.io/
+
+	Draw(GameEngine::entities[0]);
 	SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
 	SDL_RenderClear(renderer);
 	SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
 	SDL_RenderFillRect(renderer, &rect);
 	SDL_RenderPresent(renderer);
+	
+
+
 	if (GameEngine::eventQueue.size() != 0) { // if event Q is populated
 		for (int i = 0; i < GameEngine::eventQueue.size(); i++) {	// for each event, then for each sub system in each event
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
 				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(2)) { // check to see if it need the current subsystem
 					std::cout << "Seen event graphics" << std::endl; 
 
-					functions[int(GameEngine::eventQueue[i]->functPoint)](entites[0]);
-
+					functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::entities[0], GameEngine::eventQueue[i]->eventInfo.dir, GameEngine::eventQueue[i]->eventInfo.speed);
 					GameEngine::eventQueue[i]->mySubs.erase(GameEngine::eventQueue[i]->mySubs.begin() + j);
 					//do the actual stuff now like checking to see what it is for example is it a move event
 					//if event enum type == 0 move. Dont know how to do the different speeds and or directions without load of different events

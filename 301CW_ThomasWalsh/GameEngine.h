@@ -4,6 +4,7 @@
 #include "UI.h"
 #include "Physics.h"
 #include "GamePlay.h"
+#include "Entity.h"
 #include <vector>
 
 class GameEngine
@@ -14,6 +15,7 @@ public:
 	GameEngine();
 	~GameEngine();
 	static std::vector<Event*> eventQueue;
+	static std::vector<Entity*> entities;
 	static bool exitLoop;
 	static bool exitLoopSet();
 	static inline bool exitLoopGet() {
