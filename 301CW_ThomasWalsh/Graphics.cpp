@@ -35,7 +35,7 @@ core::vector3df convertToCore(glm::vec3 change) {
 	return changed;
 }
 void updatePos(Entity* entity, int direction, float speed) {
-	// eventrually I will have a  graphics system that uses vec3's so that 
+	// eventrually I will have a graphics system that uses vec3's so that 
 	//Physics can jnust simply update the vec3 to the new one and graphics can draw it 
 
 	if (direction == -1) {
@@ -91,7 +91,9 @@ void Graphics::init()
 	this->sceneManager = device->getSceneManager();
 
 	this->device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/map-20kdm2.pk3");
+	//this->device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/ra3slob2.pk3");
 	this->mesh = sceneManager->getMesh("20kdm2.bsp");
+	//this->mesh = sceneManager->getMesh("ra3slob2.bsp");
 	this->node = 0;
 
 	if (this->mesh) {
@@ -100,6 +102,7 @@ void Graphics::init()
 
 	if (this->node) {
 		this->node->setPosition(core::vector3df(-1300, -144, -1249));
+		//this->node->setPosition(core::vector3df(0, 0, 0));
 	}
 
 
@@ -150,7 +153,7 @@ void Graphics::update()
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
 				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(2)) { // check to see if it need the current subsystem
 					std::cout << "Seen event graphics" << std::endl; 
-					// HARD CODED VALUES ALEART !!!
+					// HARD CODED VALUES ALEART !!!										below
 					functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::entities[0], GameEngine::eventQueue[i]->eventInfo.dir, GameEngine::eventQueue[i]->eventInfo.speed);
 					GameEngine::eventQueue[i]->mySubs.erase(GameEngine::eventQueue[i]->mySubs.begin() + j);
 					//do the actual stuff now like checking to see what it is for example is it a move event
