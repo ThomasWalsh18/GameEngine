@@ -7,18 +7,30 @@
 #include "GameEngine.h"
 #include "RectEntity.h"
 
+#include <irrlicht.h>
+#ifdef _IRR_WINDOWS_
+#pragma comment(lib, "Irrlicht.lib")
+#pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
+#endif
 
+using namespace irr;
 class Graphics : public subSystem
 {
 private:
 	const int WIDTH = 1600;
 	const int HEIGHT = 900;
 
-	SDL_Window* window = nullptr;
-	SDL_Renderer* renderer = nullptr;
-	SDL_Surface* surface = nullptr; 
-	SDL_Event e;
-	SDL_Rect rect;
+	IrrlichtDevice* device;
+	video::IVideoDriver* driver; 
+	scene::ISceneManager* smgr; 
+	gui::IGUIEnvironment* guienv;
+	scene::IAnimatedMesh* mesh;
+	scene::IAnimatedMeshSceneNode* node;
+	//SDL_Window* window = nullptr;
+	//SDL_Renderer* renderer = nullptr;
+	//SDL_Surface* surface = nullptr; 
+	//SDL_Event e;
+	//SDL_Rect rect;
 public:
 	Graphics();
 	~Graphics();

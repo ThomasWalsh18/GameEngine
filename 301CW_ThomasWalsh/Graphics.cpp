@@ -9,18 +9,21 @@
 
 Graphics::Graphics()
 {
+
 	std::cout << "Graphics Created" << std::endl;
 }
 
 Graphics::~Graphics()
 {
+	this->device->drop();
 	//Quit SDL subsystems
+	/*
 	SDL_DestroyRenderer(renderer);
 	renderer = nullptr;
 	SDL_DestroyWindow(window);
 	window = nullptr;
 	SDL_Quit();
-
+	*/
 	std::cout << "Graphics has deleted" << std::endl;
 }
 
@@ -48,14 +51,38 @@ void updatePos(Entity* entity, int direction, float speed) {
 }
 
 void Graphics::Draw(Entity* entity) {
-	rect.x = entity->position.x;
-	rect.y = entity->position.y;
+	//rect.x = entity->position.x;
+	//rect.y = entity->position.y;
 }
 
 
 void Graphics::init()
 {
+	this->device = createDevice(video::EDT_SOFTWARE, core::dimension2d<u32>(WIDTH, HEIGHT), 16, false, false, false, 0);
+	this->device->setWindowCaption(L"Hello World! - Irrlicht Engine Demo");
 
+	this->driver = device->getVideoDriver();
+	this->smgr = device->getSceneManager();
+	this->guienv = device->getGUIEnvironment();
+
+	guienv->addStaticText(L"Hello World! This is the Irrlicht Software renderer!", core::rect<s32>(10, 10, 260, 22), true);
+
+	this->mesh = smgr->getMesh("./include/irrlicht-1.8.4/media/sydney.md2");
+	if (!this->mesh)
+	{
+		this->device->drop();
+		std::cout << "NO MODEL" << std::endl;
+	}
+	this->node = smgr->addAnimatedMeshSceneNode(this->mesh);
+
+	if (this->node)
+	{
+		this->node->setMaterialFlag(video::EMF_LIGHTING, false);
+		this->node->setMD2Animation(scene::EMAT_STAND);
+		this->node->setMaterialTexture(0, driver->getTexture("./include/irrlicht-1.8.4/media/sydney.bmp"));
+	}
+	this->smgr->addCameraSceneNode(0, core::vector3df(0, 30, -40), core::vector3df(0, 5, 0));
+	/*
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		printf("Error initilsing. SDL Error: %s \n", SDL_GetError());
 	}
@@ -74,30 +101,41 @@ void Graphics::init()
 		}
 		
 	}
+	*/
 	//void(*updateEnity)(Entity*) = updatePos;
 	functions[0] = updatePos;
 
 	//Find a way to speerate the hardcoding from entities
+	/*
 	rect.w = 190;
 	rect.h = 198;
 	rect.x = 600;
 	rect.y = 2;
+
 	Entity* Rect = new RectEntity(glm::vec3(rect.x, rect.y, 0.0f), rect.h, rect.w);
 	GameEngine::entities.push_back(Rect);
-	
+	*/
 }
 
 void Graphics::update()
 {
-	//grho 3d?? https://urho3d.github.io/
 
+
+	this->driver->beginScene(true, true, video::SColor(255, 100, 101, 140));
+
+	this->smgr->drawAll();
+	this->guienv->drawAll();
+
+	this->driver->endScene();
+
+	/*
 	Draw(GameEngine::entities[0]);
 	SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
 	SDL_RenderClear(renderer);
 	SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
 	SDL_RenderFillRect(renderer, &rect);
 	SDL_RenderPresent(renderer);
-	
+	*/
 
 
 	if (GameEngine::eventQueue.size() != 0) { // if event Q is populated

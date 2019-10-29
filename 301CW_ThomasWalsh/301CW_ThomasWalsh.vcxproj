@@ -90,11 +90,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./include/Panda3D-1.10.4.1-x64/include;./include/SDL2-2.0.10/include; ./include/NoesisGUI-NativeSDK-2.2.5; ./include/glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/irrlicht-1.8.4/include;./include/SDL2-2.0.10/include; ./include/NoesisGUI-NativeSDK-2.2.5; ./include/glm</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>./include/Panda3D-1.10.4.1-x64/lib ;./include/SDL2-2.0.10/lib; ./include/NoesisGUI-NativeSDK-2.2.5/Lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>./include/irrlicht-1.8.4/lib ;./include/SDL2-2.0.10/lib; ./include/NoesisGUI-NativeSDK-2.2.5/Lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

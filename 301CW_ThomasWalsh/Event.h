@@ -8,7 +8,7 @@
 class Event 
 {
 	struct einfo {
-		int dir = 1;
+		int dir = 0;
 		float speed = 0;
 	};
 public:
