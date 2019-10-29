@@ -72,7 +72,7 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="RectEntity.cpp">
+    <ClCompile Include="CameraEntitiy.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,7 +113,7 @@
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="RectEntity.h">
+    <ClInclude Include="CameraEntitiy.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
   </ItemGroup>

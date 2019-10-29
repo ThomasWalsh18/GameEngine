@@ -95,7 +95,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>./include/irrlicht-1.8.4/lib ;./include/SDL2-2.0.10/lib; ./include/NoesisGUI-NativeSDK-2.2.5/Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;User32.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="CameraEntitiy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="GameEngine.cpp" />
@@ -138,12 +139,12 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Multiplayer.cpp" />
     <ClCompile Include="Physics.cpp" />
-    <ClCompile Include="RectEntity.cpp" />
     <ClCompile Include="subSystem.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="CameraEntitiy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="GameEngine.h" />
@@ -152,7 +153,6 @@
     <ClInclude Include="EventTypeEnum.h" />
     <ClInclude Include="Multiplayer.h" />
     <ClInclude Include="Physics.h" />
-    <ClInclude Include="RectEntity.h" />
     <ClInclude Include="subSystem.h" />
     <ClInclude Include="SubSystemEnum.h" />
     <ClInclude Include="UI.h" />

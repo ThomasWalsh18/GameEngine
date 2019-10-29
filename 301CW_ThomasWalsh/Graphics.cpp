@@ -9,21 +9,12 @@
 
 Graphics::Graphics()
 {
-
 	std::cout << "Graphics Created" << std::endl;
 }
 
 Graphics::~Graphics()
 {
 	this->device->drop();
-	//Quit SDL subsystems
-	/*
-	SDL_DestroyRenderer(renderer);
-	renderer = nullptr;
-	SDL_DestroyWindow(window);
-	window = nullptr;
-	SDL_Quit();
-	*/
 	std::cout << "Graphics has deleted" << std::endl;
 }
 
@@ -31,28 +22,64 @@ void Graphics::addEvent(Event e)
 {
 	events.push_back(e);
 }
+glm::vec3 convertToVec3(core::vector3df change) {
+	
+	glm::vec3 changed = glm::vec3(change.X,change.Y, change.Z);
 
+	return changed;
+}
+core::vector3df convertToCore(glm::vec3 change) {
+	
+	core::vector3df changed =  core::vector3df(change.x,change.y, change.z);
+
+	return changed;
+}
 void updatePos(Entity* entity, int direction, float speed) {
 	// eventrually I will have a  graphics system that uses vec3's so that 
 	//Physics can jnust simply update the vec3 to the new one and graphics can draw it 
+
 	if (direction == -1) {
-		entity->position.y = entity->position.y + speed;
+		entity->position += convertToVec3(core::vector3df(0,0, speed));
+		CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
+		camEntity->targetPos += convertToVec3(core::vector3df(0, 0, speed));
+		
 	}
 	else if (direction == 1) {
-		entity->position.y = entity->position.y - speed;
+		entity->position += convertToVec3(core::vector3df(0, 0, -speed));
+		CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
+		camEntity->targetPos += convertToVec3(core::vector3df(0, 0, -speed));
 	}
 	else if (direction == 2) {
-		entity->position.x = entity->position.x - speed;
+		entity->position += convertToVec3(core::vector3df(-speed, 0, 0));
+		CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
+		camEntity->targetPos += convertToVec3(core::vector3df(-speed, 0, 0));
 	}
 	else if (direction == -2) {
-		entity->position.x = entity->position.x + speed;
+		entity->position += convertToVec3(core::vector3df(speed, 0, 0));
+		CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
+		camEntity->targetPos += convertToVec3(core::vector3df(speed, 0, 0));
 	}
-
+	else if (direction == -3) {
+		entity->position += convertToVec3(core::vector3df(0, speed, 0));
+		CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
+		camEntity->targetPos += convertToVec3(core::vector3df(0, speed, 0));
+	}
+	else if (direction == 3) {
+		entity->position += convertToVec3(core::vector3df(0, -speed, 0));
+		CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
+		camEntity->targetPos += convertToVec3(core::vector3df(0, -speed, 0));
+	}
+	
 }
 
 void Graphics::Draw(Entity* entity) {
-	//rect.x = entity->position.x;
-	//rect.y = entity->position.y;
+	CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(entity);
+	if (camEntity)
+	{
+		camera->setPosition(convertToCore(camEntity->position));
+		camera->setTarget(convertToCore(camEntity->targetPos));
+	}
+
 }
 
 
@@ -62,9 +89,6 @@ void Graphics::init()
 
 	this->driver = device->getVideoDriver();
 	this->sceneManager = device->getSceneManager();
-	this->guienv = device->getGUIEnvironment();
-
-	guienv->addStaticText(L"Hello World! This is the Irrlicht Software renderer!", core::rect<s32>(10, 10, 260, 22), true);
 
 	this->device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/map-20kdm2.pk3");
 	this->mesh = sceneManager->getMesh("20kdm2.bsp");
@@ -77,65 +101,32 @@ void Graphics::init()
 	if (this->node) {
 		this->node->setPosition(core::vector3df(-1300, -144, -1249));
 	}
-	sceneManager->addCameraSceneNodeFPS();
-	//device->getCursorControl()->setVisible(false);
 
-	/*
-	this->mesh = sceneManager->getMesh("./include/irrlicht-1.8.4/media/sydney.md2");
-	if (!this->mesh)
-	{
-		this->device->drop();
-		std::cout << "NO MODEL" << std::endl;
-	}
-	this->node = sceneManager->addAnimatedMeshSceneNode(this->mesh);
 
-	if (this->node)
+	camera = sceneManager->addCameraSceneNode();
+	camera->setPosition(core::vector3df(0,0,0));
+	camera->setTarget(core::vector3df(0,0,1));
+	Entity* Camera = new Entity(glm::vec3(0,0,0));
+	GameEngine::entities.push_back(Camera);
+	CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
+	if (camEntity)
 	{
-		this->node->setMaterialFlag(video::EMF_LIGHTING, false);
-		this->node->setMD2Animation(scene::EMAT_STAND);
-		this->node->setMaterialTexture(0, driver->getTexture("./include/irrlicht-1.8.4/media/sydney.bmp"));
+		camEntity->targetPos = glm::vec3(camEntity->position.x, camEntity->position.y, camEntity->position.z + 1);
 	}
-	this->sceneManager->addCameraSceneNode(0, core::vector3df(0, 30, -40), core::vector3df(0, 5, 0));
-	*/
-	/*
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		printf("Error initilsing. SDL Error: %s \n", SDL_GetError());
-	}
-	else {
-		window = SDL_CreateWindow("SDL Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
-		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-		surface = SDL_GetWindowSurface(window);
-		if (window == NULL)
-		{
-			printf("could not create window: %s\n", SDL_GetError());
-		}
-		else {
+
+	device->getCursorControl()->setVisible(false);
 	
-			SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0x00, 0x00, 0x00));
-			std::cout << "Graphics Init" << std::endl;
-		}
-		
-	}
-	*/
-	void(*updateEnity)(Entity * , int , float ) = updatePos;
+	// funct point
+	void(*updateEnity)(Entity* , int , float ) = updatePos;
 	functions[0] = updatePos;
 
 	//Find a way to speerate the hardcoding from entities
-	/*
-	rect.w = 190;
-	rect.h = 198;
-	rect.x = 600;
-	rect.y = 2;
-
-	Entity* Rect = new RectEntity(glm::vec3(rect.x, rect.y, 0.0f), rect.h, rect.w);
-	GameEngine::entities.push_back(Rect);
-	*/
 }
 
 void Graphics::update()
 {
+	Draw(GameEngine::entities[0]);
 	if (device->run()){
-	
 		driver->beginScene(true, true, video::SColor(255, 200, 200, 200));
 		sceneManager->drawAll();
 		driver->endScene();
@@ -144,7 +135,7 @@ void Graphics::update()
 
 		if (this->lastFPS != fps)
 		{
-			core::stringw str = L"Irrlicht Engine - Quake 3 Map example [";
+			core::stringw str = L"Irrlicht Engine - Quake 3 Map [";
 			str += driver->getName();
 			str += "] FPS:";
 			str += fps;
@@ -152,24 +143,14 @@ void Graphics::update()
 			device->setWindowCaption(str.c_str());
 			this->lastFPS = fps;
 		}
-
 	}
-	/*
-	Draw(GameEngine::entities[0]);
-	SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
-	SDL_RenderClear(renderer);
-	SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
-	SDL_RenderFillRect(renderer, &rect);
-	SDL_RenderPresent(renderer);
-	*/
-
-
+	
 	if (GameEngine::eventQueue.size() != 0) { // if event Q is populated
 		for (int i = 0; i < GameEngine::eventQueue.size(); i++) {	// for each event, then for each sub system in each event
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
 				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(2)) { // check to see if it need the current subsystem
 					std::cout << "Seen event graphics" << std::endl; 
-
+					// HARD CODED VALUES ALEART !!!
 					functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::entities[0], GameEngine::eventQueue[i]->eventInfo.dir, GameEngine::eventQueue[i]->eventInfo.speed);
 					GameEngine::eventQueue[i]->mySubs.erase(GameEngine::eventQueue[i]->mySubs.begin() + j);
 					//do the actual stuff now like checking to see what it is for example is it a move event

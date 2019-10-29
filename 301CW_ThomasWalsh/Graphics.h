@@ -1,18 +1,18 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
+
+//#ifdef _IRR_WINDOWS_
+//#pragma comment(lib, "Irrlicht.lib")
+//#pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
+//#endif
 #include "subSystem.h"
 #include <glm.hpp>
-#include <SDL.h>
-#include <SDL_main.h>
 #include <iostream>
 #include "GameEngine.h"
-#include "RectEntity.h"
+#include "CameraEntitiy.h"
 
 #include <irrlicht.h>
-#ifdef _IRR_WINDOWS_
-#pragma comment(lib, "Irrlicht.lib")
-#pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
-#endif
+
+
 
 using namespace irr;
 class Graphics : public subSystem
@@ -22,18 +22,15 @@ private:
 	const int HEIGHT = 900;
 
 	IrrlichtDevice* device;
-	video::IVideoDriver* driver; 
-	scene::ISceneManager* sceneManager; 
+	video::IVideoDriver* driver;
+	scene::ISceneManager* sceneManager;
 	gui::IGUIEnvironment* guienv;
 	scene::IAnimatedMesh* mesh;
 	scene::ISceneNode* node;
+	scene::ICameraSceneNode* camera; 
+	Entity* Camera;// = new Entity(glm::vec3(0, 0, 0));
 	int lastFPS = -1;
 
-	//SDL_Window* window = nullptr;
-	//SDL_Renderer* renderer = nullptr;
-	//SDL_Surface* surface = nullptr; 
-	//SDL_Event e;
-	//SDL_Rect rect;
 public:
 	Graphics();
 	~Graphics();
