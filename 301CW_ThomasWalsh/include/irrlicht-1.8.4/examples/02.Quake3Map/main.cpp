@@ -193,7 +193,7 @@ int main()
 		else
 			device->yield();
 	}
-
+			
 	/*
 	In the end, delete the Irrlicht device.
 	*/

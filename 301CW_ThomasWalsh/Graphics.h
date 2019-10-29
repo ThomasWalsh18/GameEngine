@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include "subSystem.h"
 #include <glm.hpp>
 #include <SDL.h>
@@ -22,10 +23,12 @@ private:
 
 	IrrlichtDevice* device;
 	video::IVideoDriver* driver; 
-	scene::ISceneManager* smgr; 
+	scene::ISceneManager* sceneManager; 
 	gui::IGUIEnvironment* guienv;
 	scene::IAnimatedMesh* mesh;
-	scene::IAnimatedMeshSceneNode* node;
+	scene::ISceneNode* node;
+	int lastFPS = -1;
+
 	//SDL_Window* window = nullptr;
 	//SDL_Renderer* renderer = nullptr;
 	//SDL_Surface* surface = nullptr; 

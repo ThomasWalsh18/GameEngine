@@ -58,22 +58,36 @@ void Graphics::Draw(Entity* entity) {
 
 void Graphics::init()
 {
-	this->device = createDevice(video::EDT_SOFTWARE, core::dimension2d<u32>(WIDTH, HEIGHT), 16, false, false, false, 0);
-	this->device->setWindowCaption(L"Hello World! - Irrlicht Engine Demo");
+	this->device = createDevice(video::EDT_OPENGL, core::dimension2d<u32>(WIDTH, HEIGHT), 16, false, false, false, 0);
 
 	this->driver = device->getVideoDriver();
-	this->smgr = device->getSceneManager();
+	this->sceneManager = device->getSceneManager();
 	this->guienv = device->getGUIEnvironment();
 
 	guienv->addStaticText(L"Hello World! This is the Irrlicht Software renderer!", core::rect<s32>(10, 10, 260, 22), true);
 
-	this->mesh = smgr->getMesh("./include/irrlicht-1.8.4/media/sydney.md2");
+	this->device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/map-20kdm2.pk3");
+	this->mesh = sceneManager->getMesh("20kdm2.bsp");
+	this->node = 0;
+
+	if (this->mesh) {
+		this->node = sceneManager->addOctreeSceneNode(this->mesh->getMesh(0), 0, -1, 1024);
+	}
+
+	if (this->node) {
+		this->node->setPosition(core::vector3df(-1300, -144, -1249));
+	}
+	sceneManager->addCameraSceneNodeFPS();
+	//device->getCursorControl()->setVisible(false);
+
+	/*
+	this->mesh = sceneManager->getMesh("./include/irrlicht-1.8.4/media/sydney.md2");
 	if (!this->mesh)
 	{
 		this->device->drop();
 		std::cout << "NO MODEL" << std::endl;
 	}
-	this->node = smgr->addAnimatedMeshSceneNode(this->mesh);
+	this->node = sceneManager->addAnimatedMeshSceneNode(this->mesh);
 
 	if (this->node)
 	{
@@ -81,7 +95,8 @@ void Graphics::init()
 		this->node->setMD2Animation(scene::EMAT_STAND);
 		this->node->setMaterialTexture(0, driver->getTexture("./include/irrlicht-1.8.4/media/sydney.bmp"));
 	}
-	this->smgr->addCameraSceneNode(0, core::vector3df(0, 30, -40), core::vector3df(0, 5, 0));
+	this->sceneManager->addCameraSceneNode(0, core::vector3df(0, 30, -40), core::vector3df(0, 5, 0));
+	*/
 	/*
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		printf("Error initilsing. SDL Error: %s \n", SDL_GetError());
@@ -102,7 +117,7 @@ void Graphics::init()
 		
 	}
 	*/
-	//void(*updateEnity)(Entity*) = updatePos;
+	void(*updateEnity)(Entity * , int , float ) = updatePos;
 	functions[0] = updatePos;
 
 	//Find a way to speerate the hardcoding from entities
@@ -119,15 +134,26 @@ void Graphics::init()
 
 void Graphics::update()
 {
+	if (device->run()){
+	
+		driver->beginScene(true, true, video::SColor(255, 200, 200, 200));
+		sceneManager->drawAll();
+		driver->endScene();
 
+		int fps = driver->getFPS();
 
-	this->driver->beginScene(true, true, video::SColor(255, 100, 101, 140));
+		if (this->lastFPS != fps)
+		{
+			core::stringw str = L"Irrlicht Engine - Quake 3 Map example [";
+			str += driver->getName();
+			str += "] FPS:";
+			str += fps;
 
-	this->smgr->drawAll();
-	this->guienv->drawAll();
+			device->setWindowCaption(str.c_str());
+			this->lastFPS = fps;
+		}
 
-	this->driver->endScene();
-
+	}
 	/*
 	Draw(GameEngine::entities[0]);
 	SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);

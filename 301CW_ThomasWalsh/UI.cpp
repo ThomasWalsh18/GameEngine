@@ -14,16 +14,18 @@ UI::UI()
 
 UI::~UI()
 {
+//https://www.gamedev.net/forums/topic/550062-sdl-input-only/
+
 }
 
 void UI::init()
 {
-	
+
 }
 
 void UI::update()
 {
-
+	
 	while (SDL_PollEvent(&e) != 0) {
 		if (e.type == SDL_QUIT)
 		{
