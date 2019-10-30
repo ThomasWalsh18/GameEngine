@@ -34,40 +34,30 @@ core::vector3df convertToCore(glm::vec3 change) {
 
 	return changed;
 }
-void updatePos(Entity* entity, int direction, float speed) {
-	// eventrually I will have a graphics system that uses vec3's so that 
+void updatePos(Event* events, int direction, float speed) {
+	//eventrually I will have a graphics system that uses vec3's so that 
 	//Physics can jnust simply update the vec3 to the new one and graphics can draw it 
+	core::vector3df update;
+	if (direction > 0) {
+		speed = -speed;
+	}
+	if (direction == -1 || direction == 1) {
+		update = core::vector3df(0,0, speed);
+	}
+	else if (direction == -2 || direction == 2) {
+		update = core::vector3df(speed, 0, 0);
+	}
+	else if (direction == -3 || direction == 3) {
+		update = core::vector3df(0, speed, 0);
+	}
 
-	if (direction == -1) {
-		entity->position += convertToVec3(core::vector3df(0,0, speed));
-		CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
-		camEntity->targetPos += convertToVec3(core::vector3df(0, 0, speed));
-		
-	}
-	else if (direction == 1) {
-		entity->position += convertToVec3(core::vector3df(0, 0, -speed));
-		CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
-		camEntity->targetPos += convertToVec3(core::vector3df(0, 0, -speed));
-	}
-	else if (direction == 2) {
-		entity->position += convertToVec3(core::vector3df(-speed, 0, 0));
-		CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
-		camEntity->targetPos += convertToVec3(core::vector3df(-speed, 0, 0));
-	}
-	else if (direction == -2) {
-		entity->position += convertToVec3(core::vector3df(speed, 0, 0));
-		CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
-		camEntity->targetPos += convertToVec3(core::vector3df(speed, 0, 0));
-	}
-	else if (direction == -3) {
-		entity->position += convertToVec3(core::vector3df(0, speed, 0));
-		CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
-		camEntity->targetPos += convertToVec3(core::vector3df(0, speed, 0));
-	}
-	else if (direction == 3) {
-		entity->position += convertToVec3(core::vector3df(0, -speed, 0));
-		CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
-		camEntity->targetPos += convertToVec3(core::vector3df(0, -speed, 0));
+	for (int i = 0; i < events->eventInfo.affEntities.size(); i++)
+	{
+		events->eventInfo.affEntities[i]->position += convertToVec3(update);
+		if (events->eventInfo.affEntities[i]->type == EntityEnum(1)) {
+			CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
+			camEntity->targetPos += convertToVec3(update);
+		}
 	}
 	
 }
@@ -109,7 +99,7 @@ void Graphics::init()
 	camera = sceneManager->addCameraSceneNode();
 	camera->setPosition(core::vector3df(0,0,0));
 	camera->setTarget(core::vector3df(0,0,1));
-	Entity* Camera = new Entity(glm::vec3(0,0,0));
+	Entity* Camera = new Entity(glm::vec3(0,0,0), EntityEnum(1));
 	GameEngine::entities.push_back(Camera);
 	CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
 	if (camEntity)
@@ -120,7 +110,7 @@ void Graphics::init()
 	device->getCursorControl()->setVisible(false);
 	
 	// funct point
-	void(*updateEnity)(Entity* , int , float ) = updatePos;
+	void(*updateEnity)(Event* , int , float ) = updatePos;
 	functions[0] = updatePos;
 
 	//Find a way to speerate the hardcoding from entities
@@ -153,8 +143,8 @@ void Graphics::update()
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
 				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(2)) { // check to see if it need the current subsystem
 					std::cout << "Seen event graphics" << std::endl; 
-					// HARD CODED VALUES ALEART !!!										below
-					functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::entities[0], GameEngine::eventQueue[i]->eventInfo.dir, GameEngine::eventQueue[i]->eventInfo.speed);
+
+					functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i], GameEngine::eventQueue[i]->eventInfo.dir, GameEngine::eventQueue[i]->eventInfo.speed);
 					GameEngine::eventQueue[i]->mySubs.erase(GameEngine::eventQueue[i]->mySubs.begin() + j);
 					//do the actual stuff now like checking to see what it is for example is it a move event
 					//if event enum type == 0 move. Dont know how to do the different speeds and or directions without load of different events

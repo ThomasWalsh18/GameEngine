@@ -21,14 +21,15 @@ std::vector<Entity*> GameEngine::entities;
 bool GameEngine::exitLoop = false;
 
 void GameEngine::init() {
-	subSystem* ui = new UI();
-	SubSystems.push_back(ui);
+
 	subSystem* graphics = new Graphics();
 	GameEngine::SubSystems.push_back(graphics);
 	subSystem* physics = new Physics();
 	SubSystems.push_back(physics);
 	subSystem* logic = new GamePlay();
 	SubSystems.push_back(logic);
+	subSystem* ui = new UI();
+	SubSystems.push_back(ui);
 
 	for (int i = 0; i < SubSystems.size(); i++) {
 		SubSystems[i]->init();

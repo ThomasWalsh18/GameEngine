@@ -116,5 +116,8 @@
     <ClInclude Include="CameraEntitiy.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="EntityEnum.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

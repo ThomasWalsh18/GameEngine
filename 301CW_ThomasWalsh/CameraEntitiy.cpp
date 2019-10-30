@@ -1,8 +1,8 @@
 #include "CameraEntitiy.h"
 
-CameraEntitiy::CameraEntitiy() : Entity (position)
+CameraEntitiy::CameraEntitiy() : Entity (position, EntityEnum())
 {
-
+	
 }
 
 CameraEntitiy::~CameraEntitiy()

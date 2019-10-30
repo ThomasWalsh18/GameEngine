@@ -9,6 +9,8 @@ public:
 	UI();
 	~UI();
 	void init();
+	void addMainChar(Event* toAdd);
 	void update();
+	Entity* MainCharacter;
 };
 

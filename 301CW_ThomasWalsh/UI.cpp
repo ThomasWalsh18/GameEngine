@@ -2,40 +2,59 @@
 
 /*-
 UI user interaction
-Fule
-Ammo
-Health
-Menus
+	Fuel
+	Ammo
+	Health
+	Menus
 */
 
 UI::UI()
 {
+
 }
 
 UI::~UI()
 {
-
-
+	
 }
 
 void UI::init()
 {
-
+	if (GameEngine::entities.size() != 0) {
+		for (int i = 0; i < GameEngine::entities.size(); i++) {
+			if (GameEngine::entities[i]->type == EntityEnum(1)) { //atm its just the character
+				MainCharacter = GameEngine::entities[i];
+			}
+		}
+	}
+	else {
+		MainCharacter = nullptr;
+	}
+}
+void UI::addMainChar(Event* toAdd) {
+	toAdd->eventInfo.affEntities.push_back(MainCharacter);
 }
 
 void UI::update()
 {
 	if (GetKeyState('A') & 0x0800) { // to stop toggle
 		Event* left = new Event(EventTypeEnum(0));
+		// dir done in physics eventyally as I can store instead a char of the key that was pressed
+		// speed can be done by the game logic clas giving the main character enum a speed of 1
 		left->eventInfo.dir = 2;
 		left->eventInfo.speed = 1;
+		////////////////////////////
+		addMainChar(left);
 		GameEngine::eventQueue.push_back(left);
+		//Debug mode????
 		std::cout << "Event add leftward" << std::endl;
+		////////////////////////////////////////////////
 	}
 	if (GetKeyState('D') & 0x0800) {	
 		Event* right = new Event(EventTypeEnum(0));
 		right->eventInfo.dir = -2;
 		right->eventInfo.speed = 1;
+		addMainChar(right);
 		GameEngine::eventQueue.push_back(right);
 		std::cout << "Event add rightward" << std::endl;
 
@@ -44,6 +63,7 @@ void UI::update()
 		Event* forward = new Event(EventTypeEnum(0));
 		forward->eventInfo.dir = -1;
 		forward->eventInfo.speed = 1;
+		addMainChar(forward);
 		GameEngine::eventQueue.push_back(forward);
 		std::cout << "Event add forward" << std::endl;
 	}
@@ -51,6 +71,7 @@ void UI::update()
 		Event* backward = new Event(EventTypeEnum(0));
 		backward->eventInfo.dir = 1;
 		backward->eventInfo.speed = 1;
+		addMainChar(backward);
 		GameEngine::eventQueue.push_back(backward);
 		std::cout << "Event add backward" << std::endl;
 	}
@@ -58,14 +79,16 @@ void UI::update()
 		Event* upward = new Event(EventTypeEnum(0));
 		upward->eventInfo.dir = -3;
 		upward->eventInfo.speed = 1;
+		addMainChar(upward);
 		GameEngine::eventQueue.push_back(upward);
 		std::cout << "Event add upward" << std::endl;
 	}
 	if (GetKeyState('Q') & 0x800 ) {
-		Event* upward = new Event(EventTypeEnum(0));
-		upward->eventInfo.dir = 3;
-		upward->eventInfo.speed = 1;
-		GameEngine::eventQueue.push_back(upward);
+		Event* downward = new Event(EventTypeEnum(0));
+		downward->eventInfo.dir = 3;
+		downward->eventInfo.speed = 1;
+		addMainChar(downward);
+		GameEngine::eventQueue.push_back(downward);
 		std::cout << "Event add downward" << std::endl;
 	}
 	

@@ -9,6 +9,7 @@
 #include <iostream>
 #include "GameEngine.h"
 #include "CameraEntitiy.h"
+#include "EntityEnum.h"
 
 #include <irrlicht.h>
 
@@ -37,7 +38,7 @@ public:
 	void addEvent(Event e);
 	//For each function pointer I need to pass in the same things
 	//This is okay as I am only dealing with the graphics here
-	void(*functions[1])(Entity*, int , float );
+	void(*functions[1])(Event*, int , float );
 	std::vector <Event> events;
 	void Draw(Entity* entity);
 	void init();

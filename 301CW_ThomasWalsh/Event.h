@@ -3,14 +3,17 @@
 #include <string>
 #include "EventTypeEnum.h"
 #include "SubSystemEnum.h"
+#include "Entity.h"
 
 
 class Event 
 {
-	struct einfo {
+	virtual struct einfo {
 		int dir = 0;
 		float speed = 0;
+		std::vector<Entity*> affEntities;
 	};
+
 public:
 
 	Event(EventTypeEnum typeOEvent);
@@ -19,5 +22,6 @@ public:
 	EventTypeEnum functPoint;
 	void addSubSystem(SubSystemEnum sub);
 	std::vector<SubSystemEnum> mySubs;
+
 };
 

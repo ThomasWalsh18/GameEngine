@@ -6,7 +6,7 @@ public:
 	CameraEntitiy();
 	~CameraEntitiy();
 	glm::vec3 targetPos;
-	int FOV;
+	int FOV = 60;
 
 };
 

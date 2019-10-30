@@ -151,6 +151,7 @@
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="EventTypeEnum.h" />
+    <ClInclude Include="EntityEnum.h" />
     <ClInclude Include="Multiplayer.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="subSystem.h" />
