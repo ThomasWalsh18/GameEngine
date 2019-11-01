@@ -94,8 +94,15 @@ void Graphics::init()
 		this->node->setPosition(core::vector3df(-1300, -144, -1249));
 		//this->node->setPosition(core::vector3df(0, 0, 0));
 	}
-
-
+	////////ADDING CUSTOM OBJS/////////
+	scene::IAnimatedMesh* m = device->getSceneManager()->getMesh("./include/irrlicht-1.8.4/media/cannon.obj");
+	Model = device->getSceneManager()->addAnimatedMeshSceneNode(m);
+	//Model->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+	Model->setMaterialFlag(video::EMF_LIGHTING, false);
+	//Model->setDebugDataVisible(true);
+	////////ADDING CUSTOM TEXTURES////////// 
+	//Model->setMaterialTexture(0, driver->getTexture("./include/irrlicht-1.8.4/media/wall.jpg"));
+	
 	camera = sceneManager->addCameraSceneNode();
 	camera->setPosition(core::vector3df(0,0,0));
 	camera->setTarget(core::vector3df(0,0,1));
@@ -128,7 +135,7 @@ void Graphics::update()
 
 		if (this->lastFPS != fps)
 		{
-			core::stringw str = L"Irrlicht Engine - Quake 3 Map [";
+			core::stringw str = L"Irrlicht Engine - Map[";
 			str += driver->getName();
 			str += "] FPS:";
 			str += fps;

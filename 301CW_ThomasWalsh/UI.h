@@ -12,5 +12,6 @@ public:
 	void addMainChar(Event* toAdd);
 	void update();
 	Entity* MainCharacter;
+
 };
 

@@ -29,6 +29,7 @@ private:
 	scene::IAnimatedMesh* mesh;
 	scene::ISceneNode* node;
 	scene::ICameraSceneNode* camera; 
+	scene::IAnimatedMeshSceneNode* Model;
 	Entity* Camera;// = new Entity(glm::vec3(0, 0, 0));
 	int lastFPS = -1;
 

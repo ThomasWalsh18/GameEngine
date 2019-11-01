@@ -6,6 +6,7 @@ UI user interaction
 	Ammo
 	Health
 	Menus
+	gainput
 */
 
 UI::UI()
@@ -92,5 +93,4 @@ void UI::update()
 		std::cout << "Event add downward" << std::endl;
 	}
 	
-
 }
