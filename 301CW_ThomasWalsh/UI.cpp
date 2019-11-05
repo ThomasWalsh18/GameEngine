@@ -29,6 +29,7 @@ void UI::init()
 		}
 	}
 	else {
+		std::cout << "-----------------No main character error---------------" << std::endl;
 		MainCharacter = nullptr;
 	}
 }
@@ -47,9 +48,8 @@ void UI::update()
 		////////////////////////////
 		addMainChar(left);
 		GameEngine::eventQueue.push_back(left);
-		//Debug mode????
 		std::cout << "Event add leftward" << std::endl;
-		////////////////////////////////////////////////
+		////////////////////////////
 	}
 	if (GetKeyState('D') & 0x0800) {	
 		Event* right = new Event(EventTypeEnum(0));
@@ -91,6 +91,14 @@ void UI::update()
 		addMainChar(downward);
 		GameEngine::eventQueue.push_back(downward);
 		std::cout << "Event add downward" << std::endl;
+	}
+	if (GetKeyState('P') & 0x800 ) {
+		Event* cannonMove = new Event(EventTypeEnum(0));
+		cannonMove->eventInfo.dir = 3;
+		cannonMove->eventInfo.speed = 1;
+		//addMainChar(downward);
+		GameEngine::eventQueue.push_back(cannonMove);
+		std::cout << "Event add cannonMove" << std::endl;
 	}
 	
 }

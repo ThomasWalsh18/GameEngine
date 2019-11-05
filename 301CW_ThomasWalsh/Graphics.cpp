@@ -22,44 +22,12 @@ void Graphics::addEvent(Event e)
 {
 	events.push_back(e);
 }
-glm::vec3 convertToVec3(core::vector3df change) {
-	
-	glm::vec3 changed = glm::vec3(change.X,change.Y, change.Z);
 
-	return changed;
-}
 core::vector3df convertToCore(glm::vec3 change) {
 	
 	core::vector3df changed =  core::vector3df(change.x,change.y, change.z);
 
 	return changed;
-}
-void updatePos(Event* events, int direction, float speed) {
-	//eventrually I will have a graphics system that uses vec3's so that 
-	//Physics can jnust simply update the vec3 to the new one and graphics can draw it 
-	core::vector3df update;
-	if (direction > 0) {
-		speed = -speed;
-	}
-	if (direction == -1 || direction == 1) {
-		update = core::vector3df(0,0, speed);
-	}
-	else if (direction == -2 || direction == 2) {
-		update = core::vector3df(speed, 0, 0);
-	}
-	else if (direction == -3 || direction == 3) {
-		update = core::vector3df(0, speed, 0);
-	}
-
-	for (int i = 0; i < events->eventInfo.affEntities.size(); i++)
-	{
-		events->eventInfo.affEntities[i]->position += convertToVec3(update);
-		if (events->eventInfo.affEntities[i]->type == EntityEnum(1)) {
-			CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
-			camEntity->targetPos += convertToVec3(update);
-		}
-	}
-	
 }
 
 void Graphics::Draw(Entity* entity) {
@@ -71,7 +39,6 @@ void Graphics::Draw(Entity* entity) {
 	}
 
 }
-
 
 void Graphics::init()
 {
@@ -89,11 +56,11 @@ void Graphics::init()
 	if (this->mesh) {
 		this->node = sceneManager->addOctreeSceneNode(this->mesh->getMesh(0), 0, -1, 1024);
 	}
-
 	if (this->node) {
 		this->node->setPosition(core::vector3df(-1300, -144, -1249));
-		//this->node->setPosition(core::vector3df(0, 0, 0));
 	}
+
+
 	////////ADDING CUSTOM OBJS/////////
 	scene::IAnimatedMesh* m = device->getSceneManager()->getMesh("./include/irrlicht-1.8.4/media/cannon.obj");
 	Model = device->getSceneManager()->addAnimatedMeshSceneNode(m);
@@ -116,11 +83,6 @@ void Graphics::init()
 
 	device->getCursorControl()->setVisible(false);
 	
-	// funct point
-	void(*updateEnity)(Event* , int , float ) = updatePos;
-	functions[0] = updatePos;
-
-	//Find a way to speerate the hardcoding from entities
 }
 
 void Graphics::update()
@@ -151,10 +113,8 @@ void Graphics::update()
 				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(2)) { // check to see if it need the current subsystem
 					std::cout << "Seen event graphics" << std::endl; 
 
-					functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i], GameEngine::eventQueue[i]->eventInfo.dir, GameEngine::eventQueue[i]->eventInfo.speed);
+					//functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i], GameEngine::eventQueue[i]->eventInfo.dir, GameEngine::eventQueue[i]->eventInfo.speed);
 					GameEngine::eventQueue[i]->mySubs.erase(GameEngine::eventQueue[i]->mySubs.begin() + j);
-					//do the actual stuff now like checking to see what it is for example is it a move event
-					//if event enum type == 0 move. Dont know how to do the different speeds and or directions without load of different events
 				}
 			}
 		}
