@@ -62,7 +62,7 @@ void Graphics::init()
 
 
 	////////ADDING CUSTOM OBJS/////////
-	scene::IAnimatedMesh* m = device->getSceneManager()->getMesh("./include/irrlicht-1.8.4/media/cannon.obj");
+	scene::IAnimatedMesh* m = device->getSceneManager()->getMesh("./media/cannon.obj");
 	Model = device->getSceneManager()->addAnimatedMeshSceneNode(m);
 	//Model->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 	Model->setMaterialFlag(video::EMF_LIGHTING, false);
@@ -82,14 +82,20 @@ void Graphics::init()
 	}
 
 	device->getCursorControl()->setVisible(false);
-	
+	sceneManager->addSkyBoxSceneNode(
+		driver->getTexture("./media/irrlicht2_up.jpg"),
+		driver->getTexture("./media/irrlicht2_dn.jpg"),
+		driver->getTexture("./media/irrlicht2_lf.jpg"),
+		driver->getTexture("./media/irrlicht2_rt.jpg"),
+		driver->getTexture("./media/irrlicht2_ft.jpg"),
+		driver->getTexture("./media/irrlicht2_bk.jpg"));
 }
 
 void Graphics::update()
 {
 	Draw(GameEngine::entities[0]);
 	if (device->run()){
-		driver->beginScene(true, true, video::SColor(255, 200, 200, 200));
+		driver->beginScene(true, true, video::SColor(0, 0, 0, 200));
 		sceneManager->drawAll();
 		driver->endScene();
 

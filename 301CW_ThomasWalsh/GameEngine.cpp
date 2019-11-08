@@ -37,14 +37,14 @@ void GameEngine::init() {
 
 void GameEngine::update()
 {
-		for (int i = 0; i < SubSystems.size(); i++) {
-			SubSystems[i]->update();
+	for (int i = 0; i < SubSystems.size(); i++) {
+		SubSystems[i]->update();
+	}
+	for (int i = 0; i < eventQueue.size(); i++) {
+		if (GameEngine::eventQueue[i]->mySubs.size() == 0) {
+			GameEngine::eventQueue.erase(GameEngine::eventQueue.begin() + i);
 		}
-		for (int i = 0; i < eventQueue.size(); i++) {
-			if (GameEngine::eventQueue[i]->mySubs.size() == 0) {
-				GameEngine::eventQueue.erase(GameEngine::eventQueue.begin() + i);
-			}
-		}
+	}
 }
 
 void GameEngine::quit()
