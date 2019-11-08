@@ -1,17 +1,12 @@
 #pragma once
 
-//#ifdef _IRR_WINDOWS_
-//#pragma comment(lib, "Irrlicht.lib")
-//#pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
-//#endif
 #include "subSystem.h"
-#include <glm.hpp>
-#include <iostream>
+//#include <glm.hpp>
 #include "GameEngine.h"
 #include "CameraEntitiy.h"
 #include "EntityEnum.h"
 
-#include <irrlicht.h>
+#include "IrrInclude.h"
 
 
 
@@ -25,14 +20,7 @@ public:
 
 	Entity* Camera;// = new Entity(glm::vec3(0, 0, 0));
 	int lastFPS = -1;
-	static IrrlichtDevice* device;
-	video::IVideoDriver* driver;
-	static scene::ISceneManager* sceneManager;
-	gui::IGUIEnvironment* guienv;
-	scene::IAnimatedMesh* mesh;
-	scene::ISceneNode* node;
-	scene::ICameraSceneNode* camera; 
-	scene::IAnimatedMeshSceneNode* Model;
+
 
 	Graphics();
 	~Graphics();

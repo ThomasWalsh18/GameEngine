@@ -8,7 +8,7 @@
 
 class Event 
 {
-	virtual struct einfo {
+	struct einfo {
 		int dir = 0;
 		float speed = 0;
 		std::vector<Entity*> affEntities;

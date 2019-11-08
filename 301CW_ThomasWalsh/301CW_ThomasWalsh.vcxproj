@@ -135,6 +135,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="IrrInclude.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="EventTypeEnum.h" />
     <ClInclude Include="EntityEnum.h" />
+    <ClInclude Include="IrrInclude.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="moveEntity.h" />
     <ClInclude Include="Multiplayer.h" />

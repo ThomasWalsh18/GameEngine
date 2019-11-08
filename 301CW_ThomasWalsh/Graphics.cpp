@@ -6,8 +6,7 @@
 		terrain
 		sky
 */
-IrrlichtDevice* Graphics::device;
-scene::ISceneManager* Graphics::sceneManager;
+
 Graphics::Graphics()
 {
 	std::cout << "Graphics Created" << std::endl;
@@ -15,7 +14,7 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
-	this->device->drop();
+	IrrInclude::device->drop();
 	std::cout << "Graphics has deleted" << std::endl;
 }
 
@@ -35,30 +34,30 @@ void Graphics::Draw(Entity* entity) {
 	CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(entity);
 	if (camEntity)
 	{
-		camera->setPosition(convertToCore(camEntity->position));
-		camera->setTarget(convertToCore(camEntity->targetPos));
+		IrrInclude::camera->setPosition(convertToCore(camEntity->position));
+		IrrInclude::camera->setTarget(convertToCore(camEntity->targetPos));
 	}
 
 }
 
 void Graphics::init()
 {
-	this->device = createDevice(video::EDT_OPENGL, core::dimension2d<u32>(WIDTH, HEIGHT), 16, false, false, false, 0);
+	IrrInclude::device = createDevice(video::EDT_OPENGL, core::dimension2d<u32>(WIDTH, HEIGHT), 16, false, false, false, 0);
 
-	this->driver = device->getVideoDriver();
-	this->sceneManager = device->getSceneManager();
+	IrrInclude::driver = IrrInclude::device->getVideoDriver();
+	IrrInclude::sceneManager = IrrInclude::device->getSceneManager();
 
-	this->device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/map-20kdm2.pk3");
-	//this->device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/ra3slob2.pk3");
-	this->mesh = sceneManager->getMesh("20kdm2.bsp");
-	//this->mesh = sceneManager->getMesh("ra3slob2.bsp");
-	this->node = 0;
+	IrrInclude::device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/map-20kdm2.pk3");
+	//IrrInclude::device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/ra3slob2.pk3");
+	IrrInclude::mesh = IrrInclude::sceneManager->getMesh("20kdm2.bsp");
+	//IrrInclude::mesh = sceneManager->getMesh("ra3slob2.bsp");
+	IrrInclude::node = 0;
 
-	if (this->mesh) {
-		this->node = sceneManager->addOctreeSceneNode(this->mesh->getMesh(0), 0, -1, 1024);
+	if (IrrInclude::mesh) {
+		IrrInclude::node = IrrInclude::sceneManager->addOctreeSceneNode(IrrInclude::mesh->getMesh(0), 0, -1, 1024);
 	}
-	if (this->node) {
-		this->node->setPosition(core::vector3df(-1300, -144, -1249));
+	if (IrrInclude::node) {
+		IrrInclude::node->setPosition(core::vector3df(-1300, -144, -1249));
 	}
 
 
@@ -71,9 +70,10 @@ void Graphics::init()
 	////////ADDING CUSTOM TEXTURES////////// 
 	//Model->setMaterialTexture(0, driver->getTexture("./include/irrlicht-1.8.4/media/wall.jpg"));
 	
-	camera = sceneManager->addCameraSceneNode();
-	camera->setPosition(core::vector3df(0,0,0));
-	camera->setTarget(core::vector3df(0,0,1));
+	IrrInclude::camera = IrrInclude::sceneManager->addCameraSceneNode();
+	IrrInclude::camera->setPosition(core::vector3df(0,0,0));
+	IrrInclude::camera->setTarget(core::vector3df(0,0,1));
+
 	Entity* Camera = new Entity(glm::vec3(0,0,0), EntityEnum(1));
 	GameEngine::entities.push_back(Camera);
 	CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
@@ -82,34 +82,34 @@ void Graphics::init()
 		camEntity->targetPos = glm::vec3(camEntity->position.x, camEntity->position.y, camEntity->position.z + 1);
 	}
 
-	device->getCursorControl()->setVisible(false);
-	sceneManager->addSkyBoxSceneNode(
-		driver->getTexture("./media/irrlicht2_up.jpg"),
-		driver->getTexture("./media/irrlicht2_dn.jpg"),
-		driver->getTexture("./media/irrlicht2_lf.jpg"),
-		driver->getTexture("./media/irrlicht2_rt.jpg"),
-		driver->getTexture("./media/irrlicht2_ft.jpg"),
-		driver->getTexture("./media/irrlicht2_bk.jpg"));
+	IrrInclude::device->getCursorControl()->setVisible(false);
+	IrrInclude::sceneManager->addSkyBoxSceneNode(
+		IrrInclude::driver->getTexture("./media/irrlicht2_up.jpg"),
+		IrrInclude::driver->getTexture("./media/irrlicht2_dn.jpg"),
+		IrrInclude::driver->getTexture("./media/irrlicht2_lf.jpg"),
+		IrrInclude::driver->getTexture("./media/irrlicht2_rt.jpg"),
+		IrrInclude::driver->getTexture("./media/irrlicht2_ft.jpg"),
+		IrrInclude::driver->getTexture("./media/irrlicht2_bk.jpg"));
 }
 
 void Graphics::update()
 {
 	Draw(GameEngine::entities[0]);
-	if (device->run()){
-		driver->beginScene(true, true, video::SColor(0, 0, 0, 200));
-		sceneManager->drawAll();
-		driver->endScene();
+	if (IrrInclude::device->run()){
+		IrrInclude::driver->beginScene(true, true, video::SColor(0, 0, 0, 200));
+		IrrInclude::sceneManager->drawAll();
+		IrrInclude::driver->endScene();
 
-		int fps = driver->getFPS();
+		int fps = IrrInclude::driver->getFPS();
 
 		if (this->lastFPS != fps)
 		{
 			core::stringw str = L"Irrlicht Engine - Map[";
-			str += driver->getName();
+			str += IrrInclude::driver->getName();
 			str += "] FPS:";
 			str += fps;
 
-			device->setWindowCaption(str.c_str());
+			IrrInclude::device->setWindowCaption(str.c_str());
 			this->lastFPS = fps;
 		}
 	}

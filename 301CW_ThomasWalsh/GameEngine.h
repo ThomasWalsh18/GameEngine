@@ -7,6 +7,7 @@
 #include "GamePlay.h"
 #include "Entity.h"
 #include <vector>
+#include <iostream>
 
 class GameEngine
 {

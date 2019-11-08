@@ -84,6 +84,9 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="IrrInclude.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="subSystem.h">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="IrrInclude.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
