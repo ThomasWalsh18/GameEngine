@@ -21,19 +21,19 @@ class Graphics : public subSystem
 private:
 	const int WIDTH = 1600;
 	const int HEIGHT = 900;
+public:
 
-	IrrlichtDevice* device;
+	Entity* Camera;// = new Entity(glm::vec3(0, 0, 0));
+	int lastFPS = -1;
+	static IrrlichtDevice* device;
 	video::IVideoDriver* driver;
-	scene::ISceneManager* sceneManager;
+	static scene::ISceneManager* sceneManager;
 	gui::IGUIEnvironment* guienv;
 	scene::IAnimatedMesh* mesh;
 	scene::ISceneNode* node;
 	scene::ICameraSceneNode* camera; 
 	scene::IAnimatedMeshSceneNode* Model;
-	Entity* Camera;// = new Entity(glm::vec3(0, 0, 0));
-	int lastFPS = -1;
 
-public:
 	Graphics();
 	~Graphics();
 	void addEvent(Event e);

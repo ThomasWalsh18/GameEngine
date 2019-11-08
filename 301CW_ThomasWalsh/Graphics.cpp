@@ -6,7 +6,8 @@
 		terrain
 		sky
 */
-
+IrrlichtDevice* Graphics::device;
+scene::ISceneManager* Graphics::sceneManager;
 Graphics::Graphics()
 {
 	std::cout << "Graphics Created" << std::endl;
@@ -62,10 +63,10 @@ void Graphics::init()
 
 
 	////////ADDING CUSTOM OBJS/////////
-	scene::IAnimatedMesh* m = device->getSceneManager()->getMesh("./media/cannon.obj");
-	Model = device->getSceneManager()->addAnimatedMeshSceneNode(m);
+	//scene::IAnimatedMesh* m = device->getSceneManager()->getMesh("./media/cannon.obj");
+	//Model = device->getSceneManager()->addAnimatedMeshSceneNode(m);
 	//Model->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-	Model->setMaterialFlag(video::EMF_LIGHTING, false);
+	//Model->setMaterialFlag(video::EMF_LIGHTING, false);
 	//Model->setDebugDataVisible(true);
 	////////ADDING CUSTOM TEXTURES////////// 
 	//Model->setMaterialTexture(0, driver->getTexture("./include/irrlicht-1.8.4/media/wall.jpg"));

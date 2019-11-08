@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AssestManager.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="CameraEntitiy.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -137,12 +138,15 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="moveEntity.cpp" />
     <ClCompile Include="Multiplayer.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="subSystem.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssestManager.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="CameraEntitiy.h" />
     <ClInclude Include="Entity.h" />
@@ -152,6 +156,8 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="EventTypeEnum.h" />
     <ClInclude Include="EntityEnum.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="moveEntity.h" />
     <ClInclude Include="Multiplayer.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="subSystem.h" />

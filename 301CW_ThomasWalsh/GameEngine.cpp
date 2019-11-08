@@ -29,6 +29,8 @@ void GameEngine::init() {
 	SubSystems.push_back(logic);
 	subSystem* ui = new UI();
 	SubSystems.push_back(ui);
+	subSystem* AssetMan = new AssestManager();
+	SubSystems.push_back(AssetMan);
 
 	for (int i = 0; i < SubSystems.size(); i++) {
 		SubSystems[i]->init();
