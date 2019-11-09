@@ -37,6 +37,12 @@
     <Filter Include="Source Files\Entity">
       <UniqueIdentifier>{86df8020-88d2-4273-be61-b145a5b4cb32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Subsystem\Graphics">
+      <UniqueIdentifier>{2c0ee93b-e749-43a0-a980-566550c6424d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Subsystem\Graphics">
+      <UniqueIdentifier>{6d701148-ca21-418e-9dae-2338efe6f374}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngine.cpp">
@@ -49,9 +55,6 @@
       <Filter>Source Files\Subsystem</Filter>
     </ClCompile>
     <ClCompile Include="GamePlay.cpp">
-      <Filter>Source Files\Subsystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics.cpp">
       <Filter>Source Files\Subsystem</Filter>
     </ClCompile>
     <ClCompile Include="Multiplayer.cpp">
@@ -75,17 +78,20 @@
     <ClCompile Include="CameraEntitiy.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="AssestManager.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="moveEntity.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Source Files\Subsystem\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="IrrInclude.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Subsystem\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -105,9 +111,6 @@
       <Filter>Header Files\Subsystem</Filter>
     </ClInclude>
     <ClInclude Include="GamePlay.h">
-      <Filter>Header Files\Subsystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics.h">
       <Filter>Header Files\Subsystem</Filter>
     </ClInclude>
     <ClInclude Include="Multiplayer.h">
@@ -131,9 +134,6 @@
     <ClInclude Include="EntityEnum.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="AssestManager.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="moveEntity.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
@@ -141,7 +141,13 @@
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="IrrInclude.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Subsystem\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Header Files\Subsystem\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

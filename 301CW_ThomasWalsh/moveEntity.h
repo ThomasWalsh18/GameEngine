@@ -1,13 +1,17 @@
 #pragma once
 #include "Entity.h"
-#include "Mesh.h"
+#include "AssetManager.h"
+
 class moveEntity : public Entity
 {
 public:
-	moveEntity(glm::vec3 pos, ModelType typeOfModel);
+	moveEntity(glm::vec3 pos, std::string modelName);
 	~moveEntity();
-	ModelType Asset;
-	//Mesh* mesh;
+	std::string Asset;
+	Mesh* currentMesh;
+	Mesh* getCurrentMesh();
+
+	
 
 };
 

@@ -76,6 +76,15 @@ void UI::update()
 		GameEngine::eventQueue.push_back(backward);
 		std::cout << "Event add backward" << std::endl;
 	}
+	if (GetKeyState('O') & 0x0800) {
+		GameEngine::entities[GameEngine::entities.size()-2]->position += glm::vec3(0.0f, -1.0f, 0.0f);
+	}
+	if (GetKeyState('P') & 0x0800) {
+		GameEngine::entities[GameEngine::entities.size()-1]->position += glm::vec3(0.0f, -1.0f, 0.0f);
+	}
+	if (GetKeyState('I') & 0x0800) {
+		GameEngine::entities[GameEngine::entities.size()-3]->position += glm::vec3(0.0f, -1.0f, 0.0f);
+	}
 	if (GetAsyncKeyState(VK_SPACE) & 0x80000000 ) {
 		Event* upward = new Event(EventTypeEnum(0));
 		upward->eventInfo.dir = -3;
@@ -92,13 +101,6 @@ void UI::update()
 		GameEngine::eventQueue.push_back(downward);
 		std::cout << "Event add downward" << std::endl;
 	}
-	if (GetKeyState('P') & 0x800 ) {
-		Event* cannonMove = new Event(EventTypeEnum(0));
-		cannonMove->eventInfo.dir = 3;
-		cannonMove->eventInfo.speed = 1;
-		//addMainChar(downward);
-		GameEngine::eventQueue.push_back(cannonMove);
-		std::cout << "Event add cannonMove" << std::endl;
-	}
+
 	
 }

@@ -3,7 +3,7 @@ AssestManager::AssestManager()
 {
 
 }
-std::map<std::string, Mesh*> AssestManager::Meshes;
+
 void AssestManager::init()
 {
 	//load all models
@@ -22,14 +22,14 @@ void AssestManager::LoadModel(std::string fileName, std::string modelName)
 	//add to map with name modelname, and model pointer to one we just made
 	std::string fullPath = "./media/" + fileName;
 	Mesh* mesh = new Mesh(fullPath);
-	Meshes.emplace(modelName, mesh);
+	GameEngine::Meshes.emplace(modelName, mesh);
 	
 }
 
 Mesh* AssestManager::GetModel(std::string modelName)
 {
 	//if modelname in map, return it, else nullptr
-	for (std::map<std::string, Mesh*>::iterator i = Meshes.begin(); i != Meshes.end(); i++) {
+	for (std::map<std::string, Mesh*>::iterator i = GameEngine::Meshes.begin(); i != GameEngine::Meshes.end(); i++) {
 		if (i->first == modelName) {
 			return i->second;
 		}

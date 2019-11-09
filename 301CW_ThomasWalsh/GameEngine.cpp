@@ -18,19 +18,20 @@ bool GameEngine::exitLoopSet()
 std::vector<subSystem*> GameEngine::SubSystems;
 std::vector<Event*> GameEngine::eventQueue;
 std::vector<Entity*> GameEngine::entities;
+std::map<std::string, Mesh*> GameEngine::Meshes;
 bool GameEngine::exitLoop = false;
 
 void GameEngine::init() {
 	subSystem* physics = new Physics();
-	SubSystems.push_back(physics);
 	subSystem* graphics = new Graphics();
-	GameEngine::SubSystems.push_back(graphics);
+	subSystem* assetMan = new AssetManager();
 	subSystem* logic = new GamePlay();
-	SubSystems.push_back(logic);
 	subSystem* ui = new UI();
+	SubSystems.push_back(physics);
+	SubSystems.push_back(assetMan);
+	SubSystems.push_back(graphics);
+	SubSystems.push_back(logic);
 	SubSystems.push_back(ui);
-	subSystem* AssetMan = new AssestManager();
-	SubSystems.push_back(AssetMan);
 
 	for (int i = 0; i < SubSystems.size(); i++) {
 		SubSystems[i]->init();

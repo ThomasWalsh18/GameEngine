@@ -1,21 +1,20 @@
 #pragma once
 #include "EntityEnum.h"
+#include "Mesh.h"
 #include <glm.hpp>
+#include <iostream>
 
 
 class Entity 
 {
 public:
-	enum ModelType {
-		Character,
-		Map,
-		Map2,
-		Vehical
-	};
 	Entity(glm::vec3 pos, EntityEnum type);
 	~Entity();
 	glm::vec3 position;
 	EntityEnum type;
+	virtual Mesh* getCurrentMesh();
+	virtual glm::vec3 getTargetPos();
+	virtual void setTargetPos(glm::vec3 targetPos);
 };
 
 /*
@@ -46,8 +45,9 @@ public:
 	___________________________________________________________________________________________________________________________________
 
 	Then game logic
+	And A math liabry
 	___________________________________________________________________________________________________________________________________
 
-	Networking bruh
+	Networking :/
 */
 

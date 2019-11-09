@@ -129,7 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AssestManager.cpp" />
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="CameraEntitiy.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -147,7 +147,7 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssestManager.h" />
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="CameraEntitiy.h" />
     <ClInclude Include="Entity.h" />

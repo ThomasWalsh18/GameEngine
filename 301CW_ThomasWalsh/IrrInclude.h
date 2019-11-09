@@ -12,5 +12,7 @@ public:
 	static scene::IAnimatedMesh* mesh;
 	static scene::ISceneNode* node;
 	static scene::IAnimatedMeshSceneNode* Model;
+	IrrInclude();
+	~IrrInclude();
 };
 

@@ -7,3 +7,13 @@ scene::ICameraSceneNode* IrrInclude::camera;
 scene::IAnimatedMesh* IrrInclude::mesh;
 scene::ISceneNode* IrrInclude::node;
 scene::IAnimatedMeshSceneNode* IrrInclude::Model;
+
+IrrInclude::IrrInclude()
+{
+
+
+}
+
+IrrInclude::~IrrInclude()
+{
+}
