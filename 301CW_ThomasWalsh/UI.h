@@ -1,6 +1,7 @@
 #pragma once
 #include "subSystem.h"
 #include <windows.h>
+#include <windowsx.h>
 #include "GameEngine.h"
 
 class UI: public subSystem

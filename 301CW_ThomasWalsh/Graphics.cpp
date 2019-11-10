@@ -36,6 +36,8 @@ core::vector3df convertToCore(glm::vec3 change) {
 void Graphics::Draw() {
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
 		if (GameEngine::entities[i]->getCurrentMesh() != nullptr ) {
+			//GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode = IrrInclude::device->getSceneManager()->addAnimatedMeshSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
+
 			//GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode->setPosition(convertToCore(glm::vec3(0,1000,0)));
 			GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode->setPosition(convertToCore(GameEngine::entities[i]->position));
 		}
@@ -50,7 +52,6 @@ void Graphics::Draw() {
 
 void Graphics::init()
 {
-
 	IrrInclude::device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/map-20kdm2.pk3");
 	IrrInclude::mesh = IrrInclude::sceneManager->getMesh("20kdm2.bsp");
 	IrrInclude::node = 0;
@@ -110,7 +111,7 @@ void Graphics::init()
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
 		if (GameEngine::entities[i]->getCurrentMesh() != nullptr) {
 			GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode = IrrInclude::device->getSceneManager()->addAnimatedMeshSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
-		//	GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode->setPosition(convertToCore(GameEngine::entities[i]->position));
+			//GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode->setPosition(convertToCore(GameEngine::entities[i]->position));
 			count++;
 			if (count == 2) {
 				GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode->setMaterialFlag(video::EMF_LIGHTING, false);
