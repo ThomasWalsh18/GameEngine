@@ -38,94 +38,9 @@ void UI::addMainChar(Event* toAdd) {
 	toAdd->eventInfo.affEntities.push_back(MainCharacter);
 }
 
-int WINAPI mouse() {
-
-	HWND hwnd;
-	MSG messages;
-	WNDCLASSEX wincl;
-
-	wincl.style = CS_DBLCLKS;
-	wincl.cbSize = sizeof(WNDCLASSEX);
-
-	wincl.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-	wincl.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
-	wincl.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wincl.lpszMenuName = NULL;
-	wincl.cbClsExtra = 0;
-	wincl.cbWndExtra = 0;
-	wincl.hbrBackground = (HBRUSH)COLOR_BACKGROUND;
-
-	
-
-	if (GetMessage(&messages, NULL, 0, 0)) {
-		TranslateMessage(&messages);
-		DispatchMessage(&messages);
-	}
-
-	return messages.wParam;
-}
-
-LRESULT CALLBACK UI::WindowProcedure(HWND hwnd, UINT message, WPARAM wp, LPARAM lp) {
-	switch (message) {
-	case WM_MOUSEMOVE:
-		wmMouseMove(hwnd, wp, lp);
-		break;
-	case WM_LBUTTONDOWN:
-		wmLButtonDown(hwnd, wp, lp);
-		break;
-	case WM_LBUTTONUP:
-		wmLButtonUp(hwnd, wp, lp);
-		break;
-	case WM_DESTROY:
-		PostQuitMessage(0);       // Send WM_QUIT
-		break;
-	case WM_KEYDOWN:
-		wmKeyDown(hwnd, wp, lp);
-		break;
-	default:
-		return DefWindowProc(hwnd, message, wp, lp);
-	}
-
-	return 0;
-}
-void UI::wmLButtonDown(HWND hwnd, WPARAM wp, LPARAM lp) {
-	g_oldPoint = MAKEPOINTS(lp);
-	SetCapture(hwnd);
-}
-
-void UI::wmLButtonUp(HWND hwnd, WPARAM wp, LPARAM lp) {
-	ReleaseCapture();
-}
-
-void UI::wmKeyDown(HWND hwnd, WPARAM wp, LPARAM lp) {
-	switch (wp) {
-	case VK_ESCAPE:
-		PostMessage(hwnd, WM_QUIT, 0, 0);
-		break;
-	}
-}
-void UI::wmMouseMove(HWND hwnd, WPARAM wp, LPARAM lp) {
-	POINTS p;
-	HDC hdc;
-
-	if (wp != MK_LBUTTON) return;
-
-	p = MAKEPOINTS(lp);
-	hdc = GetDC(hwnd);
-
-	MoveToEx(hdc, g_oldPoint.x, g_oldPoint.y, 0);
-	g_oldPoint = p;
-	ReleaseDC(hwnd, hdc);
-}
 void UI::update()
 {
-
-
 	
-	mouse();
-	
-
-	/*
 	if (GetKeyState('A') & 0x0800) { // to stop toggle
 		Event* left = new Event(EventTypeEnum(0));
 		// dir done in physics eventyally as I can store instead a char of the key that was pressed
@@ -187,6 +102,18 @@ void UI::update()
 		addMainChar(downward);
 		GameEngine::eventQueue.push_back(downward);
 		std::cout << "Event add downward" << std::endl;
+	}
+
+	if (GetCursorPos(&p))
+	{
+		std::cout << " moved" << std::endl;
+		std::cout << p.x << std::endl;
+		//cursor position now in p.x and p.y
+	}
+	/*
+	if (ScreenToClient(hwnd, &p))
+	{
+		//p.x and p.y are now relative to hwnd's client area
 	}
 	*/
 }
