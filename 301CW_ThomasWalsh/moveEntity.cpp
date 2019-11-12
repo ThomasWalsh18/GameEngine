@@ -15,3 +15,13 @@ Mesh* moveEntity::getCurrentMesh()
 {
 	return this->currentMesh;
 }
+
+scene::IAnimatedMeshSceneNode* moveEntity::GetSceneNode()
+{
+	return this->animatedSceneNode;
+}
+
+void moveEntity::SetSceneNode(scene::IAnimatedMesh* model)
+{
+	this->animatedSceneNode = IrrInclude::device->getSceneManager()->addAnimatedMeshSceneNode(model);
+}

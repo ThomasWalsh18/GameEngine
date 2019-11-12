@@ -9,7 +9,7 @@ public:
 	~Mesh();
 	std::string path;
 	scene::IAnimatedMesh* model;
-	scene::IAnimatedMeshSceneNode* animatedSceneNode;
+	//scene::IAnimatedMeshSceneNode* animatedSceneNode;
 
 };
 

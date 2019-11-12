@@ -10,8 +10,8 @@ public:
 	std::string Asset;
 	Mesh* currentMesh;
 	Mesh* getCurrentMesh();
-
-	
-
+	scene::IAnimatedMeshSceneNode* GetSceneNode();
+	void SetSceneNode(scene::IAnimatedMesh* model);
+	scene::IAnimatedMeshSceneNode* animatedSceneNode;
 };
 

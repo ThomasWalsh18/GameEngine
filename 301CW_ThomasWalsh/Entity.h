@@ -15,6 +15,9 @@ public:
 	virtual Mesh* getCurrentMesh();
 	virtual glm::vec3 getTargetPos();
 	virtual void setTargetPos(glm::vec3 targetPos);
+	virtual scene::IAnimatedMeshSceneNode* GetSceneNode();
+	virtual void SetSceneNode(scene::IAnimatedMesh* model);
+
 };
 
 /*

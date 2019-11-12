@@ -36,10 +36,7 @@ core::vector3df convertToCore(glm::vec3 change) {
 void Graphics::Draw() {
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
 		if (GameEngine::entities[i]->getCurrentMesh() != nullptr ) {
-			//GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode = IrrInclude::device->getSceneManager()->addAnimatedMeshSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
-
-			//GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode->setPosition(convertToCore(glm::vec3(0,1000,0)));
-			GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode->setPosition(convertToCore(GameEngine::entities[i]->position));
+			GameEngine::entities[i]->GetSceneNode()->setPosition(convertToCore(GameEngine::entities[i]->position));
 		}
 		else if (GameEngine::entities[i]->type == EntityEnum(1)) {
 			IrrInclude::camera->setPosition(convertToCore(GameEngine::entities[i]->position));
@@ -47,7 +44,7 @@ void Graphics::Draw() {
 		}
 	}
 
-
+	amount++;
 }
 
 void Graphics::init()
@@ -110,16 +107,15 @@ void Graphics::init()
 	int count = 0;
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
 		if (GameEngine::entities[i]->getCurrentMesh() != nullptr) {
-			GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode = IrrInclude::device->getSceneManager()->addAnimatedMeshSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
-			//GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode->setPosition(convertToCore(GameEngine::entities[i]->position));
+			GameEngine::entities[i]->SetSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
 			count++;
 			if (count == 2) {
-				GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode->setMaterialFlag(video::EMF_LIGHTING, false);
+				GameEngine::entities[i]->GetSceneNode()->setMaterialFlag(video::EMF_LIGHTING, false);
 			}
 			else if (count == 1) {
-				GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-				GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode->setMaterialFlag(video::EMF_LIGHTING, false);
-				GameEngine::entities[i]->getCurrentMesh()->animatedSceneNode->setDebugDataVisible(true);
+				GameEngine::entities[i]->GetSceneNode()->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+				GameEngine::entities[i]->GetSceneNode()->setMaterialFlag(video::EMF_LIGHTING, false);
+				GameEngine::entities[i]->GetSceneNode()->setDebugDataVisible(true);
 			}
 		}
 	}
@@ -127,9 +123,10 @@ void Graphics::init()
 
 void Graphics::update()
 {
-	Draw();
+	//Draw();
 	if (IrrInclude::device->run()){
 		IrrInclude::driver->beginScene(true, true, video::SColor(0, 0, 0, 200));
+		Draw();
 		IrrInclude::sceneManager->drawAll();
 		IrrInclude::driver->endScene();
 

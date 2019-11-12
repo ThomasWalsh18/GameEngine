@@ -24,3 +24,12 @@ glm::vec3 Entity::getTargetPos()
 void Entity::setTargetPos(glm::vec3 targetPos)
 {
 }
+
+scene::IAnimatedMeshSceneNode* Entity::GetSceneNode()
+{
+	return nullptr;
+}
+
+void Entity::SetSceneNode(scene::IAnimatedMesh* model)
+{
+}
