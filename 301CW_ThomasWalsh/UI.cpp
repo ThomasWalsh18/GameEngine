@@ -106,8 +106,16 @@ void UI::update()
 
 	if (GetCursorPos(&p))
 	{
-		std::cout << " moved" << std::endl;
-		std::cout << p.x << std::endl;
+		if (lastx != p.x || lasty != p.y) {
+			lastx = p.x;
+			lasty = p.y;
+			Event* MoveMouse = new Event(EventTypeEnum(1));
+			MoveMouse->eventInfo.x = p.x;
+			MoveMouse->eventInfo.y = p.y;
+			GameEngine::eventQueue.push_back(MoveMouse);
+			//std::cout << "Event add MouseMove + X:" << p.x << ", Y: " << p.y  << std::endl;
+		}
+
 		//cursor position now in p.x and p.y
 	}
 	/*
@@ -118,55 +126,5 @@ void UI::update()
 	*/
 }
 
-/*
-void UI::mouseMove(int x, int y)
-{
-	if (firstMouse)
-	{
-		lastX = x;
-		lastY = y;
-		firstMouse = false;
-	}
 
-	float xoffset = x - lastX;
-	float yoffset = lastY - y; // reversed since y-coordinates go from bottom to top
-	lastX = x;
-	lastY = y;
 
-	float sensitivity = 0.3f; // change able sensitivty higher it is the more sensitive. Better to have a large sensitivy so I can see the whole screen
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
-
-	yaw += xoffset;
-	pitch += yoffset;
-
-	// make sure that when pitch is out of bounds, screen doesn't get flipped
-	if (pitch > 89.0f) {
-		pitch = 89.0f;
-	}
-	if (pitch < -89.0f) {
-		pitch = -89.0f;
-	}
-
-	glm::vec3 front;
-	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	front.y = sin(glm::radians(pitch));
-	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	cameraFront = glm::normalize(front);
-	//force mouse to stay inside the window
-	int win_w = glutGet(GLUT_WINDOW_WIDTH);
-	int win_h = glutGet(GLUT_WINDOW_HEIGHT);
-	if (x < 100 || x > win_w - 100) {  //you can use values other than 100 for the screen edges if you like, kind of seems to depend on your mouse sensitivity for what ends up working best
-		lastX = win_w / 2;   //centers the last known position, this way there isn't an odd jump with your cam as it resets
-		lastY = win_h / 2;
-		glutWarpPointer(win_w / 2, win_h / 2);  //centers the cursor
-	}
-	else if (y < 100 || y > win_h - 100) {
-		lastX = win_w / 2;
-		lastY = win_h / 2;
-		glutWarpPointer(win_w / 2, win_h / 2);
-	}
-	//std::cout << "cameraFront" << glm::to_string(cameraFront) << std::endl;
-	//std::cout << "Camera pos" << glm::to_string(cameraPos) << std::endl;
-}
-*/

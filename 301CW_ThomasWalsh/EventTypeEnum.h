@@ -1,6 +1,6 @@
 #pragma once
 
-enum class EventTypeEnum{move};
+enum class EventTypeEnum{move, mouseEvent};
 
 //Event event((EventTypeEnum)0); //event of forward
 //event.push_back((SubSystemEnum)1) //event pushback graphics

@@ -21,17 +21,20 @@ Graphics::~Graphics()
 	std::cout << "Graphics has deleted" << std::endl;
 }
 
-void Graphics::addEvent(Event e)
-{
-	events.push_back(e);
-}
-
 core::vector3df convertToCore(glm::vec3 change) {
 	
 	core::vector3df changed =  core::vector3df(change.x,change.y, change.z);
 
 	return changed;
 }
+
+bool Graphics::firstMove = true;
+int Graphics::lastX = -1;
+int Graphics::lastY = -1;;
+float Graphics::pitch = 0.0f;
+float Graphics::yaw = 90.0f;
+float Graphics::sensitivity = 0.3f;
+glm::vec3 Graphics::cameraFront = glm::vec3(0,0,1);
 
 void Graphics::Draw() {
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
@@ -40,13 +43,73 @@ void Graphics::Draw() {
 		}
 		else if (GameEngine::entities[i]->type == EntityEnum(1)) {
 			IrrInclude::camera->setPosition(convertToCore(GameEngine::entities[i]->position));
-			IrrInclude::camera->setTarget(convertToCore(GameEngine::entities[i]->getTargetPos()));
+			IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront + GameEngine::entities[i]->position));
 		}
 	}
 }
 
+int Graphics::GetWidth()
+{
+	return this->WIDTH;
+}
+void mouseMove(Event* e)
+{
+	if (Graphics::firstMove)
+	{
+		Graphics::lastX = e->eventInfo.x;
+		Graphics::lastY = e->eventInfo.y;
+		Graphics::firstMove = false;
+	}
+
+	float xoffset = e->eventInfo.x - Graphics::lastX;
+	float yoffset = Graphics::lastY - e->eventInfo.y; // reversed since y-coordinates go from bottom to top
+	Graphics::lastX = e->eventInfo.x;
+	Graphics::lastY = e->eventInfo.y;
+
+	xoffset *= Graphics::sensitivity;
+	yoffset *= Graphics::sensitivity;
+
+	Graphics::yaw += xoffset;
+	Graphics::pitch += yoffset;
+
+	// make sure that when pitch is out of bounds, screen doesn't get flipped
+	if (Graphics::pitch > 89.0f) {
+		Graphics::pitch = 89.0f;
+	}
+	if (Graphics::pitch < -89.0f) {
+		Graphics::pitch = -89.0f;
+	}
+
+	glm::vec3 front;
+	front.x = cos(glm::radians(Graphics::yaw)) * cos(glm::radians(Graphics::pitch));
+	front.y = sin(glm::radians(Graphics::pitch));
+	front.z = sin(glm::radians(Graphics::yaw)) * cos(glm::radians(Graphics::pitch));
+	Graphics::cameraFront = glm::normalize(front);
+	Graphics::cameraFront.x = -Graphics::cameraFront.x;
+	Graphics::cameraFront.y = Graphics::cameraFront.y;
+	
+	//force mouse to stay inside the window
+	int win_w = 1600;
+	int win_h = 900;
+	if (e->eventInfo.x < 100 || e->eventInfo.x > win_w - 100) {  //you can use values other than 100 for the screen edges if you like, depends on your mouse sensitivity for what ends up working best
+		Graphics::lastX = win_w / 2;   //centers the last known position, this way there isn't an odd jump with your cam as it resets
+		Graphics::lastY = win_h / 2;
+		SetCursorPos(win_w / 2, win_h / 2);
+	}
+	else if (e->eventInfo.y < 100 || e->eventInfo.y > win_h - 100) {
+		Graphics::lastX = win_w / 2;
+		Graphics::lastY = win_h / 2;
+		SetCursorPos(win_w / 2, win_h / 2);
+	}
+
+}
+
+
 void Graphics::init()
 {
+	void(*mouse)(Event*) = mouseMove;
+	functions[1] = mouseMove;
+
 	IrrInclude::device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/map-20kdm2.pk3");
 	IrrInclude::mesh = IrrInclude::sceneManager->getMesh("20kdm2.bsp");
 	IrrInclude::node = 0;
@@ -70,7 +133,7 @@ void Graphics::init()
 	
 	IrrInclude::camera = IrrInclude::sceneManager->addCameraSceneNode();
 	IrrInclude::camera->setPosition(core::vector3df(0,0,0));
-	IrrInclude::camera->setTarget(core::vector3df(0,0,1));
+	IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront));
 
 	Entity* Camera = new CameraEntitiy(glm::vec3(0,0,0), EntityEnum(1));
 	GameEngine::entities.push_back(Camera);
@@ -121,7 +184,6 @@ void Graphics::init()
 
 void Graphics::update()
 {
-	//Draw();
 	if (IrrInclude::device->run()){
 		IrrInclude::driver->beginScene(true, true, video::SColor(0, 0, 0, 200));
 		Draw();
@@ -146,12 +208,14 @@ void Graphics::update()
 		for (int i = 0; i < GameEngine::eventQueue.size(); i++) {	// for each event, then for each sub system in each event
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
 				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(2)) { // check to see if it need the current subsystem
-					std::cout << "Seen event graphics" << std::endl; 
+					if (GameEngine::eventQueue[i]->functPoint == EventTypeEnum(1)) {
+						functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i]);
 
-					//functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i], GameEngine::eventQueue[i]->eventInfo.dir, GameEngine::eventQueue[i]->eventInfo.speed);
+					}
 					GameEngine::eventQueue[i]->mySubs.erase(GameEngine::eventQueue[i]->mySubs.begin() + j);
 				}
 			}
 		}
 	}
 }
+

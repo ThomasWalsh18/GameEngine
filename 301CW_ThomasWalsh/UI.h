@@ -14,5 +14,7 @@ public:
 	void update();
 	Entity* MainCharacter;
 	POINT p;
+	int lastx = -1;
+	int lasty = -1;
 };
 

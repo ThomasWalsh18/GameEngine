@@ -12,6 +12,8 @@ class Event
 		int dir = 0;
 		float speed = 0;
 		std::vector<Entity*> affEntities;
+		int x;
+		int y;
 	};
 
 public:
