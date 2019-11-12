@@ -14,6 +14,49 @@ UI::UI()
 
 }
 
+void UI::wmMouseMove(HWND hwnd, WPARAM wp, LPARAM lp) {
+	POINTS p;
+	HDC hdc;
+	std::cout << " Mouse moved" << std::endl;
+	//if (wp != MK_LBUTTON) return;
+//https://stackoverflow.com/questions/50691580/wm-mousemove-get-x-lparam-and-get-y-lparam-catch-wrong-coordinates
+	p = MAKEPOINTS(lp);
+	hdc = GetDC(hwnd);
+	SelectObject(hdc, g_hpenFore);
+	MoveToEx(hdc, g_oldPoint.x, g_oldPoint.y, 0);
+	LineTo(hdc, p.x, p.y);
+	g_oldPoint = p;
+	ReleaseDC(hwnd, hdc);
+}
+void UI::wmLButtonDown(HWND hwnd, WPARAM wp, LPARAM lp) {
+	g_oldPoint = MAKEPOINTS(lp);
+	SetCapture(hwnd);
+}
+
+void UI::wmLButtonUp(HWND hwnd, WPARAM wp, LPARAM lp) {
+	ReleaseCapture();
+}
+
+LRESULT CALLBACK UI::WindowProcedure(HWND hwnd, UINT message, WPARAM wp, LPARAM lp)
+{
+	switch (message) {
+	case WM_MOUSEMOVE:
+		wmMouseMove(hwnd, wp, lp);
+		break;
+	case WM_LBUTTONDOWN:
+		wmLButtonDown(hwnd, wp, lp);
+		break;
+	case WM_LBUTTONUP:
+		wmLButtonUp(hwnd, wp, lp);
+		break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	default:
+		return DefWindowProc(hwnd, message, wp, lp);
+	}
+	return 0;
+}
 UI::~UI()
 {
 	
@@ -36,6 +79,7 @@ void UI::init()
 void UI::addMainChar(Event* toAdd) {
 	toAdd->eventInfo.affEntities.push_back(MainCharacter);
 }
+
 
 void UI::update()
 {
@@ -101,6 +145,9 @@ void UI::update()
 		GameEngine::eventQueue.push_back(downward);
 		std::cout << "Event add downward" << std::endl;
 	}
+	if (GetMessage(&messages, NULL, 0, 0)) {
+		TranslateMessage(&messages);
+		DispatchMessage(&messages);
+	}
 
-	
 }

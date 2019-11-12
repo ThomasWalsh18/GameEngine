@@ -43,8 +43,6 @@ void Graphics::Draw() {
 			IrrInclude::camera->setTarget(convertToCore(GameEngine::entities[i]->getTargetPos()));
 		}
 	}
-
-	amount++;
 }
 
 void Graphics::init()
