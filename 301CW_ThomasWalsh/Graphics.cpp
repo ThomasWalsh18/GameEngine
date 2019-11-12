@@ -89,6 +89,8 @@ void mouseMove(Event* e)
 	Graphics::cameraFront.y = Graphics::cameraFront.y;
 	
 	//force mouse to stay inside the window
+
+	// How Do I get these without a reference to a specific object
 	int win_w = 1600;
 	int win_h = 900;
 	if (e->eventInfo.x < 100 || e->eventInfo.x > win_w - 100) {  //you can use values other than 100 for the screen edges if you like, depends on your mouse sensitivity for what ends up working best

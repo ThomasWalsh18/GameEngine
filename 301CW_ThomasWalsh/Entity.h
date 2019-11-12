@@ -23,18 +23,18 @@ public:
 /*
 
 	Models in whenever avaialble
+
+	Questions: 
+	Mouse move screen height and width
 	__________________________________________________________________________________________________________________________________
 
-	Then add lua
+	Physics -> movement in properly(forces, and also relevant to the heading) also collisions, and bullets
 	___________________________________________________________________________________________________________________________________
 
-	Then try the mouse movement  http://www.cplusplus.com/forum/beginner/11226/
+	Then add lua ( look on the example lua files and then the slides from week nine to see what I can lua file)
 	___________________________________________________________________________________________________________________________________
 
 	Then audio 
-	___________________________________________________________________________________________________________________________________
-
-	Physics
 	___________________________________________________________________________________________________________________________________
 
 	Then game logic
