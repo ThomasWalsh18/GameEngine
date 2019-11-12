@@ -22,10 +22,28 @@ public:
 
 /*
 
+	___________________________________________________________________________________________________________________________________
+
+	WhenEvers:
+	Then audio -> looks easy so I think I can do whenever I have a few hours spare, got loads of royalty free music
+	Then game logic
+	And A math liabry
 	Models in whenever avaialble
+	___________________________________________________________________________________________________________________________________
 
 	Questions: 
 	Mouse move screen height and width
+	A clean up question 
+		Virtual function for events->eventinfo? 
+	___________________________________________________________________________________________________________________________________
+	
+	General To do:
+	Make the Irrliht window render to a windows window, this will allow me to keep the mouse movements relative to the current window. ( window that the game is using could be a GAMEEngine::)
+	General Clean up of code
+		Unneccecarry functions are deleted
+		Remove debug code 
+		Clean up UI class so that It looks proper and can suport different input devices
+		Make the Asset Manager load textures so that I can fix the sky box
 	__________________________________________________________________________________________________________________________________
 
 	Physics -> movement in properly(forces, and also relevant to the heading) also collisions, and bullets
@@ -34,13 +52,7 @@ public:
 	Then add lua ( look on the example lua files and then the slides from week nine to see what I can lua file)
 	___________________________________________________________________________________________________________________________________
 
-	Then audio 
-	___________________________________________________________________________________________________________________________________
-
-	Then game logic
-	And A math liabry
-	___________________________________________________________________________________________________________________________________
-
-	Networking :/
+	Networking -> looks difficult would like to spend an entire week on it / more if I can.
+			   -> dead reckioning tiume steps and position and veleocity prediction of position for smoother model movement as well as cheat detection
 */
 

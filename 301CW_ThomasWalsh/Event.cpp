@@ -9,7 +9,6 @@ Event::Event(EventTypeEnum typeOEvent)
 	}
 	else if (typeOEvent == EventTypeEnum(1)) {
 		this->mySubs.push_back(SubSystemEnum(2));
-		this->mySubs.push_back(SubSystemEnum(3));
 	}
 	functPoint = typeOEvent;
 	
