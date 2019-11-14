@@ -7,11 +7,67 @@
 		sky
 */
 
+
+static LRESULT CALLBACK CustomWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+		case WM_COMMAND:
+		{
+			HWND hwndCtl = (HWND)lParam;
+			int code = HIWORD(wParam);
+		}
+		break;
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			return 0;
+	}
+	return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
 Graphics::Graphics()
 {
-	IrrInclude::device = createDevice(video::EDT_OPENGL, core::dimension2d<u32>(WIDTH, HEIGHT), 16, false, false, false, 0);
+	HINSTANCE hInstance = 0;
+	// create dialog
+
+	const char* Win32ClassName = "CIrrlichtWindowsTestDialog";
+
+	WNDCLASSEX wcex;
+	wcex.cbSize = sizeof(WNDCLASSEX);
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc = (WNDPROC)CustomWndProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = DLGWINDOWEXTRA;
+	wcex.hInstance = hInstance;
+	wcex.hIcon = NULL;
+	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcex.hbrBackground = NULL;//(HBRUSH)(COLOR_WINDOW);
+	wcex.lpszMenuName = 0;
+	wcex.lpszClassName = Win32ClassName;
+	wcex.hIconSm = 0;
+
+	RegisterClassEx(&wcex);
+
+	DWORD style = WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_SIZEBOX | WS_SYSMENU;
+
+	hWnd = CreateWindow(Win32ClassName, "301__Game Engine", style, 100, 100, WIDTH, HEIGHT, NULL, NULL, hInstance, NULL);
+
+	HWND hIrrlichtWindow =  CreateWindow("BUTTON", "", WS_CHILD | WS_VISIBLE | BS_OWNERDRAW, 0, 0, WIDTH, HEIGHT, hWnd, NULL, hInstance, NULL);
+	videodata = video::SExposedVideoData(hIrrlichtWindow);
+	
+	SIrrlichtCreationParameters param;
+	param.DriverType = video::EDT_DIRECT3D9;
+	param.WindowId = reinterpret_cast<void*>(hIrrlichtWindow);
+	IrrInclude::device = createDeviceEx(param);
+	
+	//IrrInclude::device = createDevice(video::EDT_DIRECT3D9, core::dimension2d<u32>(WIDTH, HEIGHT), 16, false, false, false, 0);
 	IrrInclude::driver = IrrInclude::device->getVideoDriver();
 	IrrInclude::sceneManager = IrrInclude::device->getSceneManager();
+
+	
+	ShowWindow(hWnd, SW_SHOW);
+	UpdateWindow(hWnd);
+	
 	std::cout << "Graphics Created" << std::endl;
 }
 
@@ -20,6 +76,7 @@ Graphics::~Graphics()
 	IrrInclude::device->drop();
 	std::cout << "Graphics has deleted" << std::endl;
 }
+
 
 core::vector3df convertToCore(glm::vec3 change) {
 	
@@ -91,6 +148,7 @@ void mouseMove(Event* e)
 	//force mouse to stay inside the window
 
 	// How Do I get these without a reference to a specific object
+	
 	int win_w = 1600;
 	int win_h = 900;
 	if (e->eventInfo.x < 100 || e->eventInfo.x > win_w - 100) {  //you can use values other than 100 for the screen edges if you like, depends on your mouse sensitivity for what ends up working best
@@ -103,7 +161,7 @@ void mouseMove(Event* e)
 		Graphics::lastY = win_h / 2;
 		SetCursorPos(win_w / 2, win_h / 2);
 	}
-
+	
 }
 
 
@@ -155,7 +213,10 @@ void Graphics::init()
 		IrrInclude::driver->getTexture("./media/irrlicht2_ft.jpg"),
 		IrrInclude::driver->getTexture("./media/irrlicht2_bk.jpg"));
 	
-	Entity* cannon = new moveEntity(glm::vec3(0, 100, 0), "cannon");
+	scene::ILightSceneNode* light1 = IrrInclude::sceneManager->addLightSceneNode(0, core::vector3df(20, 1000, -200), video::SColorf(1.0f, 1.0f, 1.0f, 1.0f), 10000.0f);
+
+
+	Entity* cannon = new moveEntity(glm::vec3(20, 1000, -200), "cannon");
 	GameEngine::entities.push_back(cannon);
 	
 	Entity* cannon1 = new moveEntity(glm::vec3(0, -100, 0), "cannon");
@@ -167,15 +228,17 @@ void Graphics::init()
 	Entity* test = new moveEntity(glm::vec3(0, 0, 0), "Test");
 	GameEngine::entities.push_back(test);
 
+	Entity* Giant = new moveEntity(glm::vec3(80, -80, 90), "Iron");
+	GameEngine::entities.push_back(Giant);
+
+
 	int count = 0;
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
 		if (GameEngine::entities[i]->getCurrentMesh() != nullptr) {
 			GameEngine::entities[i]->SetSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
 			count++;
-			if (count == 2) {
-				GameEngine::entities[i]->GetSceneNode()->setMaterialFlag(video::EMF_LIGHTING, false);
-			}
-			else if (count == 1) {
+			//GameEngine::entities[i]->GetSceneNode()->setMaterialFlag(video::EMF_LIGHTING, false);
+			if (count == 1) {
 				GameEngine::entities[i]->GetSceneNode()->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 				GameEngine::entities[i]->GetSceneNode()->setMaterialFlag(video::EMF_LIGHTING, false);
 				GameEngine::entities[i]->GetSceneNode()->setDebugDataVisible(true);
@@ -187,7 +250,8 @@ void Graphics::init()
 void Graphics::update()
 {
 	if (IrrInclude::device->run()){
-		IrrInclude::driver->beginScene(true, true, video::SColor(0, 0, 0, 200));
+		IrrInclude::driver->beginScene(true, true, 0, videodata);
+		//IrrInclude::driver->beginScene(true, true, video::SColor(0, 0, 0, 200));
 		Draw();
 		IrrInclude::sceneManager->drawAll();
 		IrrInclude::driver->endScene();

@@ -118,12 +118,7 @@ void UI::update()
 
 		//cursor position now in p.x and p.y
 	}
-	/*
-	if (ScreenToClient(hwnd, &p))
-	{
-		//p.x and p.y are now relative to hwnd's client area
-	}
-	*/
+	
 }
 
 

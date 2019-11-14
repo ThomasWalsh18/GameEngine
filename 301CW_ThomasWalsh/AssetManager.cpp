@@ -9,6 +9,7 @@ void AssetManager::init()
 	//load all models
 	LoadModel("cannon.obj", "cannon");
 	LoadModel("Test.obj", "Test");
+	LoadModel("IronGiant.X", "Iron");
 
 }
 

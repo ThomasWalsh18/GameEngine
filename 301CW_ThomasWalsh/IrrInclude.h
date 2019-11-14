@@ -1,5 +1,6 @@
 #pragma once
 #include <irrlicht.h>
+#include <windows.h>
 using namespace irr;
 class IrrInclude
 {

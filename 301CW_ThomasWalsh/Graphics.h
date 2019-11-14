@@ -2,7 +2,6 @@
 
 #include "subSystem.h"
 #include "GameEngine.h"
-
 #include "EntityEnum.h"
 
 #include "IrrInclude.h"
@@ -14,8 +13,11 @@ private:
 	const int WIDTH = 1600;
 	const int HEIGHT = 900;
 public:
+	video::SExposedVideoData videodata;
+	HWND hWnd;
 	Graphics();
 	~Graphics();
+
 	void Draw();
 	void init();
 	void update();
