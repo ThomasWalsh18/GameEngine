@@ -33,12 +33,14 @@ void ChangePos(Event* e, int direction, float speed) {
 	else if (direction == -3 || direction == 3) {
 		update = core::vector3df(0, speed, 0);
 	}
+
 	for (int i = 0; i < e->eventInfo.affEntities.size(); i++)
 	{
 		e->eventInfo.affEntities[i]->position += convertToVec3(update);
-		if (e->eventInfo.affEntities[i]->type == EntityEnum(1)) {
-			CameraEntitiy* camEntity = static_cast<CameraEntitiy*>(GameEngine::entities[0]);
-			camEntity->targetPos += convertToVec3(update);
+	}
+	for (int i = 0; i < GameEngine::entities.size(); i++) {
+		if (GameEngine::entities[i]->type == EntityEnum(1)) {
+			GameEngine::entities[i]->position += convertToVec3(update);
 		}
 	}
 }

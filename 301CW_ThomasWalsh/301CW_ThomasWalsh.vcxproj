@@ -71,7 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\include\Panda3D-1.10.4.1-x64\lib;$(SolutionDir)\include\SDL2-2.0.10\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -90,12 +90,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./include/irrlicht-1.8.4/include;./include/NoesisGUI-NativeSDK-2.2.5;./include/glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/irrlicht-1.8.4/include;./include/NoesisGUI-NativeSDK-2.2.5;./include/glm;./include/Bullet/src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>./include/irrlicht-1.8.4/lib ;./include/SDL2-2.0.10/lib; ./include/NoesisGUI-NativeSDK-2.2.5/Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>User32.lib;Irrlicht.lib;LowLevelAABBDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib;PhysX3CharacterKinematicDEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3CookingDEBUG_x64.lib;PhysX3DEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PhysX3VehicleDEBUG.lib;PxFoundationDEBUG_x64.lib;PxPvdSDKDEBUG_x64.lib;PxTaskDEBUG_x64.lib;SceneQueryDEBUG.lib;SimulationControllerDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./include/irrlicht-1.8.4/lib;./include/SDL2-2.0.10/lib;./include/NoesisGUI-NativeSDK-2.2.5/Lib;./include/Bullet/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>User32.lib;Irrlicht.lib;Bullet2FileLoader_Debug.lib;Bullet3Collision_Debug.lib;Bullet3Common_Debug.lib;Bullet3Dynamics_Debug.lib;Bullet3Geometry_Debug.lib;Bullet3OpenCL_clew_Debug.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;BulletExampleBrowserLib_Debug.lib;BulletFileLoader_Debug.lib;BulletInverseDynamics_Debug.lib;BulletInverseDynamicsUtils_Debug.lib;BulletRobotics_Debug.lib;BulletSoftBody_Debug.lib;BulletWorldImporter_Debug.lib;BulletXmlWorldImporter_Debug.lib;BussIK_Debug.lib;clsocket_Debug.lib;ConvexDecomposition_Debug.lib;GIMPACTUtils_Debug.lib;gtest_Debug.lib;gwen_Debug.lib;HACD_Debug.lib;LinearMath_Debug.lib;OpenGLWindow_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -139,6 +139,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="Math.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="moveEntity.cpp" />
     <ClCompile Include="Multiplayer.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="EventTypeEnum.h" />
     <ClInclude Include="EntityEnum.h" />
     <ClInclude Include="IrrInclude.h" />
+    <ClInclude Include="Math.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="moveEntity.h" />
     <ClInclude Include="Multiplayer.h" />

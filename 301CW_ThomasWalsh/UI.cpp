@@ -24,7 +24,7 @@ void UI::init()
 {
 	if (GameEngine::entities.size() != 0) {
 		for (int i = 0; i < GameEngine::entities.size(); i++) {
-			if (GameEngine::entities[i]->type == EntityEnum(1)) { //atm its just the character
+			if (GameEngine::entities[i]->type == EntityEnum(0)) { //atm its just the character
 				MainCharacter = GameEngine::entities[i];
 			}
 		}

@@ -1,6 +1,6 @@
 #include "moveEntity.h"
 
-moveEntity::moveEntity(glm::vec3 pos, std::string modelName) : Entity(pos, type)
+moveEntity::moveEntity(glm::vec3 pos, std::string modelName, EntityEnum type) : Entity(pos, type)
 {
 	this->Asset = modelName;
 	this->currentMesh = AssetManager::GetModel(modelName);

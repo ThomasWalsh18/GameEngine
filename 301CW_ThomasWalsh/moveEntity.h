@@ -5,7 +5,7 @@
 class moveEntity : public Entity
 {
 public:
-	moveEntity(glm::vec3 pos, std::string modelName);
+	moveEntity(glm::vec3 pos, std::string modelName, EntityEnum type);
 	~moveEntity();
 	std::string Asset;
 	Mesh* currentMesh;
