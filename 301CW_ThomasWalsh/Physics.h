@@ -5,6 +5,12 @@
 class Physics : public subSystem
 {
 public:
+	btBroadphaseInterface* broadphase;
+	btDefaultCollisionConfiguration* collisionConfiguration;
+	btCollisionDispatcher* dispatcher;
+	btSequentialImpulseConstraintSolver* solver;
+	btDiscreteDynamicsWorld* world;
+
 	Physics();
 	~Physics();
 	void init();
