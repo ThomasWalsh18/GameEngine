@@ -47,7 +47,7 @@ void ChangePos(Event* e, int direction, float speed) {
 }
 void Physics::init()
 {
-	//broadphase = new btDbvtBroadphase();
+	broadphase = new btDbvtBroadphase();
 	//collisionConfiguration = new btDefaultCollisionConfiguration();
 	//dispatcher = new btCollisionDispatcher(collisionConfiguration);
 	//solver = new btSequentialImpulseConstraintSolver();

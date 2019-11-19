@@ -94,7 +94,7 @@
       <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="Math.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,7 +153,7 @@
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="Math.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
