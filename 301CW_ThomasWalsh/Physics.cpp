@@ -20,18 +20,20 @@ glm::vec3 convertToVec3(core::vector3df change) {
 	return changed;
 }
 
-void ChangePos(Event* e, int direction, float speed) {
+void ChangePos(Event* e) {
 	core::vector3df update;
-	if (direction > 0) {
+	float speed = e->eventInfo.speed;
+	
+	if (e->eventInfo.dir > 0) {
 		speed = -speed;
 	}
-	if (direction == -1 || direction == 1) {
+	if (e->eventInfo.dir == -1 || e->eventInfo.dir == 1) {
 		update = core::vector3df(0, 0, speed);
 	}
-	else if (direction == -2 || direction == 2) {
+	else if (e->eventInfo.dir == -2 || e->eventInfo.dir == 2) {
 		update = core::vector3df(speed, 0, 0);
 	}
-	else if (direction == -3 || direction == 3) {
+	else if (e->eventInfo.dir == -3 || e->eventInfo.dir == 3) {
 		update = core::vector3df(0, speed, 0);
 	}
 
@@ -45,9 +47,10 @@ void ChangePos(Event* e, int direction, float speed) {
 		}
 	}
 }
+
 void Physics::init()
 {
-	broadphase = new btDbvtBroadphase();
+	//broadphase = new btDbvtBroadphase();
 	//collisionConfiguration = new btDefaultCollisionConfiguration();
 	//dispatcher = new btCollisionDispatcher(collisionConfiguration);
 	//solver = new btSequentialImpulseConstraintSolver();
@@ -55,10 +58,11 @@ void Physics::init()
 	//world->setGravity(btVector3(0, -9.8, 0));
 	//https://www.raywenderlich.com/2606-bullet-physics-tutorial-getting-started 
 
-	void(*updateEnity)(Event*, int, float) = ChangePos;
-	functions[0] = ChangePos;
+	void(*updateEnity)(Event*) = ChangePos;
+	GameEngine::functions[0] = ChangePos;
 
 }
+
 
 void Physics::update()
 {
@@ -66,7 +70,7 @@ void Physics::update()
 		for (int i = 0; i < GameEngine::eventQueue.size(); i++) {	// for each event, then for each sub system in each event
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
 				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(3)) { // check to see if it need the current subsystem
-					functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i], GameEngine::eventQueue[i]->eventInfo.dir, GameEngine::eventQueue[i]->eventInfo.speed);					
+					GameEngine::functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i]);
 					GameEngine::eventQueue[i]->mySubs.erase(GameEngine::eventQueue[i]->mySubs.begin() + j);
 				}
 			}
