@@ -15,6 +15,7 @@ bool GameEngine::exitLoopSet()
 	}
 	return exitLoop;
 }
+void(*GameEngine::functions[3])(Event*);
 std::vector<subSystem*> GameEngine::SubSystems;
 std::vector<Event*> GameEngine::eventQueue;
 std::vector<Entity*> GameEngine::entities;
@@ -44,6 +45,9 @@ void GameEngine::update()
 		SubSystems[i]->update();
 	}
 	for (int i = 0; i < eventQueue.size(); i++) {
+		if (GameEngine::eventQueue[i]->functPoint == EventTypeEnum(2)) {
+			GameEngine::quit();
+		}
 		if (GameEngine::eventQueue[i]->mySubs.size() == 0) {
 			GameEngine::eventQueue.erase(GameEngine::eventQueue.begin() + i);
 		}

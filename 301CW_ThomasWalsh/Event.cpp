@@ -1,16 +1,23 @@
 #include "Event.h"
 
-Event::Event(EventTypeEnum typeOEvent)
+Event::Event(EventTypeEnum typeOfEvent)
 {
-	if (typeOEvent == EventTypeEnum(0)) { // if move event
+	if (typeOfEvent == EventTypeEnum(0)) { // if move event
 		this->mySubs.push_back(SubSystemEnum(2)); // we need these subsystems for a move event
 		this->mySubs.push_back(SubSystemEnum(3));
 		this->mySubs.push_back(SubSystemEnum(4));
 	}
-	else if (typeOEvent == EventTypeEnum(1)) {
+	else if (typeOfEvent == EventTypeEnum(1)) {
 		this->mySubs.push_back(SubSystemEnum(2));
 	}
-	functPoint = typeOEvent;
+	else if (typeOfEvent == EventTypeEnum(2)) {
+		this->mySubs.push_back(SubSystemEnum(1)); 
+		this->mySubs.push_back(SubSystemEnum(2));
+		this->mySubs.push_back(SubSystemEnum(3));
+		this->mySubs.push_back(SubSystemEnum(4)); 
+		this->mySubs.push_back(SubSystemEnum(5));
+	}
+	functPoint = typeOfEvent;
 	
 }
 

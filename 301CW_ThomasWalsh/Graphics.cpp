@@ -6,7 +6,7 @@
 		terrain
 		sky
 */
-
+HWND hWnd;
 
 static LRESULT CALLBACK CustomWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -109,6 +109,10 @@ int Graphics::GetWidth()
 {
 	return this->WIDTH;
 }
+void Close(Event* e) {
+	IrrInclude::device->closeDevice();
+	CloseWindow(hWnd);
+}
 void mouseMove(Event* e)
 {
 	if (Graphics::firstMove)
@@ -168,10 +172,13 @@ void mouseMove(Event* e)
 }
 
 
+
 void Graphics::init()
 {
 	void(*mouse)(Event*) = mouseMove;
-	functions[1] = mouseMove;
+	GameEngine::functions[1] = mouseMove;
+	void(*close)(Event*) = Close;
+	GameEngine::functions[2] = Close;
 	/*
 	IrrInclude::device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/map-20kdm2.pk3");
 	IrrInclude::mesh = IrrInclude::sceneManager->getMesh("20kdm2.bsp");
@@ -193,7 +200,7 @@ void Graphics::init()
 	//Model->setDebugDataVisible(true);
 	////////ADDING CUSTOM TEXTURES////////// 
 	//Model->setMaterialTexture(0, driver->getTexture("./include/irrlicht-1.8.4/media/wall.jpg"));
-	Entity* Map = new moveEntity(glm::vec3(0, -10, 0),"Map", EntityEnum(2));
+	Entity* Map = new moveEntity(glm::vec3(800, -300, -900),"Map", EntityEnum(2));
 	GameEngine::entities.push_back(Map);
 
 	IrrInclude::device->getCursorControl()->setVisible(false);
@@ -213,8 +220,10 @@ void Graphics::init()
 	IrrInclude::camera = IrrInclude::sceneManager->addCameraSceneNode();
 	IrrInclude::camera->setPosition(convertToCore(Giant->position));
 	IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront));
+	IrrInclude::camera->setFarValue(irr::f32(6000.0f));
 
 	Entity* Camera = new CameraEntitiy(Giant->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
+	//Entity* Camera = new CameraEntitiy(Giant->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
 	GameEngine::entities.push_back(Camera);
 
 	Entity* cannon = new moveEntity(glm::vec3(20, 1000, -200), "cannon", EntityEnum(3));
@@ -229,6 +238,12 @@ void Graphics::init()
 	Entity* test = new moveEntity(glm::vec3(0, 0, 0), "Test", EntityEnum(3));
 	GameEngine::entities.push_back(test);
 
+	Entity* Vehical = new moveEntity(glm::vec3(-200, 0, 0), "Vheical", EntityEnum(3));
+	GameEngine::entities.push_back(Vehical);
+
+	Entity* boi = new moveEntity(glm::vec3(0, 0, 0), "Giant", EntityEnum(3));
+	GameEngine::entities.push_back(boi);
+
 	int count = 0;
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
 		
@@ -236,7 +251,7 @@ void Graphics::init()
 			GameEngine::entities[i]->SetSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
 			count++;
 			if (count == 1) {
-				GameEngine::entities[i]->GetSceneNode()->setMaterialTexture(0, IrrInclude::driver->getTexture("./media/wall.jpg"));
+				//GameEngine::entities[i]->GetSceneNode()->setMaterialTexture(0, IrrInclude::driver->getTexture("./media/wall.jpg"));
 			}
 			//GameEngine::entities[i]->GetSceneNode()->setMaterialFlag(video::EMF_LIGHTING, false);
 			/*if (count == 3) {
@@ -275,10 +290,7 @@ void Graphics::update()
 		for (int i = 0; i < GameEngine::eventQueue.size(); i++) {	// for each event, then for each sub system in each event
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
 				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(2)) { // check to see if it need the current subsystem
-					
-					if (GameEngine::eventQueue[i]->functPoint == EventTypeEnum(1)) {
-						functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i]);
-					}
+					GameEngine::functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i]);
 					GameEngine::eventQueue[i]->mySubs.erase(GameEngine::eventQueue[i]->mySubs.begin() + j);
 				}
 			}

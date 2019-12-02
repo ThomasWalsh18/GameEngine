@@ -10,7 +10,11 @@ void AssetManager::init()
 	LoadModel("cannon.obj", "cannon");
 	LoadModel("Test.obj", "Test");
 	LoadModel("IronGiant.X", "Iron");
-	LoadModel("TestScene.obj", "Map");
+	LoadModel("terrain3.X", "Map");
+
+	LoadModel("Vheical.X", "Vheical");
+	LoadModel("IronGiantA.X", "Giant");
+	//LoadModel("TestScene.obj", "Map");
 
 }
 

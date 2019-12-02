@@ -95,6 +95,11 @@ void UI::update()
 		GameEngine::eventQueue.push_back(upward);
 		std::cout << "Event add upward" << std::endl;
 	}
+	if (GetAsyncKeyState(VK_ESCAPE) & 0x80000000) {
+		Event* close = new Event(EventTypeEnum(2));
+		GameEngine::eventQueue.push_back(close);
+		std::cout << "Event add delete" << std::endl;
+	}
 	if (GetKeyState('Q') & 0x0800 ) {
 		Event* downward = new Event(EventTypeEnum(0));
 		downward->eventInfo.dir = 3;

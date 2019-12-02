@@ -15,7 +15,7 @@ private:
 	const int HEIGHT = 900;
 public:
 	video::SExposedVideoData videodata;
-	HWND hWnd;
+	
 	Graphics();
 	~Graphics();
 
@@ -39,7 +39,7 @@ public:
 
 	//For each function pointer I need to pass in the same things
 	//This is okay as I am only dealing with the graphics here
-	void(*functions[1])(Event*);
+	//void(*functions[3])(Event*);
 
 };
 

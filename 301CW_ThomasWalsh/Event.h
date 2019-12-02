@@ -18,7 +18,7 @@ class Event
 
 public:
 
-	Event(EventTypeEnum typeOEvent);
+	Event(EventTypeEnum typeOfEvent);
 	~Event();
 	einfo eventInfo;
 	EventTypeEnum functPoint;
