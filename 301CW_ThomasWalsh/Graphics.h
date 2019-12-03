@@ -35,7 +35,7 @@ public:
 
 	int lastFPS = -1;
 	std::vector <Event> events;
-
+	void(*functions[5])(Event*);
 	Entity* Camera;
 
 	//For each function pointer I need to pass in the same things

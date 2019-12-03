@@ -15,6 +15,7 @@ public:
 	~Physics();
 	void init();
 	void update();
-	//void(*functions[3])(Event*);
+
+	void(*functions[5])(Event*);
 };
 

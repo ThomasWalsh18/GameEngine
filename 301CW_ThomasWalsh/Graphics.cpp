@@ -191,10 +191,11 @@ void mouseMove(Event* e)
 
 void Graphics::init()
 {
+
 	void(*mouse)(Event*) = mouseMove;
-	GameEngine::functions[1] = mouseMove;
+	functions[1] = mouseMove;
 	void(*close)(Event*) = Close;
-	GameEngine::functions[2] = Close;
+	functions[2] = Close;
 	/*
 	IrrInclude::device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/map-20kdm2.pk3");
 	IrrInclude::mesh = IrrInclude::sceneManager->getMesh("20kdm2.bsp");
@@ -306,7 +307,7 @@ void Graphics::update()
 		for (int i = 0; i < GameEngine::eventQueue.size(); i++) {	// for each event, then for each sub system in each event
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
 				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(2)) { // check to see if it need the current subsystem
-					GameEngine::functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i]);
+					functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i]);
 					GameEngine::eventQueue[i]->mySubs.erase(GameEngine::eventQueue[i]->mySubs.begin() + j);
 				}
 			}

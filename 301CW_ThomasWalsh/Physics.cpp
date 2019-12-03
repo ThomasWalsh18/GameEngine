@@ -179,13 +179,13 @@ void Physics::init()
 	//https://www.raywenderlich.com/2606-bullet-physics-tutorial-getting-started 
 
 	void(*updateEnity)(Event*) = ChangePos;
-	GameEngine::functions[0] = ChangePos;
+	functions[0] = ChangePos;
 
 	void(*addBodies)(Event*) = addRigidBody;
-	GameEngine::functions[3] = addRigidBody;
+	functions[3] = addRigidBody;
 
 	void(*header)(Event*) = upDateHeader;
-	GameEngine::functions[4] = upDateHeader;
+	functions[4] = upDateHeader;
 }
 
 
@@ -199,7 +199,7 @@ void Physics::update()
 		for (int i = 0; i < GameEngine::eventQueue.size(); i++) {	// for each event, then for each sub system in each event
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
 				if (GameEngine::eventQueue[i]->mySubs[j] == SubSystemEnum(3)) { // check to see if it need the current subsystem
-					GameEngine::functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i]);
+					functions[int(GameEngine::eventQueue[i]->functPoint)](GameEngine::eventQueue[i]);
 					GameEngine::eventQueue[i]->mySubs.erase(GameEngine::eventQueue[i]->mySubs.begin() + j);
 				}
 			}
