@@ -120,9 +120,10 @@ void UI::update()
 			GameEngine::eventQueue.push_back(MoveMouse);
 			//std::cout << "Event add MouseMove + X:" << p.x << ", Y: " << p.y  << std::endl;
 		}
-
-		//cursor position now in p.x and p.y
 	}
+
+	
+	
 	
 }
 

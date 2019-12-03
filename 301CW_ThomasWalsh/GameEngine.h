@@ -24,7 +24,7 @@ public:
 	static std::vector<Entity*> entities;
 	static std::vector<subSystem*> SubSystems;           
 	static std::map<std::string, Mesh*> Meshes;
-	static void(*functions[3])(Event*);
+	static void(*functions[5])(Event*);
 	static bool exitLoop;
 	static bool exitLoopSet();
 	static inline bool exitLoopGet() {

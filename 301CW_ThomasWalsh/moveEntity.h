@@ -2,6 +2,8 @@
 #include "Entity.h"
 #include "AssetManager.h"
 
+
+
 class moveEntity : public Entity
 {
 public:
@@ -12,6 +14,11 @@ public:
 	Mesh* getCurrentMesh();
 	scene::IAnimatedMeshSceneNode* GetSceneNode();
 	void SetSceneNode(scene::IAnimatedMesh* model);
+	btRigidBody* getRigidBody();
+	void setRigidBody(btRigidBody* body);
 	scene::IAnimatedMeshSceneNode* animatedSceneNode;
+	
+	btRigidBody* body;
+
 };
 

@@ -3,7 +3,7 @@
 #include "Mesh.h"
 #include <glm.hpp>
 #include <iostream>
-
+#include "btBulletDynamicsCommon.h"
 
 class Entity 
 {
@@ -18,9 +18,10 @@ public:
 	virtual scene::IAnimatedMeshSceneNode* GetSceneNode();
 	virtual void SetSceneNode(scene::IAnimatedMesh* model);
 
-};
+	virtual btRigidBody* getRigidBody();
+	virtual void setRigidBody(btRigidBody* body);
 
-/*
+	/*
 
 	___________________________________________________________________________________________________________________________________
 
@@ -28,20 +29,15 @@ public:
 	Then audio -> looks easy so I think I can do whenever I have a few hours spare, got loads of royalty free music
 	Then game logic
 	And A math liabry
-	Models in whenever avaialble
 	___________________________________________________________________________________________________________________________________
 
-	Questions: 
-	Mouse move screen height and width
-	A clean up question 
-		Virtual function for events->eventinfo? 
+	Questions:
+	A clean up question
+		Virtual function for events->eventinfo?
 	___________________________________________________________________________________________________________________________________
-	
+
 	General To do:
-	Make the Irrliht window render to a windows window, this will allow me to keep the mouse movements relative to the current window. ( window that the game is using could be a GAMEEngine::)
 	General Clean up of code
-		Unneccecarry functions are deleted
-		Remove debug code 
 		Clean up UI class so that It looks proper and can suport different input devices
 		Make the Asset Manager load textures so that I can fix the sky box
 	__________________________________________________________________________________________________________________________________
@@ -55,4 +51,7 @@ public:
 	Networking -> looks difficult would like to spend an entire week on it / more if I can.
 			   -> dead reckioning tiume steps and position and veleocity prediction of position for smoother model movement as well as cheat detection
 */
+};
+
+
 

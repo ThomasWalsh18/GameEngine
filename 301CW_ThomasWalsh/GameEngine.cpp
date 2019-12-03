@@ -15,7 +15,7 @@ bool GameEngine::exitLoopSet()
 	}
 	return exitLoop;
 }
-void(*GameEngine::functions[3])(Event*);
+void(*GameEngine::functions[5])(Event*);
 std::vector<subSystem*> GameEngine::SubSystems;
 std::vector<Event*> GameEngine::eventQueue;
 std::vector<Entity*> GameEngine::entities;
@@ -28,9 +28,9 @@ void GameEngine::init() {
 	subSystem* assetMan = new AssetManager();
 	subSystem* logic = new GamePlay();
 	subSystem* ui = new UI();
-	SubSystems.push_back(physics);
 	SubSystems.push_back(assetMan);
 	SubSystems.push_back(graphics);
+	SubSystems.push_back(physics);
 	SubSystems.push_back(logic);
 	SubSystems.push_back(ui);
 

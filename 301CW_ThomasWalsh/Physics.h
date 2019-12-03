@@ -9,8 +9,8 @@ public:
 	btDefaultCollisionConfiguration* collisionConfiguration;
 	btCollisionDispatcher* dispatcher;
 	btSequentialImpulseConstraintSolver* solver;
-	btDiscreteDynamicsWorld* world;
-
+	static btDiscreteDynamicsWorld* world;
+	static glm::vec3 Front;
 	Physics();
 	~Physics();
 	void init();

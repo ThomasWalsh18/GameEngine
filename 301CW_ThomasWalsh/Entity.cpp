@@ -33,3 +33,13 @@ scene::IAnimatedMeshSceneNode* Entity::GetSceneNode()
 void Entity::SetSceneNode(scene::IAnimatedMesh* model)
 {
 }
+
+btRigidBody* Entity::getRigidBody()
+{
+	return nullptr;
+}
+
+void Entity::setRigidBody(btRigidBody* body)
+{
+	
+}

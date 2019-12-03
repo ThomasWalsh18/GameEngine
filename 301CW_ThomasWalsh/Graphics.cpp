@@ -6,7 +6,7 @@
 		terrain
 		sky
 */
-HWND hWnd;
+HWND Graphics::hWnd;
 
 static LRESULT CALLBACK CustomWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -84,6 +84,12 @@ core::vector3df convertToCore(glm::vec3 change) {
 
 	return changed;
 }
+glm::vec3 convertFromBullet(btVector3 change) {
+
+	glm::vec3 changed =  glm::vec3(change.x(),change.y(), change.z());
+
+	return changed;
+}
 
 bool Graphics::firstMove = true;
 int Graphics::lastX = -1;
@@ -94,13 +100,17 @@ float Graphics::sensitivity = 0.3f;
 glm::vec3 Graphics::cameraFront = glm::vec3(0,0,-1);
 
 void Graphics::Draw() {
+	int main = 0;
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
 		if (GameEngine::entities[i]->getCurrentMesh() != nullptr ) {
-			GameEngine::entities[i]->GetSceneNode()->setPosition(convertToCore(GameEngine::entities[i]->position));
+			if (GameEngine::entities[i]->type == EntityEnum(0)) {
+				main = i;
+			}
+			GameEngine::entities[i]->GetSceneNode()->setPosition(convertToCore(convertFromBullet(GameEngine::entities[i]->getRigidBody()->getWorldTransform().getOrigin())));
 		}
 		else if (GameEngine::entities[i]->type == EntityEnum(1)) {
-			IrrInclude::camera->setPosition(convertToCore(GameEngine::entities[i]->position));
-			IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront + GameEngine::entities[i]->position));
+			IrrInclude::camera->setPosition(convertToCore(glm::vec3(10.0f, 175.0f, -30.0f) + convertFromBullet(GameEngine::entities[main]->getRigidBody()->getWorldTransform().getOrigin())));
+			IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront + (glm::vec3(10.0f, 175.0f, -30.0f) + convertFromBullet(GameEngine::entities[main]->getRigidBody()->getWorldTransform().getOrigin()))));
 		}
 	}
 }
@@ -111,7 +121,7 @@ int Graphics::GetWidth()
 }
 void Close(Event* e) {
 	IrrInclude::device->closeDevice();
-	CloseWindow(hWnd);
+	CloseWindow(Graphics::hWnd);
 }
 void mouseMove(Event* e)
 {
@@ -155,9 +165,12 @@ void mouseMove(Event* e)
 	//force mouse to stay inside the window
 
 	// How Do I get these without a reference to a specific object
-	
-	int win_w = 1600;
-	int win_h = 900;
+	ShowCursor(TRUE);
+	RECT size;
+	GetWindowRect(Graphics::hWnd, &size);
+	int win_w = size.right;
+	int win_h = size.bottom;
+
 	if (e->eventInfo.x < 100 || e->eventInfo.x > win_w - 100) {  //you can use values other than 100 for the screen edges if you like, depends on your mouse sensitivity for what ends up working best
 		Graphics::lastX = win_w / 2;   //centers the last known position, this way there isn't an odd jump with your cam as it resets
 		Graphics::lastY = win_h / 2;
@@ -168,7 +181,10 @@ void mouseMove(Event* e)
 		Graphics::lastY = win_h / 2;
 		SetCursorPos(win_w / 2, win_h / 2);
 	}
-	
+	Event* upDatePhys = new Event(EventTypeEnum(4));
+	upDatePhys->eventInfo.Header = Graphics::cameraFront;
+	GameEngine::eventQueue.push_back(upDatePhys);
+	GameEngine::entities[1]->GetSceneNode()->setRotation(core::vector3df(0, Graphics::cameraFront.y,0));
 }
 
 
@@ -198,9 +214,9 @@ void Graphics::init()
 	//Model->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 	//Model->setMaterialFlag(video::EMF_LIGHTING, false);
 	//Model->setDebugDataVisible(true);
-	////////ADDING CUSTOM TEXTURES////////// 
+	////////ADDING CUSTOM TEXTURES////////// glm::vec3(800, -300, -900)
 	//Model->setMaterialTexture(0, driver->getTexture("./include/irrlicht-1.8.4/media/wall.jpg"));
-	Entity* Map = new moveEntity(glm::vec3(800, -300, -900),"Map", EntityEnum(2));
+	Entity* Map = new moveEntity(glm::vec3(0, 0, 0),"Map", EntityEnum(2));
 	GameEngine::entities.push_back(Map);
 
 	IrrInclude::device->getCursorControl()->setVisible(false);
@@ -214,9 +230,9 @@ void Graphics::init()
 	
 	scene::ILightSceneNode* light1 = IrrInclude::sceneManager->addLightSceneNode(0, core::vector3df(20, 1000, -200), video::SColorf(1.0f, 1.0f, 1.0f, 1.0f), 6000.0f);
 
-	Entity* Giant = new moveEntity(glm::vec3(80, -80, 90), "Iron", EntityEnum(0));
+	Entity* Giant = new moveEntity(glm::vec3(0, 0, 0), "Iron", EntityEnum(0));
 	GameEngine::entities.push_back(Giant);
-	
+
 	IrrInclude::camera = IrrInclude::sceneManager->addCameraSceneNode();
 	IrrInclude::camera->setPosition(convertToCore(Giant->position));
 	IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront));
@@ -241,8 +257,8 @@ void Graphics::init()
 	Entity* Vehical = new moveEntity(glm::vec3(-200, 0, 0), "Vheical", EntityEnum(3));
 	GameEngine::entities.push_back(Vehical);
 
-	Entity* boi = new moveEntity(glm::vec3(0, 0, 0), "Giant", EntityEnum(3));
-	GameEngine::entities.push_back(boi);
+	Entity* IronGiant = new moveEntity(glm::vec3(0, 0, 0), "Giant", EntityEnum(3));
+	GameEngine::entities.push_back(IronGiant);
 
 	int count = 0;
 	for (int i = 0; i < GameEngine::entities.size(); i++) {

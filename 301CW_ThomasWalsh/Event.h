@@ -14,6 +14,17 @@ class Event
 		std::vector<Entity*> affEntities;
 		int x;
 		int y;
+
+		float radi;
+		float posx;
+		float posy;
+		float posz;
+		float mass;
+		float height;
+		float width;
+		float depth;
+
+		glm::vec3 Header;
 	};
 
 public:
