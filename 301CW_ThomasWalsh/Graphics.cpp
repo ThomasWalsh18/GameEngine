@@ -270,12 +270,6 @@ void Graphics::init()
 			if (count == 1) {
 				//GameEngine::entities[i]->GetSceneNode()->setMaterialTexture(0, IrrInclude::driver->getTexture("./media/wall.jpg"));
 			}
-			//GameEngine::entities[i]->GetSceneNode()->setMaterialFlag(video::EMF_LIGHTING, false);
-			/*if (count == 3) {
-				GameEngine::entities[i]->GetSceneNode()->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-				GameEngine::entities[i]->GetSceneNode()->setMaterialFlag(video::EMF_LIGHTING, false);
-				GameEngine::entities[i]->GetSceneNode()->setDebugDataVisible(true);
-			}*/
 		}
 	}	
 }

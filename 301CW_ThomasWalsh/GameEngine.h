@@ -8,6 +8,7 @@
 #include "Entity.h"
 #include "moveEntity.h"
 #include "CameraEntitiy.h"
+#include "Audio.h"
 
 #include <vector>
 #include <iostream>

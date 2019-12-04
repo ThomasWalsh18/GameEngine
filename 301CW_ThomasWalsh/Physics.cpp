@@ -164,8 +164,8 @@ void Physics::init()
 			Event* addBod = new Event(EventTypeEnum(3));
 			addBod->eventInfo.affEntities.push_back(GameEngine::entities[i]);
 			addBod->eventInfo.mass = 10;
-			addBod->eventInfo.width = 10;
-			addBod->eventInfo.height = 10;
+			addBod->eventInfo.width = 100;
+			addBod->eventInfo.height = 100;
 			addBod->eventInfo.depth = 10;
 			addBod->eventInfo.posx = GameEngine::entities[i]->position.x;
 			addBod->eventInfo.posy = GameEngine::entities[i]->position.y;
@@ -205,15 +205,5 @@ void Physics::update()
 			}
 		}
 	}
-	/*
-	int count = 0;
-	for (int i = 0; i < GameEngine::entities.size(); i++) {
-		if (GameEngine::entities[i]->getRigidBody() != nullptr) {
-			if (GameEngine::entities[i]->getRigidBody()->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE) {
-				count++;
-			}
-		}
-	}
-	std::cout << count << std::endl;
-	*/
+
 }

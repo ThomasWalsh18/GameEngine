@@ -27,11 +27,13 @@ void GameEngine::init() {
 	subSystem* assetMan = new AssetManager();
 	subSystem* logic = new GamePlay();
 	subSystem* ui = new UI();
+	subSystem* audio = new Audio();
 	SubSystems.push_back(assetMan);
 	SubSystems.push_back(graphics);
 	SubSystems.push_back(physics);
 	SubSystems.push_back(logic);
 	SubSystems.push_back(ui);
+	SubSystems.push_back(audio);
 
 	for (int i = 0; i < SubSystems.size(); i++) {
 		SubSystems[i]->init();
