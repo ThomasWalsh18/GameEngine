@@ -1,6 +1,6 @@
 #include "moveEntity.h"
 
-moveEntity::moveEntity(glm::vec3 pos, std::string modelName, EntityEnum type) : Entity(pos, type)
+moveEntity::moveEntity(glm::vec3 pos, float mass, std::string modelName, EntityEnum type, std::string texture) : Entity(pos, type)
 {
 	this->Asset = modelName;
 	this->currentMesh = AssetManager::GetModel(modelName);
@@ -12,11 +12,13 @@ moveEntity::moveEntity(glm::vec3 pos, std::string modelName, EntityEnum type) : 
 	btRigidBody::btRigidBodyConstructionInfo info(btScalar(0), motion, plane);
 	btRigidBody* body = new btRigidBody(info);
 	this->body = body;
+	this->texture = texture;
+	this->mass = mass;
 }
 
 moveEntity::~moveEntity()
 {
-
+	delete this;
 }
 
 Mesh* moveEntity::getCurrentMesh()
@@ -42,4 +44,24 @@ btRigidBody* moveEntity::getRigidBody()
 void moveEntity::setRigidBody(btRigidBody* body)
 {
 	this->body = body;
+}
+
+std::string moveEntity::getTexture()
+{
+	return this->texture;
+}
+
+void moveEntity::setTexture(std::string tex)
+{
+	this->texture = tex;
+}
+
+float moveEntity::getMass()
+{
+	return this->mass;
+}
+
+void moveEntity::setMass(float mass)
+{
+	this->mass = mass;
 }

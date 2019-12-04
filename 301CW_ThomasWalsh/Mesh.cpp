@@ -8,5 +8,5 @@ Mesh::Mesh(std::string fullPath)
 
 Mesh::~Mesh()
 {
-	//delete this;
+	delete this;
 }

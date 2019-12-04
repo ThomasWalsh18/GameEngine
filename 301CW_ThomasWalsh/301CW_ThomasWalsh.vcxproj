@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -90,13 +90,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./include/irrlicht-1.8.4/include;./include/NoesisGUI-NativeSDK-2.2.5;./include/glm;./include/Bullet/src;./include/irrklang/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/irrlicht-1.8.4/include;./include/NoesisGUI-NativeSDK-2.2.5;./include/glm;./include/Bullet/src;./include/irrklang/include;./include/LUA</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>./include/irrlicht-1.8.4/lib;./include/NoesisGUI-NativeSDK-2.2.5/Lib;./include/Bullet/lib/Debug;./include/irrklang/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>User32.lib;Irrlicht.lib;irrKlang.lib;Bullet2FileLoader_Debug.lib;Bullet3Collision_Debug.lib;Bullet3Common_Debug.lib;Bullet3Dynamics_Debug.lib;Bullet3Geometry_Debug.lib;Bullet3OpenCL_clew_Debug.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;BulletExampleBrowserLib_Debug.lib;BulletFileLoader_Debug.lib;BulletInverseDynamics_Debug.lib;BulletInverseDynamicsUtils_Debug.lib;BulletRobotics_Debug.lib;BulletSoftBody_Debug.lib;BulletWorldImporter_Debug.lib;BulletXmlWorldImporter_Debug.lib;BussIK_Debug.lib;clsocket_Debug.lib;ConvexDecomposition_Debug.lib;GIMPACTUtils_Debug.lib;gtest_Debug.lib;gwen_Debug.lib;HACD_Debug.lib;LinearMath_Debug.lib;OpenGLWindow_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./include/irrlicht-1.8.4/lib;./include/NoesisGUI-NativeSDK-2.2.5/Lib;./include/Bullet/lib/Debug;./include/irrklang/lib;./include/LUA</AdditionalLibraryDirectories>
+      <AdditionalDependencies>User32.lib;lua53.lib;Irrlicht.lib;irrKlang.lib;Bullet2FileLoader_Debug.lib;Bullet3Collision_Debug.lib;Bullet3Common_Debug.lib;Bullet3Dynamics_Debug.lib;Bullet3Geometry_Debug.lib;Bullet3OpenCL_clew_Debug.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;BulletExampleBrowserLib_Debug.lib;BulletFileLoader_Debug.lib;BulletInverseDynamics_Debug.lib;BulletInverseDynamicsUtils_Debug.lib;BulletRobotics_Debug.lib;BulletSoftBody_Debug.lib;BulletWorldImporter_Debug.lib;BulletXmlWorldImporter_Debug.lib;BussIK_Debug.lib;clsocket_Debug.lib;ConvexDecomposition_Debug.lib;GIMPACTUtils_Debug.lib;gtest_Debug.lib;gwen_Debug.lib;HACD_Debug.lib;LinearMath_Debug.lib;OpenGLWindow_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,11 +132,13 @@
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="BoxEntity.cpp" />
     <ClCompile Include="CameraEntitiy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="IrrInclude.cpp" />
+    <ClCompile Include="LUAData.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -151,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="BoxEntity.h" />
     <ClInclude Include="CameraEntitiy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Event.h" />
@@ -160,6 +163,7 @@
     <ClInclude Include="EventTypeEnum.h" />
     <ClInclude Include="EntityEnum.h" />
     <ClInclude Include="IrrInclude.h" />
+    <ClInclude Include="LUAData.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="moveEntity.h" />

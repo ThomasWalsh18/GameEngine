@@ -90,7 +90,6 @@ void ChangePos(Event* e) {
 	for (int i = 0; i < e->eventInfo.affEntities.size(); i++)
 	{
 		if (GameEngine::entities[i]->type == EntityEnum(0)) {
-			//but any value that works for you + Physics::Front
 			glm::vec3 dir = glm::normalize(convertToVec32(update)) * force; 
 			btVector3 dir2 = ConvertTobt(dir);
 			e->eventInfo.affEntities[i]->getRigidBody()->applyCentralImpulse(dir2);
@@ -135,6 +134,55 @@ void upDateHeader(Event* e) {
 	Physics::Front = e->eventInfo.Header;
 }
 
+
+void loadlevel(Event* e) {
+
+	for (int i = 0; i < GameEngine::entities.size(); i++) {
+		if (GameEngine::entities[i]->getRigidBody() != nullptr) {
+			if (GameEngine::entities[i]->type == EntityEnum(2)) {
+
+				btTransform t;
+				t.setIdentity();
+				t.setOrigin((btVector3(GameEngine::entities[i]->position.x, GameEngine::entities[i]->position.y, GameEngine::entities[i]->position.z)));
+				btStaticPlaneShape* plane = new btStaticPlaneShape(btVector3(0, 1, 0), btScalar(0));
+				btMotionState* motion = new btDefaultMotionState(t); // shape 
+				btRigidBody::btRigidBodyConstructionInfo info(btScalar(0), motion, plane);
+				btRigidBody* body = new btRigidBody(info);
+				Physics::world->addRigidBody(body);
+			}
+			else if (GameEngine::entities[i]->type == EntityEnum(4))
+			{
+				Event* addBod = new Event(EventTypeEnum(3));
+				addBod->eventInfo.affEntities.push_back(GameEngine::entities[i]);
+				addBod->eventInfo.mass = GameEngine::entities[i]->getMass();
+				addBod->eventInfo.width = GameEngine::entities[i]->getSize() * GameEngine::entities[i]->getScale().x;
+				addBod->eventInfo.height = GameEngine::entities[i]->getSize() * GameEngine::entities[i]->getScale().y;
+				addBod->eventInfo.depth = GameEngine::entities[i]->getSize() * GameEngine::entities[i]->getScale().z;
+				addBod->eventInfo.posx = GameEngine::entities[i]->position.x;
+				addBod->eventInfo.posy = GameEngine::entities[i]->position.y;
+				addBod->eventInfo.posz = GameEngine::entities[i]->position.z;
+				GameEngine::eventQueue.push_back(addBod);
+			}
+			else {
+				Event* addBod = new Event(EventTypeEnum(3));
+				addBod->eventInfo.affEntities.push_back(GameEngine::entities[i]);
+				addBod->eventInfo.mass = GameEngine::entities[i]->getMass();
+				addBod->eventInfo.width = 100;
+				addBod->eventInfo.height = 100;
+				addBod->eventInfo.depth = 10;
+				addBod->eventInfo.posx = GameEngine::entities[i]->position.x;
+				addBod->eventInfo.posy = GameEngine::entities[i]->position.y;
+				addBod->eventInfo.posz = GameEngine::entities[i]->position.z;
+				GameEngine::eventQueue.push_back(addBod);
+			}
+		}
+	}
+}
+
+void close(Event* e) {
+
+}
+
 void Physics::init()
 {
 	collisionConfiguration = new btDefaultCollisionConfiguration();
@@ -143,8 +191,6 @@ void Physics::init()
 	solver = new btSequentialImpulseConstraintSolver();
 	Physics::world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
 	Physics::world->setGravity(btVector3(0, -9.8, 0));
-	
-	
 	
 	
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
@@ -160,32 +206,49 @@ void Physics::init()
 				btRigidBody* body = new btRigidBody(info);
 				world->addRigidBody(body);
 			}
+			else if (GameEngine::entities[i]->type == EntityEnum(4))
+			{
+				Event* addBod = new Event(EventTypeEnum(3));
+				addBod->eventInfo.affEntities.push_back(GameEngine::entities[i]);
+				addBod->eventInfo.mass = GameEngine::entities[i]->getMass();
+				addBod->eventInfo.width  = GameEngine::entities[i]->getSize() * GameEngine::entities[i]->getScale().x;
+				addBod->eventInfo.height = GameEngine::entities[i]->getSize() * GameEngine::entities[i]->getScale().y;
+				addBod->eventInfo.depth  = GameEngine::entities[i]->getSize() * GameEngine::entities[i]->getScale().z;
+				addBod->eventInfo.posx = GameEngine::entities[i]->position.x;
+				addBod->eventInfo.posy = GameEngine::entities[i]->position.y;
+				addBod->eventInfo.posz = GameEngine::entities[i]->position.z;
+				GameEngine::eventQueue.push_back(addBod);
+			}
+			else {
+				Event* addBod = new Event(EventTypeEnum(3));
+				addBod->eventInfo.affEntities.push_back(GameEngine::entities[i]);
+				addBod->eventInfo.mass = GameEngine::entities[i]->getMass();
+				addBod->eventInfo.width = 100;
+				addBod->eventInfo.height = 100;
+				addBod->eventInfo.depth = 10;
+				addBod->eventInfo.posx = GameEngine::entities[i]->position.x;
+				addBod->eventInfo.posy = GameEngine::entities[i]->position.y;
+				addBod->eventInfo.posz = GameEngine::entities[i]->position.z;
+				GameEngine::eventQueue.push_back(addBod);
+			}
 
-			Event* addBod = new Event(EventTypeEnum(3));
-			addBod->eventInfo.affEntities.push_back(GameEngine::entities[i]);
-			addBod->eventInfo.mass = 10;
-			addBod->eventInfo.width = 100;
-			addBod->eventInfo.height = 100;
-			addBod->eventInfo.depth = 10;
-			addBod->eventInfo.posx = GameEngine::entities[i]->position.x;
-			addBod->eventInfo.posy = GameEngine::entities[i]->position.y;
-			addBod->eventInfo.posz = GameEngine::entities[i]->position.z;
-			GameEngine::eventQueue.push_back(addBod);
 		}
 	}
 
-	
-
-	//https://www.raywenderlich.com/2606-bullet-physics-tutorial-getting-started 
-
 	void(*updateEnity)(Event*) = ChangePos;
 	functions[0] = ChangePos;
+
+	void(*closeit)(Event*) = close;
+	functions[2] = close;
 
 	void(*addBodies)(Event*) = addRigidBody;
 	functions[3] = addRigidBody;
 
 	void(*header)(Event*) = upDateHeader;
 	functions[4] = upDateHeader;
+
+	void(*NewLevel)(Event*) = loadlevel;
+	functions[5] = loadlevel;
 }
 
 

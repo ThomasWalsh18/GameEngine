@@ -9,6 +9,7 @@
 #include "moveEntity.h"
 #include "CameraEntitiy.h"
 #include "Audio.h"
+#include "LUAData.h"
 
 #include <vector>
 #include <iostream>
@@ -33,5 +34,9 @@ public:
 	static void init();
 	static void update();
 	static void quit();
+
+	static int width;
+	static int height;
+	static std::string title;
 };
 

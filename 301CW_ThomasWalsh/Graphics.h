@@ -11,18 +11,17 @@ using namespace irr;
 class Graphics : public subSystem
 {
 private:
-	const int WIDTH = 1600;
-	const int HEIGHT = 900;
+
 public:
 	video::SExposedVideoData videodata;
-	
+	core::stringw text;
+	gui::IGUIFont* font;
 	Graphics();
 	~Graphics();
 
 	void Draw();
 	void init();
 	void update();
-	int GetWidth();
 
 	static bool firstMove;
 	static int lastX;
@@ -35,9 +34,12 @@ public:
 
 	int lastFPS = -1;
 	std::vector <Event> events;
-	void(*functions[5])(Event*);
+	void(*functions[6])(Event*);
 	Entity* Camera;
 
+	std::string title = "Graphics Default";
+	int WIDTH = 1000;
+	int HEIGHT = 1000;
 	//For each function pointer I need to pass in the same things
 	//This is okay as I am only dealing with the graphics here
 	//void(*functions[3])(Event*);

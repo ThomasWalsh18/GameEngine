@@ -7,6 +7,7 @@ CameraEntitiy::CameraEntitiy(glm::vec3 pos, EntityEnum type) : Entity(pos, type)
 
 CameraEntitiy::~CameraEntitiy()
 {
+	delete this;
 }
 
 glm::vec3 CameraEntitiy::getTargetPos()

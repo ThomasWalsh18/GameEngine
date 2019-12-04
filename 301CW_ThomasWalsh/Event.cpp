@@ -21,6 +21,11 @@ Event::Event(EventTypeEnum typeOfEvent)
 	else if (typeOfEvent == EventTypeEnum(4)) {
 		this->mySubs.push_back(SubSystemEnum(3));
 	}
+	else if (typeOfEvent == EventTypeEnum(5)) {
+		this->mySubs.push_back(SubSystemEnum(6));
+		this->mySubs.push_back(SubSystemEnum(2));
+		this->mySubs.push_back(SubSystemEnum(3));
+	}
 	functPoint = typeOfEvent;
 	
 }

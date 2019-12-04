@@ -21,7 +21,15 @@ std::vector<Entity*> GameEngine::entities;
 std::map<std::string, Mesh*> GameEngine::Meshes;
 bool GameEngine::exitLoop = false;
 
+
+//This can be done by loading LUA up in graphics, 
+//However I have one LUA controller where I wanted all my LUA scripts
+int GameEngine::width = 100;
+int GameEngine::height = 100;
+std::string GameEngine::title = "Default";
+
 void GameEngine::init() {
+	subSystem* LUA = new LUAData();
 	subSystem* physics = new Physics();
 	subSystem* graphics = new Graphics();
 	subSystem* assetMan = new AssetManager();
@@ -29,6 +37,7 @@ void GameEngine::init() {
 	subSystem* ui = new UI();
 	subSystem* audio = new Audio();
 	SubSystems.push_back(assetMan);
+	SubSystems.push_back(LUA);
 	SubSystems.push_back(graphics);
 	SubSystems.push_back(physics);
 	SubSystems.push_back(logic);

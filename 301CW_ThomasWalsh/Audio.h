@@ -13,6 +13,7 @@ public:
 	void(*functions[5])(Event*);
 	irrklang::ISoundEngine* engine;
 
+	float volume = 0.5f;
 
 };
 

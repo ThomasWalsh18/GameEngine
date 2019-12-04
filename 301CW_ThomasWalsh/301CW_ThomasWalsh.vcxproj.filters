@@ -96,6 +96,12 @@
     <ClCompile Include="Math.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="LUAData.cpp">
+      <Filter>Source Files\Subsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxEntity.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="subSystem.h">
@@ -154,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="Math.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="LUAData.h">
+      <Filter>Header Files\Subsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxEntity.h">
+      <Filter>Header Files\Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

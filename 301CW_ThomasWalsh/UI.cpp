@@ -45,7 +45,7 @@ void UI::update()
 		Event* left = new Event(EventTypeEnum(0));
 		// dir done in physics eventyally as I can store instead a char of the key that was pressed
 		// speed can be done by the game logic clas giving the main character enum a speed of 1
-		left->eventInfo.dir = 2;
+		left->eventInfo.dir = -2;
 		left->eventInfo.speed = 1;
 		////////////////////////////
 		addMainChar(left);
@@ -55,7 +55,7 @@ void UI::update()
 	}
 	if (GetKeyState('D') & 0x0800) {	
 		Event* right = new Event(EventTypeEnum(0));
-		right->eventInfo.dir = -2;
+		right->eventInfo.dir = 2;
 		right->eventInfo.speed = 1;
 		addMainChar(right);
 		GameEngine::eventQueue.push_back(right);
@@ -64,7 +64,7 @@ void UI::update()
 	}
 	if (GetKeyState('W') & 0x0800) {
 		Event* forward = new Event(EventTypeEnum(0));
-		forward->eventInfo.dir = -1;
+		forward->eventInfo.dir = 1;
 		forward->eventInfo.speed = 1;
 		addMainChar(forward);
 		GameEngine::eventQueue.push_back(forward);
@@ -72,20 +72,23 @@ void UI::update()
 	}
 	if (GetKeyState('S') & 0x0800) {
 		Event* backward = new Event(EventTypeEnum(0));
-		backward->eventInfo.dir = 1;
+		backward->eventInfo.dir = -1;
 		backward->eventInfo.speed = 1;
 		addMainChar(backward);
 		GameEngine::eventQueue.push_back(backward);
 		std::cout << "Event add backward" << std::endl;
 	}
-	if (GetKeyState('O') & 0x0800) {
-		GameEngine::entities[GameEngine::entities.size()-2]->position += glm::vec3(0.0f, -1.0f, 0.0f);
-	}
-	if (GetKeyState('P') & 0x0800) {
-		GameEngine::entities[GameEngine::entities.size()-1]->position += glm::vec3(0.0f, -1.0f, 0.0f);
-	}
-	if (GetKeyState('I') & 0x0800) {
-		GameEngine::entities[GameEngine::entities.size()-3]->position += glm::vec3(0.0f, -1.0f, 0.0f);
+	if (GetKeyState('L') & 0x0800) {
+		Event* Level = new Event(EventTypeEnum(5));
+		Level->eventInfo.level = 1;
+		GameEngine::eventQueue.push_back(Level);
+		std::cout << "Event add New Level" << std::endl;
+	}	
+	if (GetKeyState('K') & 0x0800) {
+		Event* Level2 = new Event(EventTypeEnum(5));
+		Level2->eventInfo.level = 2;
+		GameEngine::eventQueue.push_back(Level2);
+		std::cout << "Event add New Level" << std::endl;
 	}
 	if (GetAsyncKeyState(VK_SPACE) & 0x80000000 ) {
 		Event* upward = new Event(EventTypeEnum(0));

@@ -24,6 +24,8 @@ class Event
 		float width;
 		float depth;
 
+		int level;
+
 		glm::vec3 Header;
 	};
 

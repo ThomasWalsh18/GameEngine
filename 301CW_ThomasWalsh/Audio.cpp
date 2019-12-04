@@ -19,6 +19,7 @@ void Audio::init()
 {
 	engine = irrklang::createIrrKlangDevice();
 	engine->play2D("./media/ThisiswarNES.wav", true);
+	engine->setSoundVolume(volume);
 }
 
 void Audio::update()

@@ -16,6 +16,6 @@ public:
 	void init();
 	void update();
 
-	void(*functions[5])(Event*);
+	void(*functions[6])(Event*);
 };
 

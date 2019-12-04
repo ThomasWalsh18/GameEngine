@@ -1,10 +1,10 @@
 #include "Graphics.h"
 /*
 	- Graphics
-		The tank itself
-		other tanks
+		The player
+		other entities
 		terrain
-		sky
+		skybox
 */
 HWND Graphics::hWnd;
 
@@ -27,6 +27,10 @@ static LRESULT CALLBACK CustomWndProc(HWND hWnd, UINT message, WPARAM wParam, LP
 
 Graphics::Graphics()
 {
+	WIDTH = GameEngine::width;
+	HEIGHT = GameEngine::height;
+	title = GameEngine::title;
+
 	HINSTANCE hInstance = 0;
 	// create dialog
 
@@ -50,7 +54,7 @@ Graphics::Graphics()
 
 	DWORD style = WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_SIZEBOX | WS_SYSMENU;
 
-	hWnd = CreateWindow(Win32ClassName, "301__Game Engine", style, 100, 100, WIDTH, HEIGHT, NULL, NULL, hInstance, NULL);
+	hWnd = CreateWindow(Win32ClassName, title.c_str(), style, 100, 100, WIDTH, HEIGHT, NULL, NULL, hInstance, NULL);
 
 	HWND hIrrlichtWindow =  CreateWindow("BUTTON", "", WS_CHILD | WS_VISIBLE | BS_OWNERDRAW, 0, 0, WIDTH, HEIGHT, hWnd, NULL, hInstance, NULL);
 	videodata = video::SExposedVideoData(hIrrlichtWindow);
@@ -112,13 +116,12 @@ void Graphics::Draw() {
 			IrrInclude::camera->setPosition(convertToCore(glm::vec3(10.0f, 175.0f, -30.0f) + convertFromBullet(GameEngine::entities[main]->getRigidBody()->getWorldTransform().getOrigin())));
 			IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront + (glm::vec3(10.0f, 175.0f, -30.0f) + convertFromBullet(GameEngine::entities[main]->getRigidBody()->getWorldTransform().getOrigin()))));
 		}
+		else if (GameEngine::entities[i]->type == EntityEnum(4)) {
+			GameEngine::entities[i]->GetSimpleSceneNode()->setPosition(convertToCore(convertFromBullet(GameEngine::entities[i]->getRigidBody()->getWorldTransform().getOrigin())));
+		}
 	}
 }
 
-int Graphics::GetWidth()
-{
-	return this->WIDTH;
-}
 void Close(Event* e) {
 	IrrInclude::device->closeDevice();
 	CloseWindow(Graphics::hWnd);
@@ -184,18 +187,66 @@ void mouseMove(Event* e)
 	Event* upDatePhys = new Event(EventTypeEnum(4));
 	upDatePhys->eventInfo.Header = Graphics::cameraFront;
 	GameEngine::eventQueue.push_back(upDatePhys);
-	GameEngine::entities[1]->GetSceneNode()->setRotation(core::vector3df(0, Graphics::cameraFront.y,0));
+	//GameEngine::entities[1]->GetSceneNode()->setRotation(core::vector3df(0, Graphics::cameraFront.y,0));
 }
 
+void level(Event* e) {
 
+	Entity* mainChar = nullptr;
+	for (int i = 0; i < GameEngine::entities.size(); i++) {
+		if (int(GameEngine::entities[i]->type) == 0) {
+			mainChar = GameEngine::entities[i];
+			break;
+		}
+	}
+	IrrInclude::camera = IrrInclude::sceneManager->addCameraSceneNode();
+	if (mainChar != nullptr) {
+		IrrInclude::camera->setPosition(convertToCore(mainChar->position));
+	}
+	else {
+		std::cout << "No main Char in elementList.lua" << std::endl;
+	}
+	IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront));
+	IrrInclude::camera->setFarValue(irr::f32(6000.0f));
+
+	Entity* Camera = new CameraEntitiy(mainChar->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
+	//Entity* Camera = new CameraEntitiy(Giant->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
+	GameEngine::entities.push_back(Camera);
+
+	for (int i = 0; i < GameEngine::entities.size(); i++) {
+		if (int(GameEngine::entities[i]->type) != 1) {
+			if (int(GameEngine::entities[i]->type) == 4) {
+				scene::IMeshSceneNode* box = IrrInclude::sceneManager->addCubeSceneNode(GameEngine::entities[i]->getSize(), 0, -1, convertToCore(GameEngine::entities[i]->position), convertToCore(GameEngine::entities[i]->getRotation()), convertToCore(GameEngine::entities[i]->getScale()));
+				GameEngine::entities[i]->SetSimpleSceneNode(box);
+				if (GameEngine::entities[i]->getTexture() != "!") {
+					std::string texturePath = "./media/" + GameEngine::entities[i]->getTexture();
+					GameEngine::entities[i]->GetSimpleSceneNode()->setMaterialTexture(0, IrrInclude::driver->getTexture(texturePath.c_str()));
+				}
+			}
+			else {
+				if (GameEngine::entities[i]->getCurrentMesh() != nullptr) {
+					GameEngine::entities[i]->SetSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
+				}
+				if (GameEngine::entities[i]->getTexture() != "!") {
+					std::string texturePath = "./media/" + GameEngine::entities[i]->getTexture();
+					GameEngine::entities[i]->GetSceneNode()->setMaterialTexture(0, IrrInclude::driver->getTexture(texturePath.c_str()));
+				}
+			}
+		}
+	}
+}
 
 void Graphics::init()
 {
+	font = IrrInclude::device->getGUIEnvironment()->getBuiltInFont();
 
 	void(*mouse)(Event*) = mouseMove;
 	functions[1] = mouseMove;
 	void(*close)(Event*) = Close;
 	functions[2] = Close;
+
+	void(*NewLevel)(Event*) = level;
+	functions[5] = level;
 	/*
 	IrrInclude::device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/map-20kdm2.pk3");
 	IrrInclude::mesh = IrrInclude::sceneManager->getMesh("20kdm2.bsp");
@@ -209,17 +260,7 @@ void Graphics::init()
 	}
 	*/
 
-	////////ADDING CUSTOM OBJS/////////
-	//scene::IAnimatedMesh* m = device->getSceneManager()->getMesh("./media/cannon.obj");
-	//Model = device->getSceneManager()->addAnimatedMeshSceneNode(m);
-	//Model->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-	//Model->setMaterialFlag(video::EMF_LIGHTING, false);
-	//Model->setDebugDataVisible(true);
-	////////ADDING CUSTOM TEXTURES////////// glm::vec3(800, -300, -900)
-	//Model->setMaterialTexture(0, driver->getTexture("./include/irrlicht-1.8.4/media/wall.jpg"));
-	Entity* Map = new moveEntity(glm::vec3(0, 0, 0),"Map", EntityEnum(2));
-	GameEngine::entities.push_back(Map);
-
+	// could be data driven
 	IrrInclude::device->getCursorControl()->setVisible(false);
 	IrrInclude::sceneManager->addSkyBoxSceneNode(
 		IrrInclude::driver->getTexture("./media/irrlicht2_up.jpg"),
@@ -231,44 +272,45 @@ void Graphics::init()
 	
 	scene::ILightSceneNode* light1 = IrrInclude::sceneManager->addLightSceneNode(0, core::vector3df(20, 1000, -200), video::SColorf(1.0f, 1.0f, 1.0f, 1.0f), 6000.0f);
 
-	Entity* Giant = new moveEntity(glm::vec3(0, 0, 0), "Iron", EntityEnum(0));
-	GameEngine::entities.push_back(Giant);
-
+	Entity* mainChar = nullptr;
+	for (int i = 0; i < GameEngine::entities.size(); i++) {
+		if (int(GameEngine::entities[i]->type) == 0) {
+			mainChar = GameEngine::entities[i];
+			break;
+		}
+	}
 	IrrInclude::camera = IrrInclude::sceneManager->addCameraSceneNode();
-	IrrInclude::camera->setPosition(convertToCore(Giant->position));
+	if (mainChar != nullptr) {
+		IrrInclude::camera->setPosition(convertToCore(mainChar->position));
+	}
+	else {
+		std::cout << "No main Char in elementList.lua" << std::endl;
+	}
 	IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront));
 	IrrInclude::camera->setFarValue(irr::f32(6000.0f));
 
-	Entity* Camera = new CameraEntitiy(Giant->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
+	Entity* Camera = new CameraEntitiy(mainChar->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
 	//Entity* Camera = new CameraEntitiy(Giant->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
 	GameEngine::entities.push_back(Camera);
 
-	Entity* cannon = new moveEntity(glm::vec3(20, 1000, -200), "cannon", EntityEnum(3));
-	GameEngine::entities.push_back(cannon);
-	
-	Entity* cannon1 = new moveEntity(glm::vec3(0, -100, 0), "cannon", EntityEnum(3));
-	GameEngine::entities.push_back(cannon1);
-
-	Entity* cannon2 = new moveEntity(glm::vec3(0, -200, 0), "cannon", EntityEnum(3));
-	GameEngine::entities.push_back(cannon2);
-
-	Entity* test = new moveEntity(glm::vec3(0, 0, 0), "Test", EntityEnum(3));
-	GameEngine::entities.push_back(test);
-
-	Entity* Vehical = new moveEntity(glm::vec3(-200, 0, 0), "Vheical", EntityEnum(3));
-	GameEngine::entities.push_back(Vehical);
-
-	Entity* IronGiant = new moveEntity(glm::vec3(0, 0, 0), "Giant", EntityEnum(3));
-	GameEngine::entities.push_back(IronGiant);
-
-	int count = 0;
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
-		
-		if (GameEngine::entities[i]->getCurrentMesh() != nullptr) {
-			GameEngine::entities[i]->SetSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
-			count++;
-			if (count == 1) {
-				//GameEngine::entities[i]->GetSceneNode()->setMaterialTexture(0, IrrInclude::driver->getTexture("./media/wall.jpg"));
+		if (int(GameEngine::entities[i]->type) != 1) {
+			if (int(GameEngine::entities[i]->type) == 4) {
+				scene::IMeshSceneNode* box = IrrInclude::sceneManager->addCubeSceneNode(GameEngine::entities[i]->getSize(), 0, -1, convertToCore(GameEngine::entities[i]->position), convertToCore(GameEngine::entities[i]->getRotation()), convertToCore(GameEngine::entities[i]->getScale()));
+				GameEngine::entities[i]->SetSimpleSceneNode(box);
+				if (GameEngine::entities[i]->getTexture() != "!") {
+					std::string texturePath = "./media/" + GameEngine::entities[i]->getTexture();
+					GameEngine::entities[i]->GetSimpleSceneNode()->setMaterialTexture(0, IrrInclude::driver->getTexture(texturePath.c_str()));
+				}
+			}
+			else {
+				if (GameEngine::entities[i]->getCurrentMesh() != nullptr) {
+					GameEngine::entities[i]->SetSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
+				}
+				if (GameEngine::entities[i]->getTexture() != "!") {
+					std::string texturePath = "./media/" + GameEngine::entities[i]->getTexture();
+					GameEngine::entities[i]->GetSceneNode()->setMaterialTexture(0, IrrInclude::driver->getTexture(texturePath.c_str()));
+				}
 			}
 		}
 	}	
@@ -276,27 +318,6 @@ void Graphics::init()
 
 void Graphics::update()
 {
-	if (IrrInclude::device->run()){
-		IrrInclude::driver->beginScene(true, true, 0, videodata);
-		//IrrInclude::driver->beginScene(true, true, video::SColor(0, 0, 0, 200));
-		Draw();
-		IrrInclude::sceneManager->drawAll();
-		IrrInclude::driver->endScene();
-
-		int fps = IrrInclude::driver->getFPS();
-
-		if (this->lastFPS != fps)
-		{
-			core::stringw str = L"Irrlicht Engine - Map[";
-			str += IrrInclude::driver->getName();
-			str += "] FPS:";
-			str += fps;
-
-			IrrInclude::device->setWindowCaption(str.c_str());
-			this->lastFPS = fps;
-		}
-	}
-	
 	if (GameEngine::eventQueue.size() != 0) { // if event Q is populated
 		for (int i = 0; i < GameEngine::eventQueue.size(); i++) {	// for each event, then for each sub system in each event
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
@@ -307,5 +328,33 @@ void Graphics::update()
 			}
 		}
 	}
+
+	if (IrrInclude::device->run()){
+		IrrInclude::driver->beginScene(true, true, 0, videodata);
+		//IrrInclude::driver->beginScene(true, true, video::SColor(0, 0, 0, 200));
+		Draw();
+		IrrInclude::sceneManager->drawAll();
+		
+		font->draw(text.c_str(),
+			core::rect<s32>(130, 10, 300, 50),
+			video::SColor(255, 255, 255, 255));
+
+		IrrInclude::driver->endScene();
+		
+		int fps = IrrInclude::driver->getFPS();
+
+		if (this->lastFPS != fps)
+		{
+			text = L"Irrlicht Engine - Driver:[";
+			text += IrrInclude::driver->getName();
+			text += "] FPS:";
+			text += fps;
+
+			this->lastFPS = fps;
+		}
+		
+	}
+	
+
 }
 
