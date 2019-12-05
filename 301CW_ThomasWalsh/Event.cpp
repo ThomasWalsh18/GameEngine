@@ -4,6 +4,7 @@ Event::Event(EventTypeEnum typeOfEvent)
 {
 	if (typeOfEvent == EventTypeEnum(0)) { // if move event
 		this->mySubs.push_back(SubSystemEnum(3));
+		this->mySubs.push_back(SubSystemEnum(2));
 	}
 	else if (typeOfEvent == EventTypeEnum(1)) {
 		this->mySubs.push_back(SubSystemEnum(2));

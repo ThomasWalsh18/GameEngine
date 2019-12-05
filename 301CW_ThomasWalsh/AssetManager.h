@@ -10,7 +10,7 @@ public:
 	void init();
 	~AssetManager();
 	std::string modelname;
-	void LoadModel(std::string fileName, std::string modelName);
+	static void LoadModel(std::string fileName, std::string modelName);
 
 	static Mesh* GetModel(std::string modelName);
 };

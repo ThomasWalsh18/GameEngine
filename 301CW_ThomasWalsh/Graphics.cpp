@@ -7,7 +7,7 @@
 		skybox
 */
 HWND Graphics::hWnd;
-
+Entity* Graphics::mainChar = nullptr;
 static LRESULT CALLBACK CustomWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
@@ -192,16 +192,15 @@ void mouseMove(Event* e)
 
 void level(Event* e) {
 
-	Entity* mainChar = nullptr;
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
 		if (int(GameEngine::entities[i]->type) == 0) {
-			mainChar = GameEngine::entities[i];
+			Graphics::mainChar = GameEngine::entities[i];
 			break;
 		}
 	}
 	IrrInclude::camera = IrrInclude::sceneManager->addCameraSceneNode();
-	if (mainChar != nullptr) {
-		IrrInclude::camera->setPosition(convertToCore(mainChar->position));
+	if (Graphics::mainChar != nullptr) {
+		IrrInclude::camera->setPosition(convertToCore(Graphics::mainChar->position));
 	}
 	else {
 		std::cout << "No main Char in elementList.lua" << std::endl;
@@ -209,13 +208,13 @@ void level(Event* e) {
 	IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront));
 	IrrInclude::camera->setFarValue(irr::f32(6000.0f));
 
-	Entity* Camera = new CameraEntitiy(mainChar->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
+	Entity* Camera = new CameraEntitiy(Graphics::mainChar->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
 	//Entity* Camera = new CameraEntitiy(Giant->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
 	GameEngine::entities.push_back(Camera);
 
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
-		if (int(GameEngine::entities[i]->type) != 1) {
-			if (int(GameEngine::entities[i]->type) == 4) {
+		if (int(GameEngine::entities[i]->type) != 1) { // if its not the camera
+			if (int(GameEngine::entities[i]->type) == 4) { // if it is the basic box
 				scene::IMeshSceneNode* box = IrrInclude::sceneManager->addCubeSceneNode(GameEngine::entities[i]->getSize(), 0, -1, convertToCore(GameEngine::entities[i]->position), convertToCore(GameEngine::entities[i]->getRotation()), convertToCore(GameEngine::entities[i]->getScale()));
 				GameEngine::entities[i]->SetSimpleSceneNode(box);
 				if (GameEngine::entities[i]->getTexture() != "!") {
@@ -223,9 +222,12 @@ void level(Event* e) {
 					GameEngine::entities[i]->GetSimpleSceneNode()->setMaterialTexture(0, IrrInclude::driver->getTexture(texturePath.c_str()));
 				}
 			}
-			else {
+			else { // if it is a mesh
 				if (GameEngine::entities[i]->getCurrentMesh() != nullptr) {
 					GameEngine::entities[i]->SetSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
+				}
+				if (GameEngine::entities[i]->getCurrentMesh()->path == "./media/IronGiantA.X") {
+					GameEngine::entities[i]->GetSceneNode()->setFrameLoop(0, 0);
 				}
 				if (GameEngine::entities[i]->getTexture() != "!") {
 					std::string texturePath = "./media/" + GameEngine::entities[i]->getTexture();
@@ -236,12 +238,22 @@ void level(Event* e) {
 	}
 }
 
+void animation(Event* e) {
+	if (Graphics::mainChar->getCurrentMesh()->path =="./media/IronGiantA.X") {
+		Graphics::mainChar->GetSceneNode()->setFrameLoop(0, 45);
+	}
+}
+
 void Graphics::init()
 {
 	font = IrrInclude::device->getGUIEnvironment()->getBuiltInFont();
 
+	void(*activeAnim)(Event*) = animation;
+	functions[0] = animation;
+
 	void(*mouse)(Event*) = mouseMove;
 	functions[1] = mouseMove;
+
 	void(*close)(Event*) = Close;
 	functions[2] = Close;
 

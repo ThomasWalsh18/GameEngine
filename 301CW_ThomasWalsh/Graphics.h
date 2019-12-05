@@ -31,6 +31,8 @@ public:
 	static float sensitivity;
 	static glm::vec3 cameraFront;
 	static HWND hWnd;
+	
+	static Entity* mainChar;
 
 	int lastFPS = -1;
 	std::vector <Event> events;

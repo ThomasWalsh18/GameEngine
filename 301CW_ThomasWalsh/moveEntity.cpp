@@ -1,9 +1,18 @@
 #include "moveEntity.h"
 
-moveEntity::moveEntity(glm::vec3 pos, float mass, std::string modelName, EntityEnum type, std::string texture) : Entity(pos, type)
+moveEntity::moveEntity(glm::vec3 pos, float mass, std::string modelName, std::string filename, EntityEnum type, std::string texture) : Entity(pos, type)
 {
 	this->Asset = modelName;
-	this->currentMesh = AssetManager::GetModel(modelName);
+
+	for (std::map<std::string, Mesh*>::iterator i = GameEngine::Meshes.begin(); i != GameEngine::Meshes.end(); i++) {
+		if (i->first == modelName) {
+			this->currentMesh = i->second;
+		}
+	}
+	if (this->currentMesh == nullptr) {
+		AssetManager::LoadModel(filename, modelName);
+		this->currentMesh = AssetManager::GetModel(modelName);
+	}
 	btTransform t;
 	t.setIdentity();
 	t.setOrigin(btVector3(0, 0, 0));

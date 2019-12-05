@@ -1,2 +1,2 @@
 #pragma once
-enum class EntityEnum { MainCharacter, Camera, staticObj, moveObj, box };
+enum class EntityEnum { MainCharacter, Camera, staticObj, moveObj, box, anim };

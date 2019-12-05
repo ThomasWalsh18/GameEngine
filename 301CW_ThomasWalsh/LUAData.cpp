@@ -105,7 +105,14 @@ void loadLevel(int level)
 			}
 			else {
 				std::string model = entityCheck["Model"].cast <std::string>();
-				Entity* temp = new moveEntity(glm::vec3(x, y, z), mass, model, EntityEnum(checker), texture);
+				std::string file = entityCheck["file"].cast <std::string>();
+				Entity* temp = new moveEntity(
+					glm::vec3(x, y, z),
+					mass,
+					model,
+					file, 
+					EntityEnum(checker),
+					texture);
 				GameEngine::entities.push_back(temp);
 			}
 		}

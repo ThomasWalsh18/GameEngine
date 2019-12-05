@@ -5,6 +5,7 @@ elementList = {
 		positiony = 0,
 		positionz = 0,
 		Model = 'Map',
+		file = 'terrain3.X',
 		Texture = '!',
 		mass = 0
 	},
@@ -13,7 +14,8 @@ elementList = {
 		positionx = 0,
 		positiony = 0,
 		positionz = 0,
-		Model = 'Iron',
+		Model = 'Giant',
+		file = 'IronGiantA.X',
 		Texture = '!',
 		mass = 10
 	},
@@ -23,6 +25,7 @@ elementList = {
 		positiony = 1000,
 		positionz = -1000,
 		Model = 'cannon',
+		file = 'cannon.obj',
 		Texture = 'wall.jpg',
 		mass = 20
 	},
@@ -32,6 +35,7 @@ elementList = {
 		positiony = -100,
 		positionz = -1100,
 		Model = 'cannon',
+		file = 'cannon.obj',
 		Texture = '!',
 		mass = 10
 	},
@@ -41,6 +45,7 @@ elementList = {
 		positiony = 0,
 		positionz = -2000,
 		Model = 'Vheical',
+		file = 'Vheical.X',
 		Texture = 'water.jpg',
 		mass = 200
 	},
@@ -50,6 +55,7 @@ elementList = {
 		positiony = 0,
 		positionz = -1500,
 		Model = 'Giant',
+		file = 'IronGiantA.X',
 		Texture = '!',
 		mass = 50
 	},	

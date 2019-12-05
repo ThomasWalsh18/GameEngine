@@ -5,10 +5,11 @@
 class moveEntity : public Entity
 {
 public:
-	moveEntity(glm::vec3 pos, float mass , std::string modelName, EntityEnum type, std::string texture);
+	moveEntity(glm::vec3 pos, float mass, std::string modelName, std::string filename, EntityEnum type, std::string texture);
 	~moveEntity();
+
 	std::string Asset;
-	Mesh* currentMesh;
+	Mesh* currentMesh = nullptr;
 	btRigidBody* body;
 	std::string texture;
 	scene::IAnimatedMeshSceneNode* animatedSceneNode;

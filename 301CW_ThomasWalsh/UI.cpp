@@ -1,12 +1,7 @@
 #include "UI.h"
 
 /*-
-UI user interaction
-	Fuel
-	Ammo
-	Health
-	Menus
-	gainput
+	User interation 
 */
 
 UI::UI()
