@@ -1,6 +1,7 @@
 #pragma once
 #include <irrlicht.h>
-#include <windows.h>
+//#include <windows.h>
+#include <WinSock2.h>
 using namespace irr;
 class IrrInclude
 {

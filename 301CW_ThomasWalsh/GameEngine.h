@@ -11,6 +11,8 @@
 #include "Audio.h"
 #include "LUAData.h"
 
+#include "Multiplayer.h"
+
 #include <vector>
 #include <iostream>
 #include <map>

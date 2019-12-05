@@ -36,6 +36,9 @@ void GameEngine::init() {
 	subSystem* logic = new GamePlay();
 	subSystem* ui = new UI();
 	subSystem* audio = new Audio();
+
+	subSystem* multiPlayer = new Multiplayer();
+
 	SubSystems.push_back(assetMan);
 	SubSystems.push_back(LUA);
 	SubSystems.push_back(graphics);
@@ -43,6 +46,8 @@ void GameEngine::init() {
 	SubSystems.push_back(logic);
 	SubSystems.push_back(ui);
 	SubSystems.push_back(audio);
+
+	SubSystems.push_back(multiPlayer);
 
 	for (int i = 0; i < SubSystems.size(); i++) {
 		SubSystems[i]->init();
