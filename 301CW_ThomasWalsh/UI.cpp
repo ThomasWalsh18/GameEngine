@@ -77,14 +77,22 @@ void UI::update()
 		addMainChar(backward);
 		GameEngine::eventQueue.push_back(backward);
 		std::cout << "Event add backward" << std::endl;
-	}
-	if (GetKeyState('L') & 0x0800) {
+	} 
+	if (GetKeyState('L') & 0x0800 && level1 == false) {
+		level1 = true;
+	}	
+	if ( level1 == true & GetKeyState('L') == 0) {
+		level1 = false;
 		Event* Level = new Event(EventTypeEnum(5));
 		Level->eventInfo.level = 1;
 		GameEngine::eventQueue.push_back(Level);
 		std::cout << "Event add New Level" << std::endl;
 	}	
-	if (GetKeyState('K') & 0x0800) {
+	if (GetKeyState('K') & 0x0800 && level2 == false) {
+		level2 = true;
+	}
+	if ( level2 == true & GetKeyState('K') == 0) {
+		level2 = false;
 		Event* Level2 = new Event(EventTypeEnum(5));
 		Level2->eventInfo.level = 2;
 		GameEngine::eventQueue.push_back(Level2);

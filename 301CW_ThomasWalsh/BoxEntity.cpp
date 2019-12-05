@@ -18,8 +18,13 @@ BoxEntity::BoxEntity(glm::vec3 pos, float mass, float size, glm::vec3 rotate, gl
 	this->mass = mass;
 }
 
+void BoxEntity::destroy() {
+
+}
+
 BoxEntity::~BoxEntity()
 {
+	this->body->~btRigidBody();
 	delete this;
 }
 

@@ -27,9 +27,24 @@ LUAData::~LUAData()
 void loadLevel(int level)
 {
 	//Could keep entities that stay the same through the different scenes
-	for (int i = 0; i < GameEngine::entities.size(); i++) {
-		GameEngine::entities[i]->~Entity();
+	for (int i = GameEngine::entities.size()-1;  i >= 0; i--) {
+		if (int(GameEngine::entities[i]->type) != 1) {
+
+			if (GameEngine::entities[i]->GetSceneNode() != nullptr) {
+				GameEngine::entities[i]->GetSceneNode()->remove();
+
+			}
+			else if (GameEngine::entities[i]->GetSimpleSceneNode() != nullptr) {
+				GameEngine::entities[i]->GetSimpleSceneNode()->remove();
+			}
+			//GameEngine::entities[i]->getCurrentMesh()->~Mesh();
+			btCollisionObject* obj = Physics::world->getCollisionObjectArray()[i];
+			Physics::world->removeCollisionObject(obj);
+			delete obj;
+		}
+		GameEngine::entities[i]->destroy();
 	}
+		//IrrInclude::sceneManager->clear();
 	GameEngine::entities.erase(GameEngine::entities.begin(), GameEngine::entities.end());
 
 	LUAData::state = luaL_newstate();

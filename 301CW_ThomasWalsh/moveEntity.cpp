@@ -18,7 +18,7 @@ moveEntity::moveEntity(glm::vec3 pos, float mass, std::string modelName, EntityE
 
 moveEntity::~moveEntity()
 {
-	delete this;
+
 }
 
 Mesh* moveEntity::getCurrentMesh()
@@ -64,4 +64,10 @@ float moveEntity::getMass()
 void moveEntity::setMass(float mass)
 {
 	this->mass = mass;
+}
+
+void moveEntity::destroy()
+{
+	this->currentMesh->destroy();
+	delete this;
 }

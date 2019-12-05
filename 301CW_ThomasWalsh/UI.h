@@ -16,5 +16,8 @@ public:
 	POINT p;
 	int lastx = -1;
 	int lasty = -1;
+
+	bool level1 = false;
+	bool level2 = false;
 };
 

@@ -45,6 +45,9 @@ public:
 	virtual float getMass();
 	virtual void setMass(float mass);
 
+	virtual void destroy();
+
+
 	/*
 
 	___________________________________________________________________________________________________________________________________

@@ -108,3 +108,7 @@ float Entity::getMass()
 void Entity::setMass(float mass)
 {
 }
+
+void Entity::destroy()
+{
+}

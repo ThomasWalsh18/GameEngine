@@ -107,7 +107,6 @@ void ChangePos(Event* e) {
 }
 
 void addRigidBody(Event* e) {
-
 	btTransform t;
 	t.setIdentity();
 	t.setOrigin(btVector3(e->eventInfo.posx, e->eventInfo.posy, e->eventInfo.posz));

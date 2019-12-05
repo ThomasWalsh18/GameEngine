@@ -27,5 +27,6 @@ public:
 	float getMass();
 	void setMass(float mass);
 
+	void destroy();
 };
 

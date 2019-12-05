@@ -13,6 +13,8 @@ public:
 	btRigidBody* body;
 	float size;
 	float mass;
+	
+	void destroy();
 
 	scene::IMeshSceneNode* GetSimpleSceneNode();
 	void SetSimpleSceneNode(scene::IMeshSceneNode* model);

@@ -271,49 +271,9 @@ void Graphics::init()
 		IrrInclude::driver->getTexture("./media/irrlicht2_bk.jpg"));
 	
 	scene::ILightSceneNode* light1 = IrrInclude::sceneManager->addLightSceneNode(0, core::vector3df(20, 1000, -200), video::SColorf(1.0f, 1.0f, 1.0f, 1.0f), 6000.0f);
-
-	Entity* mainChar = nullptr;
-	for (int i = 0; i < GameEngine::entities.size(); i++) {
-		if (int(GameEngine::entities[i]->type) == 0) {
-			mainChar = GameEngine::entities[i];
-			break;
-		}
-	}
-	IrrInclude::camera = IrrInclude::sceneManager->addCameraSceneNode();
-	if (mainChar != nullptr) {
-		IrrInclude::camera->setPosition(convertToCore(mainChar->position));
-	}
-	else {
-		std::cout << "No main Char in elementList.lua" << std::endl;
-	}
-	IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront));
-	IrrInclude::camera->setFarValue(irr::f32(6000.0f));
-
-	Entity* Camera = new CameraEntitiy(mainChar->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
-	//Entity* Camera = new CameraEntitiy(Giant->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
-	GameEngine::entities.push_back(Camera);
-
-	for (int i = 0; i < GameEngine::entities.size(); i++) {
-		if (int(GameEngine::entities[i]->type) != 1) {
-			if (int(GameEngine::entities[i]->type) == 4) {
-				scene::IMeshSceneNode* box = IrrInclude::sceneManager->addCubeSceneNode(GameEngine::entities[i]->getSize(), 0, -1, convertToCore(GameEngine::entities[i]->position), convertToCore(GameEngine::entities[i]->getRotation()), convertToCore(GameEngine::entities[i]->getScale()));
-				GameEngine::entities[i]->SetSimpleSceneNode(box);
-				if (GameEngine::entities[i]->getTexture() != "!") {
-					std::string texturePath = "./media/" + GameEngine::entities[i]->getTexture();
-					GameEngine::entities[i]->GetSimpleSceneNode()->setMaterialTexture(0, IrrInclude::driver->getTexture(texturePath.c_str()));
-				}
-			}
-			else {
-				if (GameEngine::entities[i]->getCurrentMesh() != nullptr) {
-					GameEngine::entities[i]->SetSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
-				}
-				if (GameEngine::entities[i]->getTexture() != "!") {
-					std::string texturePath = "./media/" + GameEngine::entities[i]->getTexture();
-					GameEngine::entities[i]->GetSceneNode()->setMaterialTexture(0, IrrInclude::driver->getTexture(texturePath.c_str()));
-				}
-			}
-		}
-	}	
+	
+	Event* caller = nullptr;
+	level(caller);
 }
 
 void Graphics::update()
