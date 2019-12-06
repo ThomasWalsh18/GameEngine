@@ -6,6 +6,7 @@ LUAData::LUAData()
 {
 	/*
 	Load the window creation stuff first from the lua window
+	This is done on contrution so that the windows window knows how big to be
 	*/
 	state = luaL_newstate();
 	luaL_dofile(state, "Window.lua");
@@ -27,8 +28,10 @@ LUAData::~LUAData()
 }
 
 void loadLevel(int level)
-{
-	//Could keep entities that stay the same through the different scenes
+{	
+	/*
+	Clear all the entites that currently exist as well as their bounding boxes
+	*/
 	for (int i = GameEngine::entities.size()-1;  i >= 0; i--) {
 		if (int(GameEngine::entities[i]->type) != 1) {
 
@@ -39,18 +42,19 @@ void loadLevel(int level)
 			else if (GameEngine::entities[i]->GetSimpleSceneNode() != nullptr) {
 				GameEngine::entities[i]->GetSimpleSceneNode()->remove();
 			}
-			//GameEngine::entities[i]->getCurrentMesh()->~Mesh();
 			btCollisionObject* obj = Physics::world->getCollisionObjectArray()[i];
 			Physics::world->removeCollisionObject(obj);
 			delete obj;
 		}
 		GameEngine::entities[i]->destroy();
 	}
-		//IrrInclude::sceneManager->clear();
 	GameEngine::entities.erase(GameEngine::entities.begin(), GameEngine::entities.end());
 
-	LUAData::state = luaL_newstate();
 
+	LUAData::state = luaL_newstate();
+	/*
+	The starting level that can also be changed on runtime
+	*/
 	if (level == 1) {
 		luaL_dofile(LUAData::state, "elements.lua");
 	}
@@ -70,7 +74,11 @@ void loadLevel(int level)
 	{
 		LuaRef entityCheck = elementsRef[LUAData::elementList.at(i)];
 		checker = entityCheck["e_type"].cast<int>();
-
+		/*
+		If the Checker is the correct value get comman varaibles between the different entites
+		Then check the entites to see which one is which, then depending on the entity
+		Get the correct data
+		*/
 		if (checker >= 0)
 		{
 			float x = entityCheck["positionx"].cast<float>();
@@ -131,22 +139,11 @@ std::vector<std::string> LUAData::getElements(const std::string& table, lua_Stat
 		"return s "
 		"end";
 
-	/* We load the function using the loadstring function, then set up our
-	default preamble. We then use getGlobal to access the getElements
-	function, and pass in the name of the table we wish to explore (in this
-	case, elementList, or 'tab'). The second lua_pcall executes the function
-	we've loaded. */
-
 	luaL_loadstring(L, source.c_str());
 	lua_pcall(L, 0, 0, 0);
 	lua_getglobal(L, "getElements");
 	lua_pushstring(L, table.c_str());
 	lua_pcall(L, 1, 1, 0);
-
-	/* The return from the function will be a single string, so we'll need to
-	parse it.  This is why we added the separation character in the function
-	code. We simply iterate through ans, populating a temp string, and push
-	temp onto elements whenever the separation character is reached. */
 
 	std::string ans = lua_tostring(L, -1);
 	std::vector<std::string> elements;
@@ -161,12 +158,8 @@ std::vector<std::string> LUAData::getElements(const std::string& table, lua_Stat
 		}
 	}
 
-	/* We clean up after ourselves as best we can. */
-
 	int n = lua_gettop(L);
 	lua_pop(L, 1);
-
-	/* Lastly, return the list of elements. With thanks to Elias Daler.*/
 
 	return elements;
 }

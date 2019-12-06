@@ -1,11 +1,12 @@
 #include "Physics.h"
 /*
 	- Physics
-		shooting
 		movement through terrain
 */
+
 btDiscreteDynamicsWorld* Physics::world;
 glm::vec3 Physics::Front;
+
 Physics::Physics()
 {	
 	
@@ -19,6 +20,9 @@ Physics::~Physics()
 	delete dispatcher;
 	delete broadphase;
 }
+/*
+Math liabry could take these
+*/
 glm::vec3 convertToVec3(core::vector3df change) {
 
 	glm::vec3 changed = glm::vec3(change.X, change.Y, change.Z);
@@ -31,36 +35,7 @@ glm::vec3 convertToVec32(btVector3 change) {
 
 	return changed;
 }
-/*
-void ChangePos(Event* e) {
-	btVector3 update;
-	//core::vector3df update;
-	float speed = e->eventInfo.speed;
-	
-	if (e->eventInfo.dir > 0) {
-		speed = -speed;
-	}
-	if (e->eventInfo.dir == -1 || e->eventInfo.dir == 1) {
-		update = core::vector3df(0, 0, speed);
-	}
-	else if (e->eventInfo.dir == -2 || e->eventInfo.dir == 2) {
-		update = core::vector3df(speed, 0, 0);
-	}
-	else if (e->eventInfo.dir == -3 || e->eventInfo.dir == 3) {
-		update = core::vector3df(0, speed, 0);
-	}
 
-	for (int i = 0; i < e->eventInfo.affEntities.size(); i++)
-	{
-		e->eventInfo.affEntities[i]->position += convertToVec3(update);
-	}
-	for (int i = 0; i < GameEngine::entities.size(); i++) {
-		if (GameEngine::entities[i]->type == EntityEnum(1)) {
-			GameEngine::entities[i]->position += convertToVec3(update);
-		}
-	}
-}
-*/
 btVector3 ConvertTobt(glm::vec3 change) {
 
 	btVector3 changed = btVector3(change.x, change.y, change.z);
@@ -69,6 +44,10 @@ btVector3 ConvertTobt(glm::vec3 change) {
 }
 
 void ChangePos(Event* e) {
+	/*
+	Update the postion based on the direction we passed in
+	Unfortunatly the direction is not based on the mouse forawrd
+	*/
 	btVector3 update;
 	float speed = e->eventInfo.speed;
 	
@@ -84,7 +63,9 @@ void ChangePos(Event* e) {
 	else if (e->eventInfo.dir == -3 || e->eventInfo.dir == 3) {
 		update = btVector3(0, speed, 0);
 	}
-
+	/*
+	The position is moved via force
+	*/
 	float force = 3.0f;
 
 	for (int i = 0; i < e->eventInfo.affEntities.size(); i++)
@@ -107,6 +88,11 @@ void ChangePos(Event* e) {
 }
 
 void addRigidBody(Event* e) {
+
+	/*
+	This will give the passed in entity a rigid body based on the event criteria
+	Each rigid body is a box 
+	*/
 	btTransform t;
 	t.setIdentity();
 	t.setOrigin(btVector3(e->eventInfo.posx, e->eventInfo.posy, e->eventInfo.posz));
@@ -135,6 +121,12 @@ void upDateHeader(Event* e) {
 
 
 void loadlevel(Event* e) {
+
+	/*
+	For each entity if it needs a rigid body create one
+	For the map simply create a plane 
+	The information to create the boundaries and stuff are passed in by LUA
+	*/
 
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
 		if (GameEngine::entities[i]->getRigidBody() != nullptr) {
@@ -191,48 +183,8 @@ void Physics::init()
 	Physics::world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
 	Physics::world->setGravity(btVector3(0, -9.8, 0));
 	
-	
-	for (int i = 0; i < GameEngine::entities.size(); i++) {
-		if (GameEngine::entities[i]->getRigidBody() != nullptr) {
-			if (GameEngine::entities[i]->type == EntityEnum(2)) {
-
-				btTransform t;
-				t.setIdentity();
-				t.setOrigin((btVector3(GameEngine::entities[i]->position.x, GameEngine::entities[i]->position.y, GameEngine::entities[i]->position.z)));
-				btStaticPlaneShape* plane = new btStaticPlaneShape(btVector3(0, 1, 0), btScalar(0));
-				btMotionState* motion = new btDefaultMotionState(t); // shape 
-				btRigidBody::btRigidBodyConstructionInfo info(btScalar(0), motion, plane);
-				btRigidBody* body = new btRigidBody(info);
-				world->addRigidBody(body);
-			}
-			else if (GameEngine::entities[i]->type == EntityEnum(4))
-			{
-				Event* addBod = new Event(EventTypeEnum(3));
-				addBod->eventInfo.affEntities.push_back(GameEngine::entities[i]);
-				addBod->eventInfo.mass = GameEngine::entities[i]->getMass();
-				addBod->eventInfo.width  = GameEngine::entities[i]->getSize() * GameEngine::entities[i]->getScale().x;
-				addBod->eventInfo.height = GameEngine::entities[i]->getSize() * GameEngine::entities[i]->getScale().y;
-				addBod->eventInfo.depth  = GameEngine::entities[i]->getSize() * GameEngine::entities[i]->getScale().z;
-				addBod->eventInfo.posx = GameEngine::entities[i]->position.x;
-				addBod->eventInfo.posy = GameEngine::entities[i]->position.y;
-				addBod->eventInfo.posz = GameEngine::entities[i]->position.z;
-				GameEngine::eventQueue.push_back(addBod);
-			}
-			else {
-				Event* addBod = new Event(EventTypeEnum(3));
-				addBod->eventInfo.affEntities.push_back(GameEngine::entities[i]);
-				addBod->eventInfo.mass = GameEngine::entities[i]->getMass();
-				addBod->eventInfo.width = 100;
-				addBod->eventInfo.height = 100;
-				addBod->eventInfo.depth = 10;
-				addBod->eventInfo.posx = GameEngine::entities[i]->position.x;
-				addBod->eventInfo.posy = GameEngine::entities[i]->position.y;
-				addBod->eventInfo.posz = GameEngine::entities[i]->position.z;
-				GameEngine::eventQueue.push_back(addBod);
-			}
-
-		}
-	}
+	Event* blank = nullptr;
+	loadlevel(blank);
 
 	void(*updateEnity)(Event*) = ChangePos;
 	functions[0] = ChangePos;

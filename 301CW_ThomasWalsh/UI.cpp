@@ -17,6 +17,9 @@ UI::~UI()
 
 void UI::init()
 {
+	/*
+	Get the main character
+	*/
 	if (GameEngine::entities.size() != 0) {
 		for (int i = 0; i < GameEngine::entities.size(); i++) {
 			if (GameEngine::entities[i]->type == EntityEnum(0)) { //atm its just the character
@@ -30,6 +33,9 @@ void UI::init()
 	}
 }
 void UI::addMainChar(Event* toAdd) {
+	/* 
+	Add the main charater to the event
+	*/
 	toAdd->eventInfo.affEntities.push_back(MainCharacter);
 }
 
@@ -38,15 +44,11 @@ void UI::update()
 	
 	if (GetKeyState('A') & 0x0800) { // to stop toggle
 		Event* left = new Event(EventTypeEnum(0));
-		// dir done in physics eventyally as I can store instead a char of the key that was pressed
-		// speed can be done by the game logic clas giving the main character enum a speed of 1
 		left->eventInfo.dir = -2;
 		left->eventInfo.speed = 1;
-		////////////////////////////
 		addMainChar(left);
 		GameEngine::eventQueue.push_back(left);
 		std::cout << "Event add leftward" << std::endl;
-		////////////////////////////
 	}
 	if (GetKeyState('D') & 0x0800) {	
 		Event* right = new Event(EventTypeEnum(0));
@@ -124,13 +126,8 @@ void UI::update()
 			MoveMouse->eventInfo.x = p.x;
 			MoveMouse->eventInfo.y = p.y;
 			GameEngine::eventQueue.push_back(MoveMouse);
-			//std::cout << "Event add MouseMove + X:" << p.x << ", Y: " << p.y  << std::endl;
 		}
 	}
-
-	
-	
-	
 }
 
 
