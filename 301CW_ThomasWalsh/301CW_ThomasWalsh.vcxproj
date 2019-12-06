@@ -140,9 +140,7 @@
     <ClCompile Include="IrrInclude.cpp" />
     <ClCompile Include="LUAData.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="Graphics.cpp" />
-    <ClCompile Include="Math.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="moveEntity.cpp" />
     <ClCompile Include="Multiplayer.cpp" />
@@ -158,13 +156,11 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="GamePlay.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="EventTypeEnum.h" />
     <ClInclude Include="EntityEnum.h" />
     <ClInclude Include="IrrInclude.h" />
     <ClInclude Include="LUAData.h" />
-    <ClInclude Include="Math.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="moveEntity.h" />
     <ClInclude Include="Multiplayer.h" />

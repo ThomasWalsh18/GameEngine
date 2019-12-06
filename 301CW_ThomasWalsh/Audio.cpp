@@ -1,8 +1,7 @@
 #include "Audio.h"
 /*
 	- Audio
-		Shooting
-		tank moving
+		Background music
 
 */
 
@@ -17,6 +16,10 @@ Audio::~Audio()
 
 void Audio::init()
 {
+	/*
+	This code loads the music device and then plays a sound and then sets it to repeat
+	Data driven background music would have also been possible
+	*/
 	engine = irrklang::createIrrKlangDevice();
 	engine->play2D("./media/ThisiswarNES.wav", true);
 	engine->setSoundVolume(volume);

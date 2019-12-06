@@ -55,8 +55,6 @@ void Multiplayer::update()
 				oldPos.y = newPos->y;
 				oldPos.z = newPos->z;
 			}
-
-			//enemy.setPosition(sf::Vector2f(newPosition->x, newPosition->y));
 			break;
 		}
 	}

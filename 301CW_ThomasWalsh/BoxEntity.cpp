@@ -2,7 +2,10 @@
 
 BoxEntity::BoxEntity(glm::vec3 pos, float mass, float size, glm::vec3 rotate, glm::vec3 scale, EntityEnum type, std::string texture) : Entity(pos, type)
 {
-	//needed a blank physics body
+	/*
+	needed a blank physics body
+	as well as default values
+	*/
 	btTransform t;
 	t.setIdentity();
 	t.setOrigin(btVector3(0, 0, 0));
@@ -11,6 +14,7 @@ BoxEntity::BoxEntity(glm::vec3 pos, float mass, float size, glm::vec3 rotate, gl
 	btRigidBody::btRigidBodyConstructionInfo info(btScalar(0), motion, plane);
 	btRigidBody* body = new btRigidBody(info);
 	this->body = body;
+
 	this->texture = texture;
 	this->rotation = rotate;
 	this->scale = scale;

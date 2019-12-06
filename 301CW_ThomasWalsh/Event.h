@@ -8,6 +8,11 @@
 
 class Event 
 {
+	/*
+	This is really unneeded at the moment, however in the future the einfo could be made virtual
+	As well as this different event classes could have been made, then each event would have a Einfo 
+	That holds relevant information about its own event
+	*/
 	struct einfo {
 		int dir = 0;
 		float speed = 0;
@@ -35,7 +40,6 @@ public:
 	~Event();
 	einfo eventInfo;
 	EventTypeEnum functPoint;
-	void addSubSystem(SubSystemEnum sub);
 	std::vector<SubSystemEnum> mySubs;
 
 };

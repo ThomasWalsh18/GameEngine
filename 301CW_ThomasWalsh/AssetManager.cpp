@@ -6,8 +6,11 @@ AssetManager::AssetManager()
 
 void AssetManager::init()
 {
-	//load all models
+
 	/*
+
+	I can load each model here before Lua however I decided to load each model as and when we needed it from lu
+
 	LoadModel("cannon.obj", "cannon");
 	LoadModel("Test.obj", "Test");
 	LoadModel("IronGiant.X", "Iron");
@@ -16,7 +19,6 @@ void AssetManager::init()
 	LoadModel("Vheical.X", "Vheical");
 	LoadModel("IronGiantA.X", "Giant");
 	*/
-	//LoadModel("TestScene.obj", "Map");
 
 }
 
@@ -27,9 +29,12 @@ AssetManager::~AssetManager()
 
 void AssetManager::LoadModel(std::string fileName, std::string modelName)
 {
-	//open file at filepath
-	//Make a new model with this data
-	//add to map with name modelname, and model pointer to one we just made
+	/*
+	Open file at filepath then make a new model
+	with this data then add to map with name modelname, and pointer to model we just made
+
+	I use a map so that each model can be identified easier by not using the file path every time
+	*/
 	std::string fullPath = "./media/" + fileName;
 	Mesh* mesh = new Mesh(fullPath);
 	GameEngine::Meshes.emplace(modelName, mesh);

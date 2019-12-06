@@ -2,6 +2,13 @@
 
 moveEntity::moveEntity(glm::vec3 pos, float mass, std::string modelName, std::string filename, EntityEnum type, std::string texture) : Entity(pos, type)
 {
+	/*
+	If the entity has a model then I need to find it, so I will look for it in the game engine's list of meshes
+	If the current mesh is already in the mesh's list then just get the pointer 
+	However if it cannot find the mesh add it to the map
+
+	This is making sure a model is never loaded twice even if there are two entites using the same model
+	*/
 	this->Asset = modelName;
 
 	for (std::map<std::string, Mesh*>::iterator i = GameEngine::Meshes.begin(); i != GameEngine::Meshes.end(); i++) {

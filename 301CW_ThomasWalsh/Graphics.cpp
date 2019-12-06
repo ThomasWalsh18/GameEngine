@@ -1,13 +1,13 @@
 #include "Graphics.h"
 /*
 	- Graphics
-		The player
-		other entities
-		terrain
-		skybox
+		Irrlicht engine 
+		Windows window
 */
+
 HWND Graphics::hWnd;
 Entity* Graphics::mainChar = nullptr;
+//A default windows function a windodw needs
 static LRESULT CALLBACK CustomWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
@@ -24,15 +24,25 @@ static LRESULT CALLBACK CustomWndProc(HWND hWnd, UINT message, WPARAM wParam, LP
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
-
+// On constuction
 Graphics::Graphics()
 {
+	/*
+	These are based from a LUA Script, this is one way I could improve my GameEngine
+	I could move the LUA script that is specific to graphics from the LUA Subsystem 
+	Which then passes the information over to game engine and then over to Graphics,
+	Over to the graphics constructor
+	*/
 	WIDTH = GameEngine::width;
 	HEIGHT = GameEngine::height;
 	title = GameEngine::title;
 
 	HINSTANCE hInstance = 0;
-	// create dialog
+	/*
+	Create dialog between a irrlicht renderer and a windows window, 
+	I use a windows window so that I can detect mouse movement relevant to the mouse pos
+	On the current selected window
+	*/
 
 	const char* Win32ClassName = "CIrrlichtWindowsTestDialog";
 
@@ -45,7 +55,7 @@ Graphics::Graphics()
 	wcex.hInstance = hInstance;
 	wcex.hIcon = NULL;
 	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground = NULL;//(HBRUSH)(COLOR_WINDOW);
+	wcex.hbrBackground = NULL;
 	wcex.lpszMenuName = 0;
 	wcex.lpszClassName = Win32ClassName;
 	wcex.hIconSm = 0;
@@ -81,6 +91,7 @@ Graphics::~Graphics()
 	std::cout << "Graphics has deleted" << std::endl;
 }
 
+//Its these sort of Covnersions I could include in my Maths libary
 
 core::vector3df convertToCore(glm::vec3 change) {
 	
@@ -94,7 +105,8 @@ glm::vec3 convertFromBullet(btVector3 change) {
 
 	return changed;
 }
-
+//Static variables for my mouse move code,
+//This is because the mouse move code doesnt use the Graphics Namespace
 bool Graphics::firstMove = true;
 int Graphics::lastX = -1;
 int Graphics::lastY = -1;;
@@ -104,19 +116,35 @@ float Graphics::sensitivity = 0.3f;
 glm::vec3 Graphics::cameraFront = glm::vec3(0,0,-1);
 
 void Graphics::Draw() {
+	/*
+	To draw I look through each entity and check what type they are and if they have a mesh already
+	I also then check to see which enitity the main character is, this way the camera is always on the main char
+	*/
 	int main = 0;
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
 		if (GameEngine::entities[i]->getCurrentMesh() != nullptr ) {
 			if (GameEngine::entities[i]->type == EntityEnum(0)) {
 				main = i;
 			}
+			/*
+			To move a charcter I have to get the Irrlicht scene node, then set its postion to the matching entities rigid body's position
+			Then I have to convert from a btVector3 (bullet), to a Glm::vec3, then to a irrlicht vector3df
+			*/
 			GameEngine::entities[i]->GetSceneNode()->setPosition(convertToCore(convertFromBullet(GameEngine::entities[i]->getRigidBody()->getWorldTransform().getOrigin())));
 		}
 		else if (GameEngine::entities[i]->type == EntityEnum(1)) {
+			/*
+			Then if the entity is the camera, as this entity will not have a Mesh
+			I need to update the cameras postion and target to get it looking in the right direction
+			I Could have used a fps camers from Irrlicht, however it uses its own event system
+			*/
 			IrrInclude::camera->setPosition(convertToCore(glm::vec3(10.0f, 175.0f, -30.0f) + convertFromBullet(GameEngine::entities[main]->getRigidBody()->getWorldTransform().getOrigin())));
 			IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront + (glm::vec3(10.0f, 175.0f, -30.0f) + convertFromBullet(GameEngine::entities[main]->getRigidBody()->getWorldTransform().getOrigin()))));
 		}
 		else if (GameEngine::entities[i]->type == EntityEnum(4)) {
+			/*
+			This is the draw code for the basic entities, these will also have no mesh and just updates the position from a different getter
+			*/
 			GameEngine::entities[i]->GetSimpleSceneNode()->setPosition(convertToCore(convertFromBullet(GameEngine::entities[i]->getRigidBody()->getWorldTransform().getOrigin())));
 		}
 	}
@@ -136,7 +164,7 @@ void mouseMove(Event* e)
 	}
 
 	float xoffset = e->eventInfo.x - Graphics::lastX;
-	float yoffset = Graphics::lastY - e->eventInfo.y; // reversed since y-coordinates go from bottom to top
+	float yoffset = Graphics::lastY - e->eventInfo.y; 
 	Graphics::lastX = e->eventInfo.x;
 	Graphics::lastY = e->eventInfo.y;
 
@@ -165,16 +193,14 @@ void mouseMove(Event* e)
 	//std::cout << Graphics::cameraFront.x << std::endl;
 	//std::cout << Graphics::cameraFront.y << std::endl;
 	//std::cout << Graphics::cameraFront.z << std::endl;
-	//force mouse to stay inside the window
 
-	// How Do I get these without a reference to a specific object
-	ShowCursor(TRUE);
+	//force mouse to stay inside the window
 	RECT size;
 	GetWindowRect(Graphics::hWnd, &size);
 	int win_w = size.right;
 	int win_h = size.bottom;
 
-	if (e->eventInfo.x < 100 || e->eventInfo.x > win_w - 100) {  //you can use values other than 100 for the screen edges if you like, depends on your mouse sensitivity for what ends up working best
+	if (e->eventInfo.x < 100 || e->eventInfo.x > win_w - 100) {
 		Graphics::lastX = win_w / 2;   //centers the last known position, this way there isn't an odd jump with your cam as it resets
 		Graphics::lastY = win_h / 2;
 		SetCursorPos(win_w / 2, win_h / 2);
@@ -187,17 +213,23 @@ void mouseMove(Event* e)
 	Event* upDatePhys = new Event(EventTypeEnum(4));
 	upDatePhys->eventInfo.Header = Graphics::cameraFront;
 	GameEngine::eventQueue.push_back(upDatePhys);
-	//GameEngine::entities[1]->GetSceneNode()->setRotation(core::vector3df(0, Graphics::cameraFront.y,0));
+	
 }
 
 void level(Event* e) {
-
+	/*
+	This code loads in a level from the current game enginge entities
+	First check for the main character
+	*/
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
 		if (int(GameEngine::entities[i]->type) == 0) {
 			Graphics::mainChar = GameEngine::entities[i];
 			break;
 		}
 	}
+	/*
+	Now I can create a camera around the main characters position, and set up some default values for it
+	*/
 	IrrInclude::camera = IrrInclude::sceneManager->addCameraSceneNode();
 	if (Graphics::mainChar != nullptr) {
 		IrrInclude::camera->setPosition(convertToCore(Graphics::mainChar->position));
@@ -207,10 +239,12 @@ void level(Event* e) {
 	}
 	IrrInclude::camera->setTarget(convertToCore(Graphics::cameraFront));
 	IrrInclude::camera->setFarValue(irr::f32(6000.0f));
-
 	Entity* Camera = new CameraEntitiy(Graphics::mainChar->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
-	//Entity* Camera = new CameraEntitiy(Giant->position + glm::vec3(10.0f, 175.0f, -30.0f), EntityEnum(1));
 	GameEngine::entities.push_back(Camera);
+
+	/*
+	Now I loop thorugh each entity doing nothing for the camera, and setting the textures, meshes and animatons for the releaive entites
+	*/
 
 	for (int i = 0; i < GameEngine::entities.size(); i++) {
 		if (int(GameEngine::entities[i]->type) != 1) { // if its not the camera
@@ -222,7 +256,7 @@ void level(Event* e) {
 					GameEngine::entities[i]->GetSimpleSceneNode()->setMaterialTexture(0, IrrInclude::driver->getTexture(texturePath.c_str()));
 				}
 			}
-			else { // if it is a mesh
+			else { // if it has a mesh
 				if (GameEngine::entities[i]->getCurrentMesh() != nullptr) {
 					GameEngine::entities[i]->SetSceneNode(GameEngine::entities[i]->getCurrentMesh()->model);
 				}
@@ -239,6 +273,11 @@ void level(Event* e) {
 }
 
 void animation(Event* e) {
+	/*
+	Basic animation controller,
+		This method is propably really bad way of doing it, as the animation will constantly be set to frame 0 when moving,
+		then when not moving the animation plays
+	*/
 	if (Graphics::mainChar->getCurrentMesh()->path =="./media/IronGiantA.X") {
 		Graphics::mainChar->GetSceneNode()->setFrameLoop(0, 45);
 	}
@@ -246,6 +285,11 @@ void animation(Event* e) {
 
 void Graphics::init()
 {
+	/*
+	To start the init function I create a font for my fps counter
+	And set up each of the different function pointers I utilise
+	And make sure the mouse cannot be seen
+	*/
 	font = IrrInclude::device->getGUIEnvironment()->getBuiltInFont();
 
 	void(*activeAnim)(Event*) = animation;
@@ -259,21 +303,12 @@ void Graphics::init()
 
 	void(*NewLevel)(Event*) = level;
 	functions[5] = level;
-	/*
-	IrrInclude::device->getFileSystem()->addFileArchive("./include/irrlicht-1.8.4/media/map-20kdm2.pk3");
-	IrrInclude::mesh = IrrInclude::sceneManager->getMesh("20kdm2.bsp");
-	IrrInclude::node = 0;
 
-	if (IrrInclude::mesh) {
-		IrrInclude::node = IrrInclude::sceneManager->addOctreeSceneNode(IrrInclude::mesh->getMesh(0), 0, -1, 1024);
-	}
-	if (IrrInclude::node) {
-		IrrInclude::node->setPosition(core::vector3df(-1300, -144, -1249));
-	}
-	*/
-
-	// could be data driven
 	IrrInclude::device->getCursorControl()->setVisible(false);
+	/*
+	Another Area for improvement as my sky box textures are not dependent on a lua file 
+	Adding in a data driven skybox could allow for very different looking levels
+	*/
 	IrrInclude::sceneManager->addSkyBoxSceneNode(
 		IrrInclude::driver->getTexture("./media/irrlicht2_up.jpg"),
 		IrrInclude::driver->getTexture("./media/irrlicht2_dn.jpg"),
@@ -281,15 +316,23 @@ void Graphics::init()
 		IrrInclude::driver->getTexture("./media/irrlicht2_rt.jpg"),
 		IrrInclude::driver->getTexture("./media/irrlicht2_ft.jpg"),
 		IrrInclude::driver->getTexture("./media/irrlicht2_bk.jpg"));
-	
+	/*
+	Light 1 is a basic light that acts as the sun in my game
+	*/
 	scene::ILightSceneNode* light1 = IrrInclude::sceneManager->addLightSceneNode(0, core::vector3df(20, 1000, -200), video::SColorf(1.0f, 1.0f, 1.0f, 1.0f), 6000.0f);
 	
+	/*
+	To call the level creator I need an event, this is a empty event to allow the call to take place
+	*/
 	Event* caller = nullptr;
 	level(caller);
 }
 
 void Graphics::update()
 {
+	/*
+	Event Queue as explained in game engine
+	*/
 	if (GameEngine::eventQueue.size() != 0) { // if event Q is populated
 		for (int i = 0; i < GameEngine::eventQueue.size(); i++) {	// for each event, then for each sub system in each event
 			for (int j = 0; j < GameEngine::eventQueue[i]->mySubs.size(); j++) {
@@ -301,9 +344,12 @@ void Graphics::update()
 		}
 	}
 
+	/*
+	For irrlicht I have to do the draw code 
+	and set what my fps counter will say
+	*/
 	if (IrrInclude::device->run()){
 		IrrInclude::driver->beginScene(true, true, 0, videodata);
-		//IrrInclude::driver->beginScene(true, true, video::SColor(0, 0, 0, 200));
 		Draw();
 		IrrInclude::sceneManager->drawAll();
 		

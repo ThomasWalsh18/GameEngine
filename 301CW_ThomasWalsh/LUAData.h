@@ -24,7 +24,6 @@ public:
 	void(*functions[6])(int);
 	
 	static lua_State* state;
-	static std::string dir;
 	static std::vector<std::string> elementList;
 
 

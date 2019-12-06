@@ -54,9 +54,6 @@
     <ClCompile Include="Audio.cpp">
       <Filter>Source Files\Subsystem</Filter>
     </ClCompile>
-    <ClCompile Include="GamePlay.cpp">
-      <Filter>Source Files\Subsystem</Filter>
-    </ClCompile>
     <ClCompile Include="Multiplayer.cpp">
       <Filter>Source Files\Subsystem</Filter>
     </ClCompile>
@@ -93,9 +90,6 @@
     <ClCompile Include="AssetManager.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Math.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="LUAData.cpp">
       <Filter>Source Files\Subsystem</Filter>
     </ClCompile>
@@ -117,9 +111,6 @@
       <Filter>Header Files\Event</Filter>
     </ClInclude>
     <ClInclude Include="Audio.h">
-      <Filter>Header Files\Subsystem</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlay.h">
       <Filter>Header Files\Subsystem</Filter>
     </ClInclude>
     <ClInclude Include="Multiplayer.h">
@@ -156,9 +147,6 @@
       <Filter>Header Files\Subsystem\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="AssetManager.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Math.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="LUAData.h">

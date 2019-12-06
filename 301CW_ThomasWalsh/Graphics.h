@@ -8,6 +8,7 @@
 #include "IrrInclude.h"
 
 using namespace irr;
+
 class Graphics : public subSystem
 {
 private:
@@ -36,15 +37,17 @@ public:
 
 	int lastFPS = -1;
 	std::vector <Event> events;
+
+	//For each function pointer I need to pass in the same things
+	//This is okay as I am only dealing with the graphics here
 	void(*functions[6])(Event*);
 	Entity* Camera;
 
+	/*
+	Defualt values just incase nothing is accepted from LUA
+	*/
 	std::string title = "Graphics Default";
 	int WIDTH = 1000;
 	int HEIGHT = 1000;
-	//For each function pointer I need to pass in the same things
-	//This is okay as I am only dealing with the graphics here
-	//void(*functions[3])(Event*);
-
 };
 

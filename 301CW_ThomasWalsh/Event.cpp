@@ -2,6 +2,9 @@
 
 Event::Event(EventTypeEnum typeOfEvent)
 {
+	/*
+	Depending on the type of event depends on the different subsystems needed
+	*/
 	if (typeOfEvent == EventTypeEnum(0)) { // if move event
 		this->mySubs.push_back(SubSystemEnum(3));
 		this->mySubs.push_back(SubSystemEnum(2));
@@ -33,9 +36,4 @@ Event::Event(EventTypeEnum typeOfEvent)
 
 Event::~Event()
 {
-}
-
-void Event::addSubSystem(SubSystemEnum sub)
-{
-	mySubs.push_back(sub);
 }

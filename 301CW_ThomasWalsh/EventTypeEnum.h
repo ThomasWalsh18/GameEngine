@@ -1,8 +1,3 @@
 #pragma once
-
+//The different Events, these also act as function pointers
 enum class EventTypeEnum{move, mouseEvent, close, addRigid, updatePhysFront, newLevel};
-
-//Event event((EventTypeEnum)0); //event of forward
-//event.push_back((SubSystemEnum)1) //event pushback graphics
-//event.push_back((SubSystemEnum)2) //event pushback physics
-//EventQueue.push_back(event)

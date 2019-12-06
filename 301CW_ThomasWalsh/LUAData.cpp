@@ -1,10 +1,12 @@
 #include "LUAData.h"
 lua_State* LUAData::state;
-std::string LUAData::dir = "./media/";
 std::vector<std::string> LUAData::elementList;
 
 LUAData::LUAData()
 {
+	/*
+	Load the window creation stuff first from the lua window
+	*/
 	state = luaL_newstate();
 	luaL_dofile(state, "Window.lua");
 	luaL_openlibs(state);
